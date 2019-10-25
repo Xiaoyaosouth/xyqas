@@ -1,12 +1,12 @@
-# 逍遥论坛系统
+# 阮铠 逍遥论坛系统
 
 #### 介绍
 【使用的技术】
-数据库：MySQL 5.5
-数据库连接池：c3p0
-后端：Spring + SpringMVC + MyBatis
-前端：Bootstrap，HTML5+CSS3+JavaScript
-项目管理工具：Maven
+数据库：MySQL 5.5<br>
+数据库连接池：c3p0<br>
+后端：Spring + SpringMVC + MyBatis<br>
+前端：Bootstrap，HTML5+CSS3+JavaScript<br>
+项目管理工具：Maven<br>
 
 #### 软件架构
 软件架构说明

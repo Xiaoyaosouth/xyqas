@@ -51,7 +51,7 @@
                     </div>
                     <div class="col-sm-5">
                         修改所属版块：<br>
-                        <select class="form-control" name="form_id">
+                        <select class="form-control" name="selectedForumId">
                             <c:forEach items="${forums}" var="forum">
                                 <option value="${forum.forum_id}">${forum.forum_name}</option>
                             </c:forEach>

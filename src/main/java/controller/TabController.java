@@ -101,10 +101,16 @@ public class TabController {
     @RequestMapping("modifyTabInfo.do")
     public ModelAndView modifyTab(Tab tab){
         ModelAndView mv = new ModelAndView();
+        System.out.println("从前台获取的tabid：" + tab.getTab_id());
+        System.out.println("从前台获取的tabname：" + tab.getTab_name());
+        // 处理参数
+        int forumId = Integer.valueOf(request.getParameter("selectedForumId"));
+        System.out.println("从前台获取的forumid：" + forumId);
+        tab.setForum_id(forumId);
         String resultStr = tabService.modifyTab(tab);
         request.setAttribute("myInfo", resultStr);
         request.setAttribute("tabs", this.getAllTab());
-        mv.setViewName("modifyTab.jsp");
+        mv.setViewName("tabManage.jsp");
         return mv;
     }
 }

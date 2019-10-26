@@ -8,7 +8,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>小分类管理 - 逍遥论坛</title>
+    <title>分类管理 - 逍遥论坛</title>
     <link href="<%=path%>/static/css/bootstrap.min.css" rel="stylesheet">
     <script src="<%=path%>/static/js/jquery-3.2.1.js"></script>
     <script src="<%=path%>/static/js/bootstrap.min.js"></script>
@@ -28,15 +28,15 @@
 <div class="panel panel-default"
      style="width: 50%;margin-left: 5%; margin-right: 5%; margin-bottom: 5%">
     <div class="panel-heading" style="background-color: #fff">
-        <h3 class="panel-title">小分类管理</h3>
+        <h3 class="panel-title">分类管理</h3>
     </div>
     <div class="panel-body">
             <!-- 这里显示所有版块信息 -->
             <table class="table">
                 <thead>
                 <tr>
-                    <th style="width: 10%">小分类ID</th>
-                    <th style="width: 10%">小分类名</th>
+                    <th style="width: 10%">分类ID</th>
+                    <th style="width: 20%">分类名</th>
                     <th>所属版块名</th>
                     <th>操作</th>
                 </tr>

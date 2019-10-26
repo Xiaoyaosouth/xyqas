@@ -156,7 +156,6 @@
             </table>
             <input type="button" class="btn btn-default" value="返回"
                    style="margin-left: 20%" onclick="window.location.href='<%=basePath%>toMainPage.do'" />
-
     </div>
 </div>
 

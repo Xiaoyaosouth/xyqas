@@ -115,7 +115,7 @@ public interface TipMapper {
 
     /**
      * 查询所有贴子id
-     * @return 所有贴子id的List
+     * @return List<Integer>含有所有贴子的id
      */
     @Select("SELECT tip_id FROM tip")
     List<Integer> selTipIds();

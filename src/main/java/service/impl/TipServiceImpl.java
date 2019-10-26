@@ -93,7 +93,7 @@ public class TipServiceImpl implements TipService{
     public String enableTip(int tip_id) {
         Logger logger = Logger.getLogger(TipServiceImpl.class);
         logger.info("尝试将id为" + tip_id + "的贴子恢复正常...");
-        int result = tipMapper.updTipStatusToEnable(tip_id);
+        int result = tipMapper.updTipToUnKnot(tip_id);
         if (result > 0){
             return "success";
         }else {

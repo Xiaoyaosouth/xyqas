@@ -58,11 +58,14 @@ public class MainController {
     @RequestMapping("toLoginPage.do")
     public ModelAndView toLoginPage() {
         ModelAndView mv = new ModelAndView();
-        String tipIdStr = request.getParameter("tipId");
-        if (tipIdStr != null){
-            mv.setViewName("login.jsp?tipId=" + tipIdStr);
-        }else {
+        String tipIdStr = null;
+        if (request.getParameter("tipId") != null){
+            tipIdStr = request.getParameter("tipId");
+        }
+        if (tipIdStr == null || tipIdStr.equals("null")){
             mv.setViewName("login.jsp");
+        }else {
+            mv.setViewName("login.jsp?tipId=" + tipIdStr);
         }
         return mv;
     }

@@ -2,6 +2,7 @@ package service;
 
 import domain.Tip;
 
+import java.util.Date;
 import java.util.List;
 
 public interface TipService {
@@ -58,4 +59,32 @@ public interface TipService {
      * @return List<Tip>
      */
     List<Tip> getAllTipForModifyTimeDesc();
+
+    /**
+     * 统计回复数
+     * @param tip_id 贴子id
+     * @return
+     */
+    int countReplyByTipId(int tip_id);
+
+    /**
+     * 刷新贴子更新时间
+     * @param tip_id 贴子id
+     * @param tip_modifyTime 更新时间
+     * @return
+     */
+    int updateModifyTimeByTipId(int tip_id, Date tip_modifyTime);
+
+    /**
+     * 更新贴子回复量
+     * @param tip_id 贴子id
+     * @return
+     */
+    int updateRepliesByTipId(int tip_id);
+
+    /**
+     * 更新所有贴子的回复数
+     * @return
+     */
+    int updateAllReplies();
 }

@@ -43,7 +43,7 @@
                     <th>标题</th>
                     <th>内容</th>
                     <th>用户名</th>
-                    <th>回复数（未实现）</th>
+                    <th>回复数</th>
                     <th>发表时间<br>更新时间</th>
                     <th>贴子点击量</th>
                     <th>状态</th>
@@ -59,7 +59,7 @@
                         <td>${tip.tip_title}</td>
                         <td>${tip.tip_content}</td>
                         <td>${tip.user.user_name}</td>
-                        <td></td>
+                        <td>${tip.tip_replies}</td>
                         <td>
                             <fmt:formatDate value="${tip.tip_publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                             <br>
@@ -90,7 +90,7 @@
                             </c:choose>
                             <c:choose>
                                 <c:when test="${tip.tip_isKnot == 1}">
-                                    <input type="button" class="btn btn-success" value="取消结贴"
+                                    <input type="button" class="btn btn-warning" value="取消结贴"
                                            onclick="window.location.href='<%=basePath%>enableTip.do?tipId=${tip.tip_id}'"/>
                                 </c:when>
                                 <c:otherwise>

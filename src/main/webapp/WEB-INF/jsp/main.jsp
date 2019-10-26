@@ -102,7 +102,9 @@
                     </div>
                     </div>
                 <div style="width: 5%;float: right;text-align: center">
-                    <span class="badge"><!-- 这里显示贴子回复量 --></span>
+                    <span class="label label-info" title="回复数">
+                        <!-- 这里显示贴子回复量 -->${tip.tip_replies}
+                    </span>
                 </div>
             </div>
         </li>

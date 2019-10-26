@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.Date;
 import java.util.List;
 
 public interface TipMapper {
@@ -91,4 +92,41 @@ public interface TipMapper {
      */
     @Select("SELECT * FROM tip ORDER BY tip_modifyTime DESC")
     List<Tip> selTipAllForModifyTimeDesc();
+
+    /**
+     * 统计贴子回复数
+     * @param tip_id 贴子id
+     * @return
+     */
+    @Select("SELECT COUNT(reply_id) FROM reply " +
+            "WHERE tip_id = #{tip_id}")
+    int selReplyCountedByTipId(int tip_id);
+
+    /**
+     * 刷新贴子更新时间
+     * @param tip_id 贴子id
+     * @param tip_modifyTime 贴子更新时间
+     * @return
+     */
+    @Update("UPDATE tip SET " +
+            "tip_modifyTime = #{arg1} " +
+            "WHERE tip_id = #{arg0}")
+    int updModifyTimeByTipid(int tip_id, Date tip_modifyTime);
+
+    /**
+     * 查询所有贴子id
+     * @return 所有贴子id的List
+     */
+    @Select("SELECT tip_id FROM tip")
+    List<Integer> selTipIds();
+
+    /**
+     * 更新贴子回复数
+     * @param tip_id 贴子id
+     * @return
+     */
+    @Update("UPDATE tip SET tip_replies = " +
+            "(SELECT COUNT(reply_id) FROM reply WHERE tip_id = #{tip_id}) " +
+            "WHERE tip_id = #{tip_id}")
+    int updRepliesByTipId(int tip_id);
 }

@@ -27,7 +27,7 @@
             <div class="panel-heading" style="background-color: white">
                 <a href="<%=basePath%>">逍遥论坛</a> › <a href="showTip.do?tipId=${tip.tip_id}">${tip.tip_title}</a>
             </div>
-            <h3>${tip.tip_title}</h3><br/>
+            <h3>${tip.tip_title}</h3><span class="label label-info" title="回复数">${tip.tip_replies}</span><br/>
             <div>
                 <a href="getUserInfo.do?userId=${tip.user.user_id}">
                     <span>
@@ -42,9 +42,14 @@
                             </c:choose>
                         </strong>
                     </span>
-                </a>&nbsp;&nbsp;
-                <small class="text-muted"><fmt:formatDate value="${tip.tip_publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/></small>&nbsp;&nbsp;
-                <small class="text-muted">${tip.tip_click}次点击</small>
+                </a>
+                <span>
+                    <small class="text-muted">发表于：<fmt:formatDate value="${tip.tip_publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/></small>
+                    <br>
+                    <small class="text-muted">更新于：<fmt:formatDate value="${tip.tip_modifyTime}" pattern="yyyy-MM-dd HH:mm:ss"/></small>
+                    <br>
+                    <small class="text-muted">${tip.tip_click}次点击</small>
+                </span>
             </div>
         </div>
     </div>

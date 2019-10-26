@@ -56,8 +56,15 @@ public class MainController {
      * @return
      */
     @RequestMapping("toLoginPage.do")
-    public String toLoginPage() {
-        return "login.jsp";
+    public ModelAndView toLoginPage() {
+        ModelAndView mv = new ModelAndView();
+        String tipIdStr = request.getParameter("tipId");
+        if (tipIdStr != null){
+            mv.setViewName("login.jsp?tipId=" + tipIdStr);
+        }else {
+            mv.setViewName("login.jsp");
+        }
+        return mv;
     }
 
     /**

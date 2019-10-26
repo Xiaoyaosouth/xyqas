@@ -32,10 +32,11 @@
         <h3 class="panel-title">欢迎登录</h3>
     </div>
       <form class="form-signin" action="userLogin.do" method="post" id="myLoginForm">
-            <label>用户名</label>
-            <input type="text" class="form-control" name="user_name" placeholder="请输入用户名">
-            <label>密码</label>
-            <input type="password" class="form-control" name="user_password" placeholder="请输入密码">
+          <label>用户名</label>
+          <input type="text" class="form-control" name="user_name" placeholder="请输入用户名"/>
+          <label>密码</label>
+          <input type="password" class="form-control" name="user_password" placeholder="请输入密码"/>
+          <input type="hidden" name="tipId" value="<%=request.getParameter("tipId")%>"/>
         <div class="checkbox text-left"/>
             <label>
                 <input type="checkbox" id="remember">记住密码</input>
@@ -43,6 +44,7 @@
             <a style="margin-left: 30%" href="#">忘记密码?</a>
         <p style="text-align: right;color: red;position: absolute" id="info"></p><br/>
         <input type="button" class="btn btn-success btn-block" value="登录" onclick="login_check()" />
+        <a href="toSignUpPage.do" class="btn btn-default btn-block">注册</a>
       </form>
   </div>
 

@@ -130,7 +130,7 @@
                         <c:otherwise>
                             <!-- 如果用户没有登录则取消文本框 -->
                             <input type="button" class="btn btn-warning btn-sm"
-                                   value="请先登录" onclick="window.location.href='<%=basePath%>toLoginPage.do'"/>
+                                   value="请先登录" onclick="window.location.href='<%=basePath%>toLoginPage.do?tipId=${tip.tip_id}'"/>
                         </c:otherwise>
                     </c:choose>
                 </c:otherwise>

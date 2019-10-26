@@ -44,7 +44,13 @@ public class UserController {
                     // 登录成功，将用户对象添加到session
                     HttpSession session = request.getSession();
                     session.setAttribute("USER", tmpUser);
-                    mv.setViewName("redirect:toMainPage.do");
+                    String tipIdStr = request.getParameter("tipId"); // 记录传过来的贴子id
+                    if (tipIdStr != null){
+                        // 如果用户是在贴子详情中登录的，返回对应的贴子
+                        mv.setViewName("redirect:showTip.do?tipId=" + tipIdStr);
+                    }else {
+                        mv.setViewName("redirect:toMainPage.do");
+                    }
                 }else {
                     resultStr = new String("登录失败：用户已被禁用！请联系管理员。");
                     mv.setViewName("login.jsp");

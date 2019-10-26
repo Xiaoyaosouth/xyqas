@@ -19,8 +19,8 @@ public class Tip {
     private Date tip_modifyTime; // 修改时间
     private int tip_click; // 点击量
     private int tip_status; // 贴子状态
-
     private int tip_isKnot; // 是否结贴
+    private int tip_replies; // 贴子回复数
 
     public User getUser() {
         return user;
@@ -116,5 +116,13 @@ public class Tip {
 
     public void setTip_isKnot(int tip_isKnot) {
         this.tip_isKnot = tip_isKnot;
+    }
+
+    public int getTip_replies() {
+        return tip_replies;
+    }
+
+    public void setTip_replies(int tip_replies) {
+        this.tip_replies = tip_replies;
     }
 }

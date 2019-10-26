@@ -18,4 +18,5 @@ public interface ReplyService {
      * @return List<Reply>
      */
     List<Reply> getReplyByTipId(int tip_id);
+
 }

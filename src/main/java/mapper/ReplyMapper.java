@@ -26,4 +26,5 @@ public interface ReplyMapper {
      */
     @Select("SELECT * FROM reply WHERE tip_id = #{tip_id}")
     List<Reply> selReplyByTipId(int tip_id);
+
 }

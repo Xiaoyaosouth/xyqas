@@ -25,6 +25,7 @@
     <spring.version>4.3.13.RELEASE</spring.version>
     <mysql.version>5.5.62</mysql.version>
     <log4j.version>1.2.17</log4j.version>
+    <jackson.version>2.5.4</jackson.version>
   </properties>
 
   <dependencies>
@@ -126,6 +127,17 @@
           <groupId>log4j</groupId>
           <artifactId>log4j</artifactId>
           <version>${log4j.version}</version>
+      </dependency>
+      <!-- 加入jackson依赖（JSON对象转换器）-->
+      <dependency>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-core</artifactId>
+          <version>${jackson.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>com.fasterxml.jackson.core</groupId>
+          <artifactId>jackson-databind</artifactId>
+          <version>${jackson.version}</version>
       </dependency>
   </dependencies>
 

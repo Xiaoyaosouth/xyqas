@@ -5,6 +5,7 @@ import domain.Tab;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import service.ForumService;
 import service.TabService;
@@ -112,5 +113,22 @@ public class TabController {
         request.setAttribute("tabs", this.getAllTab());
         mv.setViewName("tabManage.jsp");
         return mv;
+    }
+
+    /**
+     * 发贴页面点击版块时显示相应的分类（ajax调用）返回JSON对象 需要添加jackson依赖
+     * @param response JSON的List<Tab>
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("getTabBySelectedForum.do")
+    public Object getTabBySelectedForum(HttpServletResponse response){
+        response.setContentType("application/json; charset=UTF-8");
+        int forumId = Integer.valueOf(request.getParameter("selectedForum"));
+        List<Tab> tabList = tabService.getTabByForumId(forumId);
+        for (int i = 0; i < tabList.size(); i++){
+            System.out.println("【分类id】" + tabList.get(i).getTab_id() + "【分类name】" + tabList.get(i).getTab_name());
+        }
+        return tabList;
     }
 }

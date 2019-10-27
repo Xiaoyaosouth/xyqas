@@ -57,14 +57,16 @@
 
                 <div class="form-group">
                     <div class="col-sm-6" style="width: 20%">
-                        版块：<select class="form-control" name="forum_id" onchange="">
+                        所属版块：<select class="form-control" id="selectForum" name="selectedForumId" onchange="selectForumFunc()">
+                        <option value="" selected>请选择版块</option>
                             <c:forEach items="${forums}" var="forum">
                             <option value="${forum.forum_id}">${forum.forum_name}</option>
                             </c:forEach>
                         </select>
                     </div>
                     <div class="col-sm-6" style="width: 20%">
-                        小分类：<select class="form-control" name="tab_id">
+                        分类：<select class="form-control" id="selectTab" name="tab_id">
+                        <option value="" selected>请选择分类</option>
                             <c:forEach items="${tabs}" var="tab">
                                 <option value="${tab.tab_id}">${tab.tab_name}</option>
                             </c:forEach>
@@ -76,7 +78,7 @@
 
                 <input type="button"  value="发布" onclick="publishTip_confirm()" class="btn btn-success btn-sm" />
                 <input type="button" class="btn btn-default" value="返回"
-                                   style="margin-left: 17%" onclick="window.location.href='toMainPage.do'" />
+                                   style="margin-left: 15%" onclick="window.location.href='toMainPage.do'" />
 
             </form>
         </div>
@@ -145,6 +147,46 @@
                 form.submit(); // 提交表单
             }
         } else { }
+    }
+
+    function selectForumFunc() {
+        // 获取选择的项目 jquery
+        var selectedForum = $('select option:selected').val();
+        // 获取分类下拉栏id
+        var selectTab = document.getElementById("selectTab");
+        // alert("您选择了：" + selectedForum);
+        if (selectedForum != null){
+            $.ajax(
+                {
+                    url:"<%=basePath%>getTabBySelectedForum.do",
+                    type:"post",
+                    data:{
+                        selectedForum : selectedForum
+                    },
+                    dataType:"json",
+                    success:function (data) {
+                        var tabList = data;
+                        if (tabList){
+                            // 清除选项
+                            selectTab.options.length = 0;
+                            var optionStr = "";
+                            // 先加一个无用的选项
+                            optionStr += "<option value=\"\" selected>请选择分类</option>";
+                            for (var i = 0; i < tabList.length; i++){
+                                optionStr += "<option value=\"" + tabList[i].tab_id + "\">" +
+                                    tabList[i].tab_name + "</option>";
+                            }
+                            alert("将要添加的optionStr = " + optionStr);
+                            // 添加到select标签（刷新选项）
+                            $("select[id=selectTab]").append(optionStr);
+                        }
+                    }
+                }
+            )
+        }else{
+            alert("selectedForum == null");
+            selectTab.options.length = 0;
+        }
     }
 </script>
 

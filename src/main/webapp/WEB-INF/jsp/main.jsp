@@ -75,7 +75,7 @@
 
 <ul class="list-group" style="width: 100%">
     <c:forEach items="${tips}" var="tip">
-        <!-- 如果贴子状不是禁用则显示 -->
+        <!-- 如果贴子状态不是禁用则显示 -->
         <c:if test="${tip.tip_status != 1}">
             <li class="list-group-item">
             <div style="height: 50px">
@@ -88,10 +88,21 @@
                         <br>
                     <div>
                         <!-- 显示贴子对应的版块 -->
-                        <a><span class="label label-default" >${tip.tab.tab_name}</span></a>
+                        <a><span class="label label-primary">${tip.tab.forum.forum_name}</span></a>
+                        <!-- 显示贴子对应的分类 -->
+                        <a><span class="label label-warning" >${tip.tab.tab_name}</span></a>
                         &nbsp;&nbsp;&nbsp;
                         <!-- 点击用户跳转到用户信息页面，需要传参用户id -->
-                        <a href="getUserInfo.do?userId=${tip.user.user_id}"><span ><strong>${tip.user.user_nick}</strong></span></a>
+                        <a href="getUserInfo.do?userId=${tip.user.user_id}">
+                            <span>
+                                <strong>
+                                    <c:choose>
+                                        <c:when test="${not empty tip.user.user_nick}">${tip.user.user_nick}</c:when>
+                                        <c:otherwise>${tip.user.user_name}</c:otherwise>
+                                    </c:choose>
+                                </strong>
+                            </span>
+                        </a>
                         &nbsp;&nbsp;&nbsp;
                         <!-- 显示贴子发表时间 -->
                         <small class="text-muted">

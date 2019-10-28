@@ -41,10 +41,14 @@ public class MainController {
         ModelAndView mv = new ModelAndView();
         // 获取所有贴子
         List<Tip> tipList = tipService.getAllTipForModifyTimeDesc();
-        // 遍历获得的贴子，同时查询user和tab
+        // 遍历获得的贴子，同时查询user、forum和tab
         for (int i = 0; i < tipList.size(); i++){
             tipList.get(i).setUser(userService.getUserById(tipList.get(i).getUser_id()));
-            tipList.get(i).setTab(tabService.getTabByTabId(tipList.get(i).getTab_id()));
+            Tab tab = tabService.getTabByTabId(tipList.get(i).getTab_id());
+            // 由tab中的forum_id查询forum
+            Forum forum = forumService.getForumByForumId(tab.getForum_id());
+            tab.setForum(forum); // 给tab导入forum
+            tipList.get(i).setTab(tab); // 给tip导入tab
         }
         request.setAttribute("tips", tipList);
         mv.setViewName("main.jsp");

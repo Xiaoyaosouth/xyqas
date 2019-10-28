@@ -116,6 +116,8 @@
                                             <c:when test="${USER.user_type == 1}">
                                                 <!-- 管理员可处理普通用户 -->
                                                 <c:if test="${user.user_type == 2}">
+                                                    <input type="button" class="btn btn-warning" value="修改"
+                                                           onclick="window.location.href='<%=basePath%>toUpdateUserInfoPage.do?userId=${user.user_id}'" />
                                                     <input type="button" class="btn btn-danger" value="禁用"
                                                            onclick="window.location.href='<%=basePath%>disableUser.do?userId=${user.user_id}'" />
                                                     <input type="button" class="btn btn-warning" value="锁定"
@@ -123,25 +125,34 @@
                                                 </c:if>
                                             </c:when>
                                             <c:when test="${USER.user_type == 0}">
-                                                <!-- 超级管理员权限 -->
+                                                <!-- 超级管理员权限：超级管理员不能处理其它超级管理员 -->
                                                 <c:choose>
-                                                    <c:when test="${user.user_status == 1}">
-                                                        <input type="button" class="btn btn-success" value="启用"
-                                                               onclick="window.location.href='<%=basePath%>enableUser.do?userId=${user.user_id}'" />
-                                                        <input type="button" class="btn btn-warning" value="锁定"
-                                                               onclick="window.location.href='<%=basePath%>lockUser.do?userId=${user.user_id}'" />
-                                                    </c:when>
-                                                    <c:when test="${user.user_status == 2}">
-                                                        <input type="button" class="btn btn-success" value="解锁"
-                                                               onclick="window.location.href='<%=basePath%>enableUser.do?userId=${user.user_id}'" />
-                                                        <input type="button" class="btn btn-danger" value="禁用"
-                                                               onclick="window.location.href='<%=basePath%>disableUser.do?userId=${user.user_id}'" />
+                                                    <c:when test="${user.user_type != 0}">
+                                                        <input type="button" class="btn btn-primary" value="修改"
+                                                               onclick="window.location.href='<%=basePath%>toUpdateUserInfoPage.do?userId=${user.user_id}'" />
+                                                        <c:choose>
+                                                            <c:when test="${user.user_status == 1}">
+                                                                <input type="button" class="btn btn-success" value="启用"
+                                                                       onclick="window.location.href='<%=basePath%>enableUser.do?userId=${user.user_id}'" />
+                                                                <input type="button" class="btn btn-warning" value="锁定"
+                                                                       onclick="window.location.href='<%=basePath%>lockUser.do?userId=${user.user_id}'" />
+                                                            </c:when>
+                                                            <c:when test="${user.user_status == 2}">
+                                                                <input type="button" class="btn btn-success" value="解锁"
+                                                                       onclick="window.location.href='<%=basePath%>enableUser.do?userId=${user.user_id}'" />
+                                                                <input type="button" class="btn btn-danger" value="禁用"
+                                                                       onclick="window.location.href='<%=basePath%>disableUser.do?userId=${user.user_id}'" />
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <input type="button" class="btn btn-warning" value="锁定"
+                                                                       onclick="window.location.href='<%=basePath%>lockUser.do?userId=${user.user_id}'" />
+                                                                <input type="button" class="btn btn-danger" value="禁用"
+                                                                       onclick="window.location.href='<%=basePath%>disableUser.do?userId=${user.user_id}'" />
+                                                            </c:otherwise>
+                                                        </c:choose>
                                                     </c:when>
                                                     <c:otherwise>
-                                                        <input type="button" class="btn btn-warning" value="锁定"
-                                                               onclick="window.location.href='<%=basePath%>lockUser.do?userId=${user.user_id}'" />
-                                                        <input type="button" class="btn btn-danger" value="禁用"
-                                                               onclick="window.location.href='<%=basePath%>disableUser.do?userId=${user.user_id}'" />
+                                                        <!-- 如果对方是超级管理员 无操作 -->
                                                     </c:otherwise>
                                                 </c:choose>
                                             </c:when>

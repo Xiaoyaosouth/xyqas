@@ -176,7 +176,7 @@
                                 optionStr += "<option value=\"" + tabList[i].tab_id + "\">" +
                                     tabList[i].tab_name + "</option>";
                             }
-                            alert("将要添加的optionStr = " + optionStr);
+                            //alert("将要添加的optionStr = " + optionStr);
                             // 添加到select标签（刷新选项）
                             $("select[id=selectTab]").append(optionStr);
                         }

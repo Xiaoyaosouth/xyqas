@@ -38,8 +38,8 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>贴子ID</th>
-                    <th>所属版块</th>
+                    <th>ID</th>
+                    <th>所属分类</th>
                     <th>标题</th>
                     <th>内容</th>
                     <th>用户名</th>

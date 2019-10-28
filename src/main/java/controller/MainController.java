@@ -75,24 +75,6 @@ public class MainController {
     }
 
     /**
-     * 跳转到修改用户信息页面
-     * @return
-     */
-    @RequestMapping("toUpdateUserInfoPage.do")
-    public ModelAndView toUpdatePwdPage(int userId){
-        ModelAndView mv=new ModelAndView();
-        User user = userService.getUserById(userId);
-        if (user != null){
-            request.setAttribute("userObject", user);
-            mv.setViewName("update_userInfo.jsp");
-        }else{
-            request.setAttribute("errorInfo","查询用户返回的user对象不存在");
-            mv.setViewName("getUserInfo.do");
-        }
-        return mv;
-    }
-
-    /**
      * 跳转到注册页面
      * @return
      */

@@ -203,4 +203,22 @@ public class UserController {
         return userList;
     }
 
+    /**
+     * 跳转到修改用户信息页面
+     * @return
+     */
+    @RequestMapping("toUpdateUserInfoPage.do")
+    public ModelAndView toUpdateUserInfoPage(int userId){
+        ModelAndView mv=new ModelAndView();
+        User user = userService.getUserById(userId);
+        if (user != null){
+            request.setAttribute("userObject", user);
+            mv.setViewName("update_userInfo.jsp");
+        }else{
+            request.setAttribute("myInfo","修改前获取用户信息失败！");
+            mv.setViewName("getUserInfo.do?userId=" + userId);
+        }
+        return mv;
+    }
+
 }

@@ -22,6 +22,15 @@
 </head>
 <body>
 
+<!-- 弹出结果 -->
+<c:if test="${not empty myInfo}">
+    <script type="text/javascript" language="javascript">
+        {
+            alert("<%=request.getAttribute("myInfo")%>");
+        }
+    </script>
+</c:if>
+
 <!-- 引入header文件 -->
 <%@ include file="header.jsp"%>
 
@@ -31,6 +40,8 @@
         <h3 class="panel-title">分类管理</h3>
     </div>
     <div class="panel-body">
+        <input type="button" class="btn btn-success" value="添加分类"
+               style="margin-left: 0%" onclick="window.location.href='<%=basePath%>toAddTabPage.do'" />
             <!-- 这里显示所有版块信息 -->
             <table class="table">
                 <thead>

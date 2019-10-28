@@ -1,6 +1,7 @@
 package mapper;
 
 import domain.Tab;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -40,4 +41,14 @@ public interface TabMapper {
             "tab_name = #{tab_name}, forum_id = #{forum_id} " +
             "WHERE tab_id = #{tab_id}")
     int updTab(Tab tab);
+
+    /**
+     * 插入一项分类记录
+     * @return
+     */
+    @Insert("INSERT INTO tab " +
+            "(tab_name, forum_id) " +
+            "VALUES (#{tab_name}, #{forum_id} " +
+            ")")
+    int insTab(Tab tab);
 }

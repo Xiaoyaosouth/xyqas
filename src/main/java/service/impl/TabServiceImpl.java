@@ -70,4 +70,18 @@ public class TabServiceImpl implements TabService{
         }else { resultStr = new String("修改失败：分类不存在！"); }
         return resultStr;
     }
+
+    @Override
+    public String addTab(Tab tab) {
+        Logger logger = Logger.getLogger(TabServiceImpl.class);
+        String resultStr = null;
+        logger.info("尝试添加分类...");
+        System.out.println("【业务层记录】【分类名】" + tab.getTab_name() + "【所属版块id】" + tab.getForum_id());
+        if (tabMapper.insTab(tab) > 0){
+            resultStr = new String ("success");
+        }else {
+            resultStr = new String ("error");
+        }
+        return resultStr;
+    }
 }

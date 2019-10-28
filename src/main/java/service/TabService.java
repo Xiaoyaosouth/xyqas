@@ -32,4 +32,11 @@ public interface TabService {
      * @return
      */
     String modifyTab(Tab tab);
+
+    /**
+     * 添加分类
+     * @param tab 分类对象
+     * @return
+     */
+    String addTab(Tab tab);
 }

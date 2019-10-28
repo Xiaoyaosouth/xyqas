@@ -2,6 +2,7 @@ package controller;
 
 import domain.Forum;
 import domain.Tab;
+import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -130,5 +131,39 @@ public class TabController {
             System.out.println("【分类id】" + tabList.get(i).getTab_id() + "【分类name】" + tabList.get(i).getTab_name());
         }
         return tabList;
+    }
+
+    /**
+     * 跳转到添加分类页面
+     * @return
+     */
+    @RequestMapping("toAddTabPage.do")
+    public ModelAndView toAddTabPage(){
+        ModelAndView mv = new ModelAndView();
+        // 获取所有版块
+        List<Forum> forumList = forumService.getAllForum();
+        request.setAttribute("forums", forumList);
+        mv.setViewName("addTab.jsp");
+        return mv;
+    }
+
+    /**
+     * 添加分类控制
+     * @param tab 分类对象
+     * @return
+     */
+    @RequestMapping("addTab.do")
+    public ModelAndView addTab(Tab tab){
+        ModelAndView mv = new ModelAndView();
+        // 处理参数
+        int forumId = Integer.valueOf(request.getParameter("selectForum"));
+        System.out.println("【控制层记录】从前台获得的【版块id】" + forumId);
+        tab.setForum_id(forumId);
+        String resultStr = tabService.addTab(tab);
+        request.setAttribute("myInfo", resultStr);
+        // 刷新分类数据
+        request.setAttribute("tabs", this.getAllTab());
+        mv.setViewName("tabManage.jsp");
+        return mv;
     }
 }

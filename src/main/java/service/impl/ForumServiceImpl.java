@@ -56,4 +56,28 @@ public class ForumServiceImpl implements ForumService{
         }
         return resultStr;
     }
+
+    @Override
+    public String addForum(Forum forum) {
+        Logger logger = Logger.getLogger(ForumServiceImpl.class);
+        String resultStr = null;
+        logger.info("尝试添加版块...");
+        if (forumMapper.insForum(forum) > 0){
+            resultStr = new String("success");
+        }else {
+            resultStr = new String("error");
+        }
+        return resultStr;
+    }
+
+    @Override
+    public Forum getForumByForumName(String forum_name) {
+        Logger logger = Logger.getLogger(ForumServiceImpl.class);
+        logger.info("尝试获得name为" + forum_name + "的版块...");
+        Forum forum = forumMapper.selForumByForumName(forum_name);
+        if (forum != null){
+            return forum;
+        }
+        return null;
+    }
 }

@@ -59,4 +59,41 @@ public class ForumController {
         mv.setViewName("modifyForum.jsp");
         return mv;
     }
+
+    /**
+     * 跳转到添加版块页面
+     * @return
+     */
+    @RequestMapping("toAddForumPage.do")
+    public ModelAndView toAddForumPage(){
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("addForum.jsp");
+        return mv;
+    }
+
+    /**
+     * 添加版块控制
+     * @param forum 版块对象
+     * @return
+     */
+    @RequestMapping("addForum.do")
+    public ModelAndView addForum(Forum forum){
+        ModelAndView mv = new ModelAndView();
+        String resultStr = null;
+        // 先检查版块是否存在
+        if (forumService.getForumByForumName(forum.getForum_name()) != null){
+            resultStr = new String("添加失败：版块已存在！");
+        }else {
+            if (forumService.addForum(forum).equals("success")){
+                resultStr = new String("添加成功！");
+            }else {
+                resultStr = new String("添加失败！");
+            }
+        }
+        request.setAttribute("myInfo", resultStr);
+        // 刷新版块数据
+        request.setAttribute("forums", this.getUpdateFourmData());
+        mv.setViewName("forumManage.jsp");
+        return mv;
+    }
 }

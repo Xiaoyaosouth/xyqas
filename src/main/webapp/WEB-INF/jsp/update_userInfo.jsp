@@ -11,7 +11,7 @@
     <link href="<%=path%>/static/css/bootstrap.min.css" rel="stylesheet">
     <script src="<%=path%>/static/js/jquery-3.2.1.js"></script>
     <script src="<%=path%>/static/js/bootstrap.min.js"></script>
-    <title>逍遥论坛 ›修改个人信息</title>
+    <title>逍遥论坛 ›修改用户信息</title>
 </head>
 <body>
 <!-- 引入header文件 -->
@@ -20,7 +20,7 @@
 <div style="width: 70%;margin:1% 2% 1% 5%;float: left;">
     <div class="panel panel-default" id="main" style="">
         <div class="panel-heading" style="background-color: white">
-            <a href="<%=basePath%>">逍遥论坛</a> › 修改密码
+            <a href="<%=basePath%>">逍遥论坛</a> › 修改用户信息
         </div>
 
         <div class="panel-body">
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">您的昵称</label>
+                    <label class="col-sm-2 control-label">昵称</label>
                     <div class="col-sm-5">
                         <p class="form-control-static">${userObject.user_nick}</p>
                     </div>
@@ -71,12 +71,21 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">用户权限</label>
                     <div class="col-sm-5">
-                        <p class="form-control-static">${userObject.user_type eq 1?"普通用户":"管理员"}</p>
+                        <p class="form-control-static">
+                            <c:choose>
+                                <c:when test="${userObject.user_type == 0}">超级管理员</c:when>
+                                <c:when test="${userObject.user_type == 1}">管理员</c:when>
+                                <c:when test="${userObject.user_type == 2}">普通用户</c:when>
+                                <c:otherwise></c:otherwise>
+                            </c:choose>
+                        </p>
                     </div>
                 </div>
 
                 <input class="btn btn-warning" type="button" value="修改" onclick="update_confirm()">
                 <input class="btn btn-default" type="reset" value="重填">
+                <input type="button" class="btn btn-default" value="返回"
+                       style="margin-left: 10%" onclick="window.location.href='<%=basePath%>getUserInfo.do?userId=${userObject.user_id}'" />
             </form>
         </div>
     </div>

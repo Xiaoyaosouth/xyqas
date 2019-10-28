@@ -87,11 +87,14 @@
                             <c:choose>
                                 <c:when test="${userObject.user_type == 0}">超级管理员</c:when>
                                 <c:when test="${userObject.user_type == 1}">管理员</c:when>
-                                <c:otherwise>普通用户</c:otherwise>
+                                <c:when test="${userObject.user_type == 2}">普通用户</c:when>
+                                <c:otherwise></c:otherwise>
                             </c:choose>
                         </p>
                     </div>
                 </div>
+                <input type="button" class="btn btn-default" value="返回"
+                       style="margin-left: 20%" onclick="window.location.href='<%=basePath%>toMainPage.do'" />
             </form>
             </c:if>
 

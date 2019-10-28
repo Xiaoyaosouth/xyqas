@@ -40,7 +40,20 @@ public class MainController {
     public ModelAndView toMainPage() {
         ModelAndView mv = new ModelAndView();
         // 获取所有贴子
-        List<Tip> tipList = tipService.getAllTipForModifyTimeDesc();
+        List<Tip> myTipList = tipService.getAllTipForModifyTimeDesc();
+        // 获取贴子的其它信息
+        List<Tip> tipList = this.solveElseTipInfo(myTipList);
+        request.setAttribute("tips", tipList);
+        mv.setViewName("main.jsp");
+        return mv;
+    }
+
+    /**
+     * 对贴子列表进行处理，获取user、forum和tab等信息
+     * @param tipList
+     * @return
+     */
+    private List<Tip> solveElseTipInfo(List<Tip> tipList){
         // 遍历获得的贴子，同时查询user、forum和tab
         for (int i = 0; i < tipList.size(); i++){
             tipList.get(i).setUser(userService.getUserById(tipList.get(i).getUser_id()));
@@ -50,9 +63,7 @@ public class MainController {
             tab.setForum(forum); // 给tab导入forum
             tipList.get(i).setTab(tab); // 给tip导入tab
         }
-        request.setAttribute("tips", tipList);
-        mv.setViewName("main.jsp");
-        return mv;
+        return tipList;
     }
 
     /**
@@ -154,6 +165,23 @@ public class MainController {
         List<Forum> forumList = forumService.getAllForum();
         request.setAttribute("forums", forumList);
         mv.setViewName("forumManage.jsp");
+        return mv;
+    }
+
+    /**
+     * 关键词搜索贴子
+     * @return
+     */
+    @RequestMapping("searchTipByKeyword.do")
+    public ModelAndView searchTipByKeyword(){
+        ModelAndView mv = new ModelAndView();
+        // 处理参数
+        String keyword = request.getParameter("keyword");
+        List<Tip> myTipList = tipService.searchTipByKeyword(keyword);
+        // 获取贴子的其它信息
+        List<Tip> tipList = this.solveElseTipInfo(myTipList);
+        request.setAttribute("tips", tipList);
+        mv.setViewName("main.jsp");
         return mv;
     }
 

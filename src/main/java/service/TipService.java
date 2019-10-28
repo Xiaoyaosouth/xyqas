@@ -87,4 +87,11 @@ public interface TipService {
      * @return
      */
     int updateAllReplies();
+
+    /**
+     * 搜索标题、内容含某关键词的贴子
+     * @param keyword 关键词
+     * @return List<Tip>
+     */
+    List<Tip> searchTipByKeyword(String keyword);
 }

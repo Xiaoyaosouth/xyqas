@@ -69,9 +69,23 @@
 <%@ include file="header.jsp"%>
 
 <div class="panel panel-default" id="main" style="width: 70%;margin:1% 2% 5% 5%;float: left;">
+    <form role="form" method="post" action="searchTipByKeyword.do">
+        <div class="input-group col-md-3"
+             style="margin-top:2px; float: left; text-align: center;">
+            <input type="text" class="form-control" id="keyword" name="keyword"
+                   placeholder="请输入要搜索的内容" />
+            <span class="input-group-btn">
+            <button type="submit" class="btn btn-info btn-search">搜索</button>
+        </span>
+        </div>
+    </form>
+
     <div class="panel-heading" style="background-color: white">
-        <a style="margin-right: 2%">活跃</a><a style="margin-right: 2%">精华</a><a style="margin-right: 2%">最近</a>
+        <a style="margin-left: 2%">活跃</a>
+        <a style="margin-left: 2%">精华</a>
+        <a style="margin-left: 2%">最近</a>
     </div>
+
 
 <ul class="list-group" style="width: 100%">
     <c:forEach items="${tips}" var="tip">

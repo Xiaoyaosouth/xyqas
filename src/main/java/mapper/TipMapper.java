@@ -129,4 +129,14 @@ public interface TipMapper {
             "(SELECT COUNT(reply_id) FROM reply WHERE tip_id = #{tip_id}) " +
             "WHERE tip_id = #{tip_id}")
     int updRepliesByTipId(int tip_id);
+
+    /**
+     * 查询标题、内容包含某关键词的贴子
+     * @param keyword 关键词
+     * @return List<Tip>
+     */
+    @Select("SELECT * FROM tip " +
+            "WHERE tip_title LIKE '%${_parameter}%' " +
+            "OR tip_content LIKE '%${_parameter}%'")
+    List<Tip> selTipByKeyword(String keyword);
 }

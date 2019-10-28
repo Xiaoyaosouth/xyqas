@@ -161,4 +161,12 @@ public class TipServiceImpl implements TipService{
         return result;
     }
 
+    @Override
+    public List<Tip> searchTipByKeyword(String keyword) {
+        Logger logger = Logger.getLogger(ReplyServiceImpl.class);
+        logger.info("尝试搜索标题、内容包含关键词的贴子：" + keyword);
+        List<Tip> tipList = tipMapper.selTipByKeyword(keyword);
+        return tipList;
+    }
+
 }

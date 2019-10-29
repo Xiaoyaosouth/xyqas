@@ -1,21 +1,16 @@
 package controller;
 
-import domain.Reply;
-import domain.Tip;
-import domain.User;
+import domain.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import service.ReplyService;
-import service.TabService;
-import service.TipService;
-import service.UserService;
+import service.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.*;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class TipController {
@@ -27,6 +22,12 @@ public class TipController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private ForumService forumService;
+
+    @Resource
+    private TabService tabService;
 
     @Autowired
     private HttpServletRequest request;
@@ -138,6 +139,71 @@ public class TipController {
         String resultStr = tipService.enableTip(tipId);
         request.setAttribute("myInfo", resultStr);
         mv.setViewName("redirect:toTipManagePage.do");
+        return mv;
+    }
+
+    /**
+     * 跳转到修改贴子信息页面
+     * @param tipId 贴子id
+     * @return
+     */
+    @RequestMapping("toModifyTipPage.do")
+    public ModelAndView toModifyTipPage(int tipId){
+        ModelAndView mv = new ModelAndView();
+        // 获取贴子信息
+        Tip tip = tipService.getTipByTipId(tipId);
+        // 获取user、forum和tab信息
+        User user = userService.getUserById(tip.getUser_id());
+        Tab tab = tabService.getTabByTabId(tip.getTab_id());
+        Forum forum = forumService.getForumByForumId(tab.getForum_id());
+        // 注入到贴子
+        tip.setUser(user);
+        tab.setForum(forum);
+        tip.setTab(tab);
+        request.setAttribute("tip", tip);
+        mv.setViewName("modifyTip.jsp");
+        return mv;
+    }
+
+    /**
+     * 修改贴子信息控制
+     * @param tip
+     * @return
+     */
+    @RequestMapping("modifyTip.do")
+    public ModelAndView modifyTip(Tip tip){
+        ModelAndView mv = new ModelAndView();
+        // 处理参数
+        Date date = new Date();
+        tip.setTip_modifyTime(date);
+        // 开始修改
+        String resultStr = tipService.modifyTip(tip);
+        request.setAttribute("myInfo", resultStr);
+        // 刷新贴子数据
+        request.setAttribute("tips", this.getUpdateTips());
+        mv.setViewName("tipManage.jsp");
+        return mv;
+    }
+
+    /**
+     * 重新获取所有贴子数据
+     * @return
+     */
+    private List<Tip> getUpdateTips(){
+        List<Tip> tipList = tipService.getAllTip();
+        return tipList;
+    }
+
+    /**
+     * 跳转到贴子管理（管理员）页面，会先从数据库读取贴子数据
+     * @return
+     */
+    @RequestMapping("toTipManagePage.do")
+    public ModelAndView toTipManagePage() {
+        ModelAndView mv = new ModelAndView();
+        // 获取贴子
+        request.setAttribute("tips", this.getUpdateTips());
+        mv.setViewName("tipManage.jsp");
         return mv;
     }
 }

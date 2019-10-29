@@ -139,4 +139,16 @@ public interface TipMapper {
             "WHERE tip_title LIKE '%${_parameter}%' " +
             "OR tip_content LIKE '%${_parameter}%'")
     List<Tip> selTipByKeyword(String keyword);
+
+    /**
+     * 修改贴子信息
+     * @param tip 贴子对象
+     * @return
+     */
+    @Update("UPDATE tip SET " +
+            "tip_title = #{tip_title}, " +
+            "tip_content = #{tip_content}, " +
+            "tip_modifyTime = #{tip_modifyTime} " +
+            "WHERE tip_id = ${tip_id}")
+    int updTip(Tip tip);
 }

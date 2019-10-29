@@ -24,6 +24,15 @@
 </head>
 <body>
 
+<!-- 弹出结果 -->
+<c:if test="${not empty myInfo}">
+    <script type="text/javascript" language="javascript">
+        {
+            alert("<%=request.getAttribute("myInfo")%>");
+        }
+    </script>
+</c:if>
+
 <!-- 引入header文件 -->
 <%@ include file="header.jsp"%>
 
@@ -42,7 +51,7 @@
                     <th>所属分类</th>
                     <th>标题</th>
                     <th>内容</th>
-                    <th>用户名</th>
+                    <th>楼主</th>
                     <th>回复数</th>
                     <th>发表时间<br>更新时间</th>
                     <th>贴子点击量</th>
@@ -58,7 +67,12 @@
                         <td>${tip.tab.tab_name}</td>
                         <td>${tip.tip_title}</td>
                         <td>${tip.tip_content}</td>
-                        <td>${tip.user.user_name}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${not empty tip.user.user_nick}">${tip.user.user_nick}</c:when>
+                                <c:otherwise>${tip.user.user_name}</c:otherwise>
+                            </c:choose>
+                        </td>
                         <td>${tip.tip_replies}</td>
                         <td>
                             <fmt:formatDate value="${tip.tip_publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
@@ -78,6 +92,8 @@
                             </c:choose>
                         </td>
                         <td><!-- 这里显示操作按钮 -->
+                            <input type="button" class="btn btn-warning" value="修改"
+                                   onclick="window.location.href='<%=basePath%>toModifyTipPage.do?tipId=${tip.tip_id}'"/>
                             <c:choose>
                                 <c:when test="${tip.tip_status == 1}">
                                     <input type="button" class="btn btn-success" value="恢复"

@@ -94,4 +94,11 @@ public interface TipService {
      * @return List<Tip>
      */
     List<Tip> searchTipByKeyword(String keyword);
+
+    /**
+     * 修改贴子信息
+     * @param tip 贴子对象
+     * @return
+     */
+    String modifyTip(Tip tip);
 }

@@ -1,7 +1,13 @@
 package service.impl;
 
+import domain.Forum;
+import domain.Tab;
 import domain.Tip;
+import domain.User;
+import mapper.ForumMapper;
+import mapper.TabMapper;
 import mapper.TipMapper;
+import mapper.UserMapper;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import service.TipService;
@@ -14,6 +20,15 @@ import java.util.List;
 public class TipServiceImpl implements TipService{
     @Resource
     private TipMapper tipMapper;
+
+    @Resource
+    private UserMapper userMapper;
+
+    @Resource
+    private TabMapper tabMapper;
+
+    @Resource
+    private ForumMapper forumMapper;
 
     @Override
     public String addTip(Tip tip) {
@@ -28,14 +43,32 @@ public class TipServiceImpl implements TipService{
     }
 
     /**
-     * （已弃用）
+     * 在获取贴子列表时同时获取其它模型的数据
+     * @param tipList List<Tip>
+     * @return
+     */
+    private List<Tip> getTipsSolvedElseModel(List<Tip> tipList){
+        for (int i = 0; i < tipList.size(); i++){
+            User user = userMapper.selUserByUserId(tipList.get(i).getUser_id());
+            Tab tab = tabMapper.selTabByTabId(tipList.get(i).getTab_id());
+            Forum forum = forumMapper.selForumByForumId(tab.getForum_id());
+            tab.setForum(forum);
+            // 注入到贴子
+            tipList.get(i).setUser(user);
+            tipList.get(i).setTab(tab);
+        }
+        return tipList;
+    }
+
+    /**
+     * 获取所有贴子信息（不排序）
      * @return
      */
     @Override
     public List<Tip> getAllTip() {
         Logger logger = Logger.getLogger(TipServiceImpl.class);
         logger.info("尝试获取所有贴子信息...");
-        List<Tip> tipList = tipMapper.selTipAll();
+        List<Tip> tipList = this.getTipsSolvedElseModel(tipMapper.selTipAll());
         if (tipList != null){
             return tipList;
         }
@@ -108,7 +141,7 @@ public class TipServiceImpl implements TipService{
         this.updateAllReplies();
         // 获取所有贴子信息
         logger.info("尝试获取所有贴子，并按更新时间倒序排列");
-        List<Tip> tipList = tipMapper.selTipAllForModifyTimeDesc();
+        List<Tip> tipList = this.getTipsSolvedElseModel(tipMapper.selTipAllForModifyTimeDesc());
         if (tipList != null){
             return tipList;
         }
@@ -167,6 +200,30 @@ public class TipServiceImpl implements TipService{
         logger.info("尝试搜索标题、内容包含关键词的贴子：" + keyword);
         List<Tip> tipList = tipMapper.selTipByKeyword(keyword);
         return tipList;
+    }
+
+    @Override
+    public String modifyTip(Tip tip) {
+        Logger logger = Logger.getLogger(ReplyServiceImpl.class);
+        String resultStr = null;
+        // 检查贴子是否存在
+        Tip tmpTip = tipMapper.selTipByTipId(tip.getTip_id());
+        if (tmpTip != null){
+            // 检查修改信息是否相同
+            if (tip.getTip_title().equals(tmpTip.getTip_title()) &&
+                    tip.getTip_content().equals(tmpTip.getTip_content())){
+                resultStr = new String("修改失败：修改后的标题和内容相同");
+                return resultStr;
+            }
+            // 开始修改
+            logger.info("尝试修改id为" + tip.getTip_id() + "的贴子信息" );
+            if (tipMapper.updTip(tip) > 0){
+                resultStr = new String("修改成功！");
+            }else {
+                resultStr = new String("修改失败！");
+            }
+        }
+        return resultStr;
     }
 
 }

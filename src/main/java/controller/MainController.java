@@ -138,27 +138,6 @@ public class MainController {
         return mv;
     }
 
-    /**
-     * 跳转到贴子管理（管理员）页面，会先从数据库读取贴子数据
-     * @return
-     */
-    @RequestMapping("toTipManagePage.do")
-    public ModelAndView toTipManagePage() {
-        ModelAndView mv = new ModelAndView();
-        // 获取贴子
-        List<Tip> tipList = tipService.getAllTip();
-        // 获取贴子对应的用户信息和版块信息
-        for (int i =0; i < tipList.size(); i++){
-            User user = userService.getUserById(tipList.get(i).getUser_id());
-            tipList.get(i).setUser(user);
-            Tab tab = tabService.getTabByTabId(tipList.get(i).getTab_id());
-            tipList.get(i).setTab(tab);
-        }
-        request.setAttribute("tips", tipList);
-        mv.setViewName("tipManage.jsp");
-        return mv;
-    }
-
     @RequestMapping("toForumManagePage.do")
     public ModelAndView toForumManagePage(){
         ModelAndView mv = new ModelAndView();

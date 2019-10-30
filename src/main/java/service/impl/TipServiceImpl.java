@@ -211,8 +211,9 @@ public class TipServiceImpl implements TipService{
         if (tmpTip != null){
             // 检查修改信息是否相同
             if (tip.getTip_title().equals(tmpTip.getTip_title()) &&
-                    tip.getTip_content().equals(tmpTip.getTip_content())){
-                resultStr = new String("修改失败：修改后的标题和内容相同");
+                    tip.getTip_content().equals(tmpTip.getTip_content()) &&
+                    (tip.getTab_id() == tmpTip.getTab_id())){
+                resultStr = new String("修改失败：修改后的分类、标题、内容没有变化");
                 return resultStr;
             }
             // 开始修改

@@ -11,7 +11,7 @@
     <link href="<%=path%>/static/css/bootstrap.min.css" rel="stylesheet">
     <script src="<%=path%>/static/js/jquery-3.2.1.js"></script>
     <script src="<%=path%>/static/js/bootstrap.min.js"></script>
-    <title>逍遥论坛 ›修改版块信息</title>
+    <title>逍遥论坛 › 修改版块信息</title>
 </head>
 <body>
 <!-- 引入header文件 -->
@@ -20,7 +20,7 @@
 <div style="width: 50%;margin:1% 2% 1% 5%;float: left;">
     <div class="panel panel-default" id="main" style="">
         <div class="panel-heading" style="background-color: white">
-            <a href="<%=basePath%>">逍遥论坛</a> › 修改版块信息
+            <a href="<%=basePath%>">逍遥论坛</a> › 修改版块信息 › ${forum.forum_name}
         </div>
 
         <div class="panel-body">
@@ -44,8 +44,10 @@
                         <input type="text"  name="forum_name" value="${forum.forum_name}" required />
                     </div>
                 </div>
-                <input class="btn btn-warning" type="button" value="修改" onclick="modifyForum_confirm()">
-                <input class="btn btn-default" type="reset" value="重填">
+                <input class="btn btn-warning" type="button" value="修改" onclick="modifyForum_confirm()"/>
+                <input class="btn btn-default" type="reset" value="重填"/>
+                <input type="button" class="btn btn-default" value="返回"
+                       style="margin-left: 10%" onclick="window.location.href='<%=basePath%>toForumManagePage.do'" />
             </form>
         </div>
     </div>

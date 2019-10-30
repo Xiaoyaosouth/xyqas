@@ -20,7 +20,7 @@
 <div style="width: 50%;margin:1% 2% 1% 5%;float: left;">
     <div class="panel panel-default" id="main" style="">
         <div class="panel-heading" style="background-color: white">
-            <a href="<%=basePath%>">逍遥论坛</a> › 修改分类信息
+            <a href="<%=basePath%>">逍遥论坛</a> › 修改分类信息 › ${tab.tab_name}
         </div>
 
         <div class="panel-body">
@@ -58,8 +58,10 @@
                         </select>
                     </div>
                 </div>
-                <input class="btn btn-warning" type="button" value="修改" onclick="modifyTab_confirm()">
-                <input class="btn btn-default" type="reset" value="重填">
+                <input class="btn btn-warning" type="button" value="修改" onclick="modifyTab_confirm()"/>
+                <input class="btn btn-default" type="reset" value="重填"/>
+                <input type="button" class="btn btn-default" value="返回"
+                       style="margin-left: 10%" onclick="window.location.href='<%=basePath%>toTabManagePage.do'" />
             </form>
         </div>
     </div>

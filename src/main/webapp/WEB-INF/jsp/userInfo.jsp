@@ -30,7 +30,11 @@
 <div style="width: 70%;margin:1% 2% 1% 5%;float: left;">
     <div class="panel panel-default" id="main" style="">
         <div class="panel-heading" style="background-color: white">
-            <a href="<%=basePath%>">逍遥论坛</a> › ${requestScope.userObject.user_nick}
+            <a href="<%=basePath%>">逍遥论坛</a> › 用户信息 ›
+            <c:choose>
+                <c:when test="${empty userObject.user_nick}">${userObject.user_name}</c:when>
+                <c:otherwise>${userObject.user_nick}</c:otherwise>
+            </c:choose>
         </div>
 
         <div class="panel-body">
@@ -45,27 +49,13 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">用户名</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static">
-                            ${userObject.user_name}
-                            <!-- 只有自己才能修改个人信息，查看别人时不能修改他人的信息 -->
-                            <c:if test="${userObject.user_id == USER.user_id}">&nbsp;&nbsp;
-                                <a class="btn btn-warning" role="button"
-                                   href="toUpdateUserInfoPage.do?userId=${userObject.user_id}" >修改密码</a>
-                            </c:if>
-                        </p>
+                        <p class="form-control-static">${userObject.user_name}</p>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">昵称</label>
                     <div class="col-sm-10">
-                        <p class="form-control-static">
-                            ${userObject.user_nick}
-                            <!-- 只有自己才能修改个人信息，查看别人时不能修改他人的信息 -->
-                            <c:if test="${userObject.user_id == USER.user_id}">&nbsp;&nbsp;
-                                <a class="btn btn-primary" role="button"
-                                   href="toUpdateUserInfoPage.do?userId=${userObject.user_id}">修改昵称</a>
-                            </c:if>
-                        </p>
+                        <p class="form-control-static">${userObject.user_nick}</p>
                     </div>
                 </div>
                 <div class="form-group">
@@ -93,6 +83,15 @@
                         </p>
                     </div>
                 </div>
+                <!-- 只有自己才能修改个人信息，查看别人时不能修改他人的信息 -->
+                <c:if test="${userObject.user_id == USER.user_id}">&nbsp;&nbsp;
+                    <a class="btn btn-warning" role="button"
+                       href="toUpdateUserInfoPage.do?userId=${userObject.user_id}" >修改密码</a>
+                </c:if>
+                <c:if test="${userObject.user_id == USER.user_id}">&nbsp;&nbsp;
+                    <a class="btn btn-primary" role="button"
+                       href="toUpdateUserInfoPage.do?userId=${userObject.user_id}">修改昵称</a>
+                </c:if>
                 <input type="button" class="btn btn-default" value="返回"
                        style="margin-left: 20%" onclick="window.location.href='<%=basePath%>toMainPage.do'" />
             </form>

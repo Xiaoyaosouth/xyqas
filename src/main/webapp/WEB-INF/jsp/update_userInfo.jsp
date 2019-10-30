@@ -20,7 +20,11 @@
 <div style="width: 70%;margin:1% 2% 1% 5%;float: left;">
     <div class="panel panel-default" id="main" style="">
         <div class="panel-heading" style="background-color: white">
-            <a href="<%=basePath%>">逍遥论坛</a> › 修改用户信息
+            <a href="<%=basePath%>">逍遥论坛</a> › 修改用户信息 ›
+            <c:choose>
+                <c:when test="${empty userObject.user_nick}">${userObject.user_name}</c:when>
+                <c:otherwise>${userObject.user_nick}</c:otherwise>
+            </c:choose>
         </div>
 
         <div class="panel-body">
@@ -65,7 +69,13 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label">用户状态</label>
                     <div class="col-sm-5">
-                        <p class="form-control-static">${userObject.user_status eq 1?"禁用":"正常"}</p>
+                        <p class="form-control-static">
+                            <c:choose>
+                                <c:when test="${userObject.user_status == 1}">禁用</c:when>
+                                <c:when test="${userObject.user_status == 2}">锁定</c:when>
+                                <c:otherwise>正常</c:otherwise>
+                            </c:choose>
+                        </p>
                     </div>
                 </div>
                 <div class="form-group">

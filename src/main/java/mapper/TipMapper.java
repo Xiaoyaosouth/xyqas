@@ -144,11 +144,13 @@ public interface TipMapper {
      * 修改贴子信息
      * @param tip 贴子对象
      * @return
+     * @version 1.1 2019-10-29 17:31
      */
     @Update("UPDATE tip SET " +
             "tip_title = #{tip_title}, " +
             "tip_content = #{tip_content}, " +
-            "tip_modifyTime = #{tip_modifyTime} " +
+            "tip_modifyTime = #{tip_modifyTime}, " +
+            "tip.tab_id = ${tab_id} " +
             "WHERE tip_id = ${tip_id}")
     int updTip(Tip tip);
 }

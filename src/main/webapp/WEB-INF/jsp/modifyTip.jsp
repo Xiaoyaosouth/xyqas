@@ -46,14 +46,36 @@
                             <td>版块</td>
                             <td>${tip.tab.forum.forum_name}</td>
                             <td>
-
+                                <select class="form-control" id="selectForum" name="selectedForumId" onchange="selectForumFunc()">
+                                    <c:forEach items="${forums}" var="forum">
+                                        <c:choose>
+                                            <c:when test="${tip.tab.forum.forum_id} == ${forum.forum_id}">
+                                                <option value="${forum.forum_id}" selected>${forum.forum_name}</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="${forum.forum_id}">${forum.forum_name}</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </select>
                             </td>
                         </tr>
                         <tr>
                             <td>分类</td>
                             <td>${tip.tab.tab_name}</td>
                             <td>
-
+                                <select class="form-control" id="selectTab" name="selectedTabId">
+                                    <c:forEach items="${tabs}" var="tab">
+                                        <c:choose>
+                                            <c:when test="${tip.tab.tab_id} == ${tab.tab_id}">
+                                                <option value="${tab.tab_id}" selected>${tab.tab_name}</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="${tab.tab_id}">${tab.tab_name}</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </select>
                             </td>
                         </tr>
                         <tr>
@@ -141,6 +163,46 @@
             var form = document.getElementById("myTipUpdateForm"); // 由id获取表单
             form.submit();
         } else { }
+    }
+
+    function selectForumFunc() {
+        // 获取选择的项目 jquery
+        var selectedForum = $('select option:selected').val();
+        // 获取分类下拉栏id
+        var selectTab = document.getElementById("selectTab");
+        // alert("您选择了：" + selectedForum);
+        if (selectedForum != null){
+            $.ajax(
+                {
+                    url:"<%=basePath%>getTabBySelectedForum.do",
+                    type:"post",
+                    data:{
+                        selectedForum : selectedForum
+                    },
+                    dataType:"json",
+                    success:function (data) {
+                        var tabList = data;
+                        if (tabList){
+                            // 清除选项
+                            selectTab.options.length = 0;
+                            var optionStr = "";
+                            // 先加一个无用的选项
+                            optionStr += "<option value=\"\" selected>请选择分类</option>";
+                            for (var i = 0; i < tabList.length; i++){
+                                optionStr += "<option value=\"" + tabList[i].tab_id + "\">" +
+                                    tabList[i].tab_name + "</option>";
+                            }
+                            //alert("将要添加的optionStr = " + optionStr);
+                            // 添加到select标签（刷新选项）
+                            $("select[id=selectTab]").append(optionStr);
+                        }
+                    }
+                }
+            )
+        }else{
+            alert("selectedForum == null");
+            selectTab.options.length = 0;
+        }
     }
 </script>
 

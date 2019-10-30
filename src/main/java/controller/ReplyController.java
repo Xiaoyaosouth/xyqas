@@ -43,6 +43,14 @@ public class ReplyController {
         int tipid = Integer.valueOf(request.getParameter("tip_id"));
         reply.setUser_id(userid);
         reply.setTip_id(tipid);
+        /**
+        // 处理页面弹出用户输入的脚本
+        StringBuffer sb = new StringBuffer();
+        sb.append("<c:out value=\"");
+        sb.append(reply.getReply_content());
+        sb.append("\"></c:out>");
+        reply.setReply_content(sb.toString());
+         */
         // 回复产生时间
         Date date = new Date();
         reply.setReply_publishTime(date);

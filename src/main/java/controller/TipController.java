@@ -160,6 +160,12 @@ public class TipController {
         tip.setUser(user);
         tab.setForum(forum);
         tip.setTab(tab);
+        // 获取所有版块
+        List<Forum> forumList = forumService.getAllForum();
+        request.setAttribute("forums", forumList);
+        // 获取所有分类
+        List<Tab> tabList = tabService.getAllTab();
+        request.setAttribute("tabs", tabList);
         request.setAttribute("tip", tip);
         mv.setViewName("modifyTip.jsp");
         return mv;
@@ -176,6 +182,9 @@ public class TipController {
         // 处理参数
         Date date = new Date();
         tip.setTip_modifyTime(date);
+        // int forumId = Integer.valueOf(request.getParameter("selectedForumId")); // 获取版块
+        int tabId = Integer.valueOf(request.getParameter("selectedTabId")); // 获取分类
+        tip.setTab_id(tabId);
         // 开始修改
         String resultStr = tipService.modifyTip(tip);
         request.setAttribute("myInfo", resultStr);

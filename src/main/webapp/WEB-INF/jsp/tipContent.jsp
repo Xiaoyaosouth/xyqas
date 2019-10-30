@@ -56,7 +56,7 @@
     <!-- 这里显示贴子正文 -->
     <ul class="list-group" style="width: 100%">
             <li class="list-group-item">
-                ${tip.tip_content}
+                <c:out value="${tip.tip_content}"></c:out>
             </li>
     </ul>
 </div>
@@ -88,7 +88,7 @@
                     <br>
                     <!-- 这里显示回复的正文 -->
                     <div>
-                        <p>${reply.reply_content}</p>
+                        <p><c:out value="${reply.reply_content}"></c:out></p>
                     </div>
                 </div>
             </div>

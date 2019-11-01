@@ -1,45 +1,18 @@
 package domain;
 
+import lombok.Data;
+
 /**
- * 小板块实体类
+ * 分类实体类
  */
+@Data
 public class Tab {
 
-    private Forum forum; // 大板块
-    private int forum_id; // 小板块对应的大板块id
+    private Forum forum; // 版块
+    private int forum_id; // 版块id
 
-    private int tab_id; // 小板块id
-    private String tab_name; // 小板块名
+    private int tab_id; // 分类id
+    private String tab_name; // 分类名
+    private int tab_status; // 分类状态
 
-    public Forum getForum() {
-        return forum;
-    }
-
-    public void setForum(Forum forum) {
-        this.forum = forum;
-    }
-
-    public int getForum_id() {
-        return forum_id;
-    }
-
-    public void setForum_id(int forum_id) {
-        this.forum_id = forum_id;
-    }
-
-    public int getTab_id() {
-        return tab_id;
-    }
-
-    public void setTab_id(int tab_id) {
-        this.tab_id = tab_id;
-    }
-
-    public String getTab_name() {
-        return tab_name;
-    }
-
-    public void setTab_name(String tab_name) {
-        this.tab_name = tab_name;
-    }
 }

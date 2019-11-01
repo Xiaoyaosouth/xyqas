@@ -16,7 +16,8 @@ public interface ReplyMapper {
     @Insert("INSERT INTO reply " +
             "(reply_content, reply_publishTime, user_id, tip_id) " +
             "VALUES " +
-            "(#{reply_content}, #{reply_publishTime}, #{user_id}, #{tip_id})")
+            "(#{reply_content}, #{reply_publishTime}, #{reply_modifyTime}, " +
+            "${user.user_id}, ${tip.tip_id})")
     int insReply(Reply reply);
 
     /**

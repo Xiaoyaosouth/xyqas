@@ -137,8 +137,7 @@ public class TipServiceImpl implements TipService{
     @Override
     public List<Tip> getAllTipForModifyTimeDesc() {
         Logger logger = Logger.getLogger(TipServiceImpl.class);
-        // 先更新贴子回复数
-        this.updateAllReplies();
+        // this.updateAllReplies(); // 更新贴子回复数
         // 获取所有贴子信息
         logger.info("尝试获取所有贴子，并按更新时间倒序排列");
         List<Tip> tipList = this.getTipsSolvedElseModel(tipMapper.selTipAllForModifyTimeDesc());
@@ -158,14 +157,13 @@ public class TipServiceImpl implements TipService{
 
     /**
      * 刷新贴子更新时间
-     * @param tip_id
-     * @param tip_modifyTime
+     * @param tip 贴子对象
      */
     @Override
-    public int updateModifyTimeByTipId(int tip_id, Date tip_modifyTime){
+    public int updateModifyTime(Tip tip){
         Logger logger = Logger.getLogger(ReplyServiceImpl.class);
-        logger.info("尝试刷新贴子id为" + tip_id + "的更新时间：" + tip_modifyTime);
-        int result = tipMapper.updModifyTimeByTipid(tip_id, tip_modifyTime);
+        logger.info("尝试刷新贴子id为" + tip.getTip_id() + "的修改时间：" + tip.getTip_modifyTime());
+        int result = tipMapper.updModifyTime(tip);
         return result;
     }
 
@@ -202,6 +200,11 @@ public class TipServiceImpl implements TipService{
         return tipList;
     }
 
+    /**
+     * 修改贴子
+     * @param tip 贴子对象
+     * @return
+     */
     @Override
     public String modifyTip(Tip tip) {
         Logger logger = Logger.getLogger(ReplyServiceImpl.class);

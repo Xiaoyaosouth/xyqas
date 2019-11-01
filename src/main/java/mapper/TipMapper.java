@@ -104,14 +104,13 @@ public interface TipMapper {
 
     /**
      * 刷新贴子更新时间
-     * @param tip_id 贴子id
-     * @param tip_modifyTime 贴子更新时间
+     * @param tip 贴子对象（包含id和修改时间）
      * @return
      */
     @Update("UPDATE tip SET " +
-            "tip_modifyTime = #{arg1} " +
-            "WHERE tip_id = #{arg0}")
-    int updModifyTimeByTipid(int tip_id, Date tip_modifyTime);
+            "tip_modifyTime = #{tip_modifyTime} " +
+            "WHERE tip_id = ${tip_id}")
+    int updModifyTime(Tip tip);
 
     /**
      * 查询所有贴子id
@@ -153,4 +152,14 @@ public interface TipMapper {
             "tip.tab_id = ${tab_id} " +
             "WHERE tip_id = ${tip_id}")
     int updTip(Tip tip);
+
+    /**
+     * 修改贴子回复数（+1）
+     * @param tip 贴子对象
+     * @return
+     */
+    @Update("UPDATE tip SET " +
+            "tip_replies = tip_replies + 1 " +
+            "WHERE tip_id = ${tip_id}")
+    int updReplisAddOne(Tip tip);
 }

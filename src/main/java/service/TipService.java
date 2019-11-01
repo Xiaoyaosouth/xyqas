@@ -69,11 +69,10 @@ public interface TipService {
 
     /**
      * 刷新贴子更新时间
-     * @param tip_id 贴子id
-     * @param tip_modifyTime 更新时间
+     * @param tip 贴子对象
      * @return
      */
-    int updateModifyTimeByTipId(int tip_id, Date tip_modifyTime);
+    int updateModifyTime(Tip tip);
 
     /**
      * 更新贴子回复量

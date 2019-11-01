@@ -1,7 +1,9 @@
 package service.impl;
 
 import domain.Reply;
+import domain.Tip;
 import mapper.ReplyMapper;
+import mapper.TipMapper;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import service.ReplyService;
@@ -14,15 +16,24 @@ public class ReplyServiceImpl implements ReplyService{
     @Resource
     private ReplyMapper replyMapper;
 
+    @Resource
+    private TipMapper tipMapper;
+
     @Override
     public String addReply(Reply reply) {
         Logger logger = Logger.getLogger(ReplyServiceImpl.class);
-        logger.info("id为" + reply.getUser_id() + "的用户尝试发表回复...");
-        int result = replyMapper.insReply(reply);
-        if (result > 0){
-            return "success";
+        logger.info("【用户回复贴子】");
+        String resultStr = null;
+        // 插入数据到回复表
+        if (replyMapper.insReply(reply) > 0){
+            // 发表回复成功则令贴子回复数+1
+            tipMapper.updReplisAddOne(reply.getTip());
+            // 刷新贴子更新时间
+            reply.getTip().setTip_modifyTime(reply.getReply_publishTime());
+            tipMapper.updModifyTime(reply.getTip());
+            return "发表回复成功！";
         }else {
-            return "error";
+            return "发表回复失败！";
         }
     }
 

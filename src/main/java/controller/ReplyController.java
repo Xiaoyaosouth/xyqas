@@ -1,6 +1,8 @@
 package controller;
 
 import domain.Reply;
+import domain.Tip;
+import domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,29 +40,37 @@ public class ReplyController {
     @RequestMapping("publishReply.do")
     public ModelAndView addReply(Reply reply){
         ModelAndView mv = new ModelAndView();
+        String resultStr = null;
         // 处理参数
-        int userid = Integer.valueOf(request.getParameter("user_id"));
-        int tipid = Integer.valueOf(request.getParameter("tip_id"));
-        reply.setUser_id(userid);
-        reply.setTip_id(tipid);
-        /**
-        // 处理页面弹出用户输入的脚本
-        StringBuffer sb = new StringBuffer();
-        sb.append("<c:out value=\"");
-        sb.append(reply.getReply_content());
-        sb.append("\"></c:out>");
-        reply.setReply_content(sb.toString());
-         */
-        // 回复产生时间
-        Date date = new Date();
-        reply.setReply_publishTime(date);
-        String resultStr = replyService.addReply(reply);
-        // 刷新贴子更新时间
-        tipService.updateModifyTimeByTipId(tipid, date);
-        // 更新贴子回复数
-        tipService.updateRepliesByTipId(tipid);
+        User user = (User) session.getAttribute("USER");
+        Integer tipId = Integer.valueOf(request.getParameter("tip_id"));
+        try{
+            if (tipId == null || user == null){
+                throw new Exception("user或tip_id不存在");
+            }else {
+                // 用户登录、状态正常才可以发回复
+                if (user.getUser_status() == 0){
+                    // 将user对象包装到reply
+                    reply.setUser(user);
+                    Tip tmpTip = new Tip();
+                    tmpTip.setTip_id(tipId);
+                    // 将tip对象包装到reply
+                    reply.setTip(tmpTip);
+                    // 生成回复时间
+                    Date date = new Date();
+                    reply.setReply_publishTime(date);
+                    reply.setReply_modifyTime(date);
+                    // 调用业务层
+                    resultStr = replyService.addReply(reply);
+                }else {
+                    resultStr = new String("回复失败：用户状态不正常！");
+                }
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
         request.setAttribute("myInfo", resultStr);
-        mv.setViewName("redirect:showTip.do?tipId=" + tipid);
+        mv.setViewName("redirect:showTip.do?tipId=" + tipId);
         return mv;
     }
 }

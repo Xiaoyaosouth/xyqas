@@ -111,13 +111,12 @@
                             <c:choose>
                                 <c:when test="${USER.user_status == 2}">
                                     <!-- 被锁定的用户不能回贴 -->
-                                    您的账号已被锁定！请联系管理员解锁。
+                                    您的账号已被锁定！不能回贴，请联系管理员解锁。
                                 </c:when>
                                 <c:otherwise>
                                     <!-- 这里是发表回复的表单 -->
                                     <form action="publishReply.do" method="post" id="myReplyForm">
                                         <input type="hidden" name="tip_id" value="${tip.tip_id}">
-                                        <input type="hidden" name="user_id" value="${USER.user_id}">
                                         <!-- 这里显示输入回复内容的文本框 -->
                                         <textarea class="form-control" rows="3" name="reply_content" required ></textarea>
                                         <br/>

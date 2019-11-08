@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String path = request.getContextPath();
-    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,14 +13,18 @@
     <script src="<%=path%>/static/js/jquery-3.2.1.js"></script>
     <script src="<%=path%>/static/js/bootstrap.min.js"></script>
     <style>
-        li {list-style-type:none;}
+        li {
+            list-style-type: none;
+        }
+
         html, body {
             height: 100%;
             font-size: 14px;
             color: #525252;
-            font-family: NotoSansHans-Regular,AvenirNext-Regular,arial,Hiragino Sans GB,"Microsoft Yahei","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif;
+            font-family: NotoSansHans-Regular, AvenirNext-Regular, arial, Hiragino Sans GB, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
             background: #f0f2f5;
         }
+
         .footer {
             background-color: #fff;
             margin-top: 22px;
@@ -30,8 +34,8 @@
             color: #8A8A8A;
             display: block;
             height: 200px;
-            border: 1px ;
-            clear:both
+            border: 1px;
+            clear: both
         }
 
         .container {
@@ -42,12 +46,14 @@
             width: 40%;
             float: left;
         }
+
         .info {
             margin-right: 5%;
             width: 10%;
             float: left;
         }
-        a{
+
+        a {
             color: #8A8A8A;
             cursor: pointer;
         }
@@ -65,33 +71,49 @@
 </c:if>
 
 <!-- 引入header文件 -->
-<%@ include file="header.jsp"%>
+<%@ include file="header.jsp" %>
 
-<div class="panel panel-default" id="login" style="width: 55%;margin-left: 10%;margin-top: 5%;margin-bottom: 5%">
+<div class="panel panel-default" id="login" style="width: 80%;margin-left: 10%;margin-top: 5%;margin-bottom: 5%">
     <div class="panel-heading" style="background-color: #fff">
         <h3 class="panel-title">注册</h3>
     </div>
     <div class="panel-body">
-        <form action="userSignUp.do" method="POST" id="mySignUpForm" class="form-horizontal" role="form" style="margin-left: 5%">
-            <div class="form-group" >
-                <label class="col-sm-2 control-label">*用户名</label>
-                <div class="col-sm-10" style="width: 40%;">
-                    <input type="text" class="form-control" id="user_name" name="user_name" required />
-                    <p class="form-control-static">用于登录。请使用半角的 a-z A-Z 或数字 0-9</p>
+        <form action="userSignUp.do" method="POST" id="mySignUpForm" class="form-horizontal" role="form"
+              style="margin-left: 5%" onsubmit="submit_confirm()">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">用户名</label>
+                <div class="col-sm-6" style="width: 40%;">
+                    <span style="color:red">*用于登录，注册后不可修改。</span>
+                    <input type="text" class="form-control" id="user_name" name="user_name"
+                           required onkeyup="checkUserName()"/>
+                    <span id="userNameErr" style="color:red"></span>
                 </div>
-            </div>
-            <div class="form-group" >
-                <label class="col-sm-2 control-label">昵称</label>
-                <div class="col-sm-10" style="width: 40%;">
-                    <input type="text" class="form-control" id="user_nick" name="user_nick" />
-                    <p class="form-control-static">可不填</p>
+                <div class="col-sm-4">
+                    <p class="form-control-static">要求：</p>
+                    <p class="form-control-static">（1）不超过13位字符（含）</p>
+                    <p class="form-control-static">（2）第一位必须为字母，其余可以是字母、数字、下划线</p>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">*密码</label>
-                <div class="col-sm-10" style="width: 40%;">
-                    <input type="password" class="form-control" id="user_password" name="user_password" required />
-                    <p class="form-control-static">目前暂无要求</p>
+                <label class="col-sm-2 control-label">昵称</label>
+                <div class="col-sm-6" style="width: 40%;">
+                    <input type="text" class="form-control" id="user_nick" name="user_nick"/>
+                    <span id="userNickErr" style="color:red"></span>
+                </div>
+                <div class="col-sm-4">
+                    <p class="form-control-static">可不填，注册后可修改。</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-6" style="width: 40%;">
+                    <span style="color:red">*必填</span>
+                    <input type="password" class="form-control" id="user_password" name="user_password"
+                           required onkeyup="checkUserPwd()"/>
+                    <span id="userPwdErr" style="color:red"></span>
+                </div>
+                <div class="col-sm-4">
+                    <p class="form-control-static">要求：至少6位字符，可以是字母、数字、下划线</p>
                 </div>
             </div>
             <div class="form-group">
@@ -115,35 +137,63 @@
                 </div>
             </div>
 
-            <input type="button" class="btn btn-primary" value="注册"
-                   style="margin-left: 20%" onclick="signUp_confirm()" />
-            &nbsp;&nbsp;<input type="button" class="btn btn-success" value="登录"
-                   style="margin-left: 15%" onclick="window.location.href='toLoginPage.do'" />
+            <input type="button" class="btn btn-default" value="返回"
+                   style="margin-left: 5%" onclick="window.location.href='<%=basePath%>toMainPage.do'"/>
+            <input type="button" class="btn btn-success" value="登录"
+                   style="margin-left: 25%" onclick="window.location.href='<%=basePath%>toLoginPage.do'"/>
+            <input type="submit" class="btn btn-primary" value="注册"
+                   style="margin-left: 5%"/>
+
         </form>
 
     </div>
 </div>
 
 <!-- 引入footer文件 -->
-<%@ include file="footer.jsp"%>
+<%@ include file="footer.jsp" %>
 
 <script>
-    function signUp_confirm()
-    {
-        var r=confirm("确定注册?")
-        if (r==true)
-        {
-            var form = document.getElementById("mySignUpForm"); // 由id获取表单
-            var uname = form.user_name.value; // 获取输入的用户名
-            var upwd = form.user_password.value; // 获取输入的密码
-            if(uname == '' || upwd == '') {
-                alert("请将注册信息填写完整！");
-            }else{
-                form.submit(); // 提交表单
+    function submit_confirm() {
+        var r = confirm("确定注册?");
+        if (r == true) {
+            if (checkUserName() && checkUserPwd()){
+                return true;
+            }else {
+                return false;
             }
+        }else {
+            return false;
         }
-        else
-        { }
+    }
+
+    // 检查用户名
+    function checkUserName() {
+        var uname = document.getElementById('user_name').value; // 获取输入的用户名
+        // 用户名规则：13位字符内，第一位必须为字母，后12位可以是字母、数字、下划线
+        var patt = /^[a-zA-Z]{1}([a-zA-Z]|[0-9]|[_]){1,13}$/;
+        if (patt.test(uname)) {
+            // document.getElementById('userNameErr').innerText = uname;
+            document.getElementById('userNameErr').innerText = "OK";
+            return true;
+        } else {
+            document.getElementById('userNameErr').innerText = "用户名格式不正确！";
+            return false;
+        }
+    }
+
+    // 检查密码
+    function checkUserPwd() {
+        var upwd = document.getElementById('user_password').value; // 获取输入的密码
+        // 密码规则：至少6位字符，可以是字母、数字、下划线
+        var patt = /^([a-zA-Z]|[0-9]|[_]){6,}$/;
+        if (patt.test(upwd)) {
+            // document.getElementById('userPwdErr').innerText = upwd;
+            document.getElementById('userPwdErr').innerText = "OK";
+            return true;
+        } else {
+            document.getElementById('userPwdErr').innerText = "密码格式不正确！";
+            return false;
+        }
     }
 </script>
 </body>

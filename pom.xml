@@ -26,6 +26,8 @@
     <mysql.version>5.1.40</mysql.version>
     <log4j.version>1.2.17</log4j.version>
     <jackson.version>2.5.4</jackson.version>
+      <c3p0.version>0.9.5.2</c3p0.version>
+      <lombok.version>1.16.20</lombok.version>
   </properties>
 
   <dependencies>
@@ -120,7 +122,7 @@
       <dependency>
           <groupId>com.mchange</groupId>
           <artifactId>c3p0</artifactId>
-          <version>0.9.5.2</version>
+          <version>${c3p0.version}</version>
       </dependency>
       <!-- 加入log4j的依赖 -->
       <dependency>
@@ -143,7 +145,7 @@
       <dependency>
           <groupId>org.projectlombok</groupId>
           <artifactId>lombok</artifactId>
-          <version>1.16.20</version>
+          <version>${lombok.version}</version>
           <scope>provided</scope>
       </dependency>
   </dependencies>

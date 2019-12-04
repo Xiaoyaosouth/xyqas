@@ -10,11 +10,13 @@ public interface ReplyMapper {
 
     /**
      * 添加回复
+     * v1.1 fix:入参缺少修改时间字段 2019-12-04 14:28
+     * @version 1.1
      * @param reply 回复实体对象
      * @return
      */
     @Insert("INSERT INTO reply " +
-            "(reply_content, reply_publishTime, user_id, tip_id) " +
+            "(reply_content, reply_publishTime, reply_modifyTime, user_id, tip_id) " +
             "VALUES " +
             "(#{reply_content}, #{reply_publishTime}, #{reply_modifyTime}, " +
             "${user.user_id}, ${tip.tip_id})")

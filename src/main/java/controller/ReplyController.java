@@ -1,18 +1,14 @@
 package controller;
 
-import domain.Reply;
-import domain.Tip;
-import domain.User;
+import domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import service.ReplyService;
-import service.TipService;
+import service.*;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.util.Date;
 
 /**
@@ -22,9 +18,6 @@ import java.util.Date;
 public class ReplyController {
     @Resource
     private ReplyService replyService;
-
-    @Resource
-    private TipService tipService;
 
     @Autowired
     private HttpServletRequest request;
@@ -50,9 +43,9 @@ public class ReplyController {
             }else {
                 // 用户登录、状态正常才可以发回复
                 if (user.getUser_status() == 0){
+                    Tip tmpTip = new Tip(); // 用于对象包装
                     // 将user对象包装到reply
                     reply.setUser(user);
-                    Tip tmpTip = new Tip();
                     tmpTip.setTip_id(tipId);
                     // 将tip对象包装到reply
                     reply.setTip(tmpTip);

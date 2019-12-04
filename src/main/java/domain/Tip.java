@@ -6,6 +6,8 @@ import java.util.Date;
 
 /**
  * 贴子实体类
+ * v1.1 修改tip_status为tip_isDeleted
+ * @version 1.1
  */
 @Data
 public class Tip {
@@ -21,7 +23,7 @@ public class Tip {
     private Date tip_publishTime; // 发表时间
     private Date tip_modifyTime; // 修改时间
     private int tip_click; // 点击量
-    private int tip_status; // 贴子状态
+    private int tip_isDeleted; // 是否逻辑删除
     private int tip_isKnot; // 是否结贴
     private int tip_replies; // 贴子回复数
 

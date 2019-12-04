@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class TipServiceImpl implements TipService{
+public class TipServiceImpl implements TipService {
     @Resource
     private TipMapper tipMapper;
 
@@ -35,20 +35,21 @@ public class TipServiceImpl implements TipService{
         Logger logger = Logger.getLogger(TipServiceImpl.class);
         logger.info("id为" + tip.getUser_id() + "的用户尝试发表贴子...");
         int result = tipMapper.insTip(tip);
-        if (result > 0){
+        if (result > 0) {
             return "success";
-        }else{
+        } else {
             return "error";
         }
     }
 
     /**
      * 在获取贴子列表时同时获取其它模型的数据
+     *
      * @param tipList List<Tip>
      * @return
      */
-    private List<Tip> getTipsSolvedElseModel(List<Tip> tipList){
-        for (int i = 0; i < tipList.size(); i++){
+    private List<Tip> getTipsSolvedElseModel(List<Tip> tipList) {
+        for (int i = 0; i < tipList.size(); i++) {
             User user = userMapper.selUserByUserId(tipList.get(i).getUser_id());
             Tab tab = tabMapper.selTabByTabId(tipList.get(i).getTab_id());
             Forum forum = forumMapper.selForumByForumId(tab.getForum_id());
@@ -62,6 +63,7 @@ public class TipServiceImpl implements TipService{
 
     /**
      * 获取所有贴子信息（不排序）
+     *
      * @return
      */
     @Override
@@ -69,7 +71,7 @@ public class TipServiceImpl implements TipService{
         Logger logger = Logger.getLogger(TipServiceImpl.class);
         logger.info("尝试获取所有贴子信息...");
         List<Tip> tipList = this.getTipsSolvedElseModel(tipMapper.selTipAll());
-        if (tipList != null){
+        if (tipList != null) {
             return tipList;
         }
         return null;
@@ -80,7 +82,7 @@ public class TipServiceImpl implements TipService{
         Logger logger = Logger.getLogger(TipServiceImpl.class);
         logger.info("尝试获取ID为" + tip_id + "的贴子信息...");
         Tip tip = tipMapper.selTipByTipId(tip_id);
-        if (tip != null){
+        if (tip != null) {
             return tip;
         }
         return null;
@@ -91,9 +93,9 @@ public class TipServiceImpl implements TipService{
         Logger logger = Logger.getLogger(TipServiceImpl.class);
         logger.info("尝试给ID为" + tip_id + "的贴子点击量+1...");
         int result = tipMapper.updTipClick(tip_id);
-        if (result > 0){
+        if (result > 0) {
             return "success";
-        }else{
+        } else {
             return "error";
         }
     }
@@ -102,22 +104,10 @@ public class TipServiceImpl implements TipService{
     public String disableTip(int tip_id) {
         Logger logger = Logger.getLogger(TipServiceImpl.class);
         logger.info("尝试逻辑删除id为" + tip_id + "的贴子...");
-        int result = tipMapper.updTipStatusToDisable(tip_id);
-        if (result > 0){
+        int result = tipMapper.updTipIsDeleted(tip_id);
+        if (result > 0) {
             return "success";
-        }else {
-            return "error";
-        }
-    }
-
-    @Override
-    public String knotTip(int tip_id) {
-        Logger logger = Logger.getLogger(TipServiceImpl.class);
-        logger.info("尝试结贴id为" + tip_id + "的贴子...");
-        int result = tipMapper.updTipToKnot(tip_id);
-        if (result > 0){
-            return "success";
-        }else {
+        } else {
             return "error";
         }
     }
@@ -125,11 +115,35 @@ public class TipServiceImpl implements TipService{
     @Override
     public String enableTip(int tip_id) {
         Logger logger = Logger.getLogger(TipServiceImpl.class);
-        logger.info("尝试将id为" + tip_id + "的贴子恢复正常...");
-        int result = tipMapper.updTipToUnKnot(tip_id);
-        if (result > 0){
+        logger.info("尝试将id为" + tip_id + "的贴子取消逻辑删除...");
+        int result = tipMapper.updTipIsNotDeleted(tip_id);
+        if (result > 0) {
             return "success";
-        }else {
+        } else {
+            return "error";
+        }
+    }
+
+    @Override
+    public String knotTip(int tip_id) {
+        Logger logger = Logger.getLogger(TipServiceImpl.class);
+        logger.info("【结贴】贴子id：" + tip_id);
+        int result = tipMapper.updTipToKnot(tip_id);
+        if (result > 0) {
+            return "success";
+        } else {
+            return "error";
+        }
+    }
+
+    @Override
+    public String disNnotTip(int tip_id) {
+        Logger logger = Logger.getLogger(TipServiceImpl.class);
+        logger.info("【取消结贴】贴子id：" + tip_id);
+        int result = tipMapper.updTipToUnKnot(tip_id);
+        if (result > 0) {
+            return "success";
+        } else {
             return "error";
         }
     }
@@ -141,7 +155,7 @@ public class TipServiceImpl implements TipService{
         // 获取所有贴子信息
         logger.info("尝试获取所有贴子，并按更新时间倒序排列");
         List<Tip> tipList = this.getTipsSolvedElseModel(tipMapper.selTipAllForModifyTimeDesc());
-        if (tipList != null){
+        if (tipList != null) {
             return tipList;
         }
         return null;
@@ -157,10 +171,11 @@ public class TipServiceImpl implements TipService{
 
     /**
      * 刷新贴子更新时间
+     *
      * @param tip 贴子对象
      */
     @Override
-    public int updateModifyTime(Tip tip){
+    public int updateModifyTime(Tip tip) {
         Logger logger = Logger.getLogger(ReplyServiceImpl.class);
         logger.info("尝试刷新贴子id为" + tip.getTip_id() + "的修改时间：" + tip.getTip_modifyTime());
         int result = tipMapper.updModifyTime(tip);
@@ -182,11 +197,11 @@ public class TipServiceImpl implements TipService{
         logger.info("尝试获取所有贴子的id");
         List<Integer> tipIdsList = tipMapper.selTipIds();
         // 逐个贴子更新
-        for (int i = 0; i < tipIdsList.size(); i++){
+        for (int i = 0; i < tipIdsList.size(); i++) {
             logger.info("尝试更新贴子id为" + tipIdsList.get(i) + "的回复数");
             int tmpResult = tipMapper.updRepliesByTipId(tipIdsList.get(i));
-            if (tmpResult > 0){
-                result ++;
+            if (tmpResult > 0) {
+                result++;
             }
         }
         return result;
@@ -202,6 +217,7 @@ public class TipServiceImpl implements TipService{
 
     /**
      * 修改贴子
+     *
      * @param tip 贴子对象
      * @return
      */
@@ -211,19 +227,19 @@ public class TipServiceImpl implements TipService{
         String resultStr = null;
         // 检查贴子是否存在
         Tip tmpTip = tipMapper.selTipByTipId(tip.getTip_id());
-        if (tmpTip != null){
+        if (tmpTip != null) {
             // 检查修改信息是否相同
             if (tip.getTip_title().equals(tmpTip.getTip_title()) &&
                     tip.getTip_content().equals(tmpTip.getTip_content()) &&
-                    (tip.getTab_id() == tmpTip.getTab_id())){
+                    (tip.getTab_id() == tmpTip.getTab_id())) {
                 resultStr = new String("修改失败：修改后的分类、标题、内容没有变化");
                 return resultStr;
             }
             // 开始修改
-            logger.info("尝试修改id为" + tip.getTip_id() + "的贴子信息" );
-            if (tipMapper.updTip(tip) > 0){
+            logger.info("尝试修改id为" + tip.getTip_id() + "的贴子信息");
+            if (tipMapper.updTip(tip) > 0) {
                 resultStr = new String("修改成功！");
-            }else {
+            } else {
                 resultStr = new String("修改失败！");
             }
         }

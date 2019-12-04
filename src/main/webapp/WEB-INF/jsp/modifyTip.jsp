@@ -122,7 +122,7 @@
                             <td>状态</td>
                             <td>
                                 <c:choose>
-                                    <c:when test="${tip.tip_status == 1}">删除</c:when>
+                                    <c:when test="${tip.tip_isDeleted == 1}">删除</c:when>
                                     <c:otherwise>正常</c:otherwise>
                                 </c:choose>
                                 <br>

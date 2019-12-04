@@ -47,7 +47,31 @@ public interface TipMapper {
     int updTipClick(int tip_id);
 
     /**
-     * 结贴
+     * 逻辑删贴
+     * 2019-12-04 15:02 修改入参tip_status为tip_isDeleted
+     * 2019-12-04 15:03 修改方法名updTipStatusToDisable为updTipIsDeleted
+     * @param tip_id 贴子id
+     * @return
+     */
+    @Update("UPDATE tip SET " +
+            "tip_isDeleted = 1 " +
+            "WHERE tip_id = #{tip_id}")
+    int updTipIsDeleted(int tip_id);
+
+    /**
+     * 取消逻辑删贴
+     * 2019-12-04 15:02 修改入参tip_status为tip_isDeleted
+     * 2019-12-04 15:20 修改方法名updTipStatusToEnable为updTipIsNotDeleted
+     * @param tip_id 贴子id
+     * @return
+     */
+    @Update("UPDATE tip SET " +
+            "tip_isDeleted = 0 " +
+            "WHERE tip_id = #{tip_id}")
+    int updTipIsNotDeleted(int tip_id);
+
+    /**
+     * 结贴操作
      * @param tip_id 贴子id
      * @return
      */
@@ -55,26 +79,6 @@ public interface TipMapper {
             "tip_isKnot = 1 " +
             "WHERE tip_id = #{tip_id}")
     int updTipToKnot(int tip_id);
-
-    /**
-     * 修改贴子状态（逻辑删贴）
-     * @param tip_id
-     * @return
-     */
-    @Update("UPDATE tip SET " +
-            "tip_status = 1 " +
-            "WHERE tip_id = #{tip_id}")
-    int updTipStatusToDisable(int tip_id);
-
-    /**
-     * 修改贴子状态（正常）
-     * @param tip_id
-     * @return
-     */
-    @Update("UPDATE tip SET " +
-            "tip_status = 0 " +
-            "WHERE tip_id = #{tip_id}")
-    int updTipStatusToEnable(int tip_id);
 
     /**
      * 取消结贴

@@ -41,6 +41,13 @@ public interface TipService {
     String disableTip(int tip_id);
 
     /**
+     * 取消逻辑删贴
+     * @param tip_id 贴子id
+     * @return
+     */
+    String enableTip(int tip_id);
+
+    /**
      * 结贴，让贴子不能再修改或回复
      * @param tip_id
      * @return
@@ -48,11 +55,12 @@ public interface TipService {
     String knotTip(int tip_id);
 
     /**
-     * 贴子恢复正常
+     * 取消结贴
+     * 2019-12-04 15:36
      * @param tip_id 贴子id
      * @return
      */
-    String enableTip(int tip_id);
+    String disNnotTip(int tip_id);
 
     /**
      * 获取所有贴子（按更新时间倒序排列）

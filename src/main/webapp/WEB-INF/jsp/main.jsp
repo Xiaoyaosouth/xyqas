@@ -89,8 +89,8 @@
 
 <ul class="list-group" style="width: 100%">
     <c:forEach items="${tips}" var="tip">
-        <!-- 如果贴子状态不是禁用则显示 -->
-        <c:if test="${tip.tip_status != 1}">
+        <!-- 如果没有逻辑删除则显示 -->
+        <c:if test="${tip.tip_isDeleted != 1}">
             <li class="list-group-item">
             <div style="height: 50px">
                     <div style="width: 89%;float: left">

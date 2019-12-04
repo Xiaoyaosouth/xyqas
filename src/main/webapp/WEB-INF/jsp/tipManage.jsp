@@ -82,7 +82,7 @@
                         <td>${tip.tip_click}</td>
                         <td>
                             <c:choose>
-                                <c:when test="${tip.tip_status == 1}">删除</c:when>
+                                <c:when test="${tip.tip_isDeleted == 1}">删除</c:when>
                                 <c:otherwise>正常</c:otherwise>
                             </c:choose>
                             <br>
@@ -95,8 +95,8 @@
                             <input type="button" class="btn btn-warning" value="修改"
                                    onclick="window.location.href='<%=basePath%>toModifyTipPage.do?tipId=${tip.tip_id}'"/>
                             <c:choose>
-                                <c:when test="${tip.tip_status == 1}">
-                                    <input type="button" class="btn btn-success" value="恢复"
+                                <c:when test="${tip.tip_isDeleted == 1}">
+                                    <input type="button" class="btn btn-success" value="取消删除"
                                            onclick="window.location.href='<%=basePath%>enableTip.do?tipId=${tip.tip_id}'"/>
                                 </c:when>
                                 <c:otherwise>

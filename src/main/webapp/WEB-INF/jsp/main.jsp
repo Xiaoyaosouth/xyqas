@@ -121,14 +121,17 @@
                         <!-- 显示贴子发表时间 -->
                         <small class="text-muted">
                             发表时间：<fmt:formatDate value="${tip.tip_publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
-                            &nbsp;&nbsp;更新时间：<fmt:formatDate value="${tip.tip_modifyTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
-                            &nbsp;&nbsp;点击量：${tip.tip_click}
+                            &nbsp;&nbsp;
+                            更新时间：<fmt:formatDate value="${tip.tip_modifyTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+                            &nbsp;&nbsp;
+                            <span class="label label-warning" title="点击量">${tip.tip_click}次点击</span>
                         </small>
                     </div>
                     </div>
                 <div style="width: 5%;float: right;text-align: center">
                     <span class="label label-info" title="回复数">
-                        <!-- 这里显示贴子回复量 -->${tip.tip_replies}
+                        <!-- 这里显示贴子回复量 -->
+                        ${tip.tip_replies}条回复
                     </span>
                 </div>
             </div>

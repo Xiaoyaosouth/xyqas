@@ -58,9 +58,9 @@ public class TipController {
         tip.setTip_publishTime(date);
         tip.setTip_modifyTime(date);
         // 设定板块
-        int tabid = Integer.valueOf(request.getParameter("tab_id"));
-        System.out.println("从前台获得的tab是" + tabid);
-        tip.setTab_id(tabid);
+        int tabId = Integer.valueOf(request.getParameter("tab_id"));
+        System.out.println("从前台获得的tab是" + tabId);
+        tip.setTab_id(tabId);
         // 数据提交
         String resultStr = tipService.addTip(tip);
         request.setAttribute("myInfo", resultStr);
@@ -69,8 +69,8 @@ public class TipController {
     }
 
     /**
-     * 显示贴子内容控制，同时显示回复，在这里增加点击量
-     * @param tipId
+     * 显示贴子内容，同时显示回复，在这里增加点击量
+     * @param tipId 贴子id
      * @return
      */
     @RequestMapping("showTip.do")
@@ -104,45 +104,6 @@ public class TipController {
     }
 
     /**
-     * 逻辑删除贴子控制
-     * @return
-     */
-    @RequestMapping("disableTip.do")
-    public ModelAndView disableTip(int tipId){
-        ModelAndView mv = new ModelAndView();
-        String resultStr = tipService.disableTip(tipId);
-        request.setAttribute("myInfo", resultStr);
-        mv.setViewName("redirect:toTipManagePage.do");
-        return mv;
-    }
-
-    /**
-     * 结贴控制
-     * @return
-     */
-    @RequestMapping("knotTip.do")
-    public ModelAndView knotTip(int tipId){
-        ModelAndView mv = new ModelAndView();
-        String resultStr = tipService.knotTip(tipId);
-        request.setAttribute("myInfo", resultStr);
-        mv.setViewName("redirect:toTipManagePage.do");
-        return mv;
-    }
-
-    /**
-     * 恢复贴子正常控制
-     * @return
-     */
-    @RequestMapping("enableTip.do")
-    public ModelAndView enableTip(int tipId){
-        ModelAndView mv = new ModelAndView();
-        String resultStr = tipService.enableTip(tipId);
-        request.setAttribute("myInfo", resultStr);
-        mv.setViewName("redirect:toTipManagePage.do");
-        return mv;
-    }
-
-    /**
      * 跳转到修改贴子信息页面
      * @param tipId 贴子id
      * @return
@@ -172,7 +133,7 @@ public class TipController {
     }
 
     /**
-     * 修改贴子信息控制
+     * 修改贴子信息
      * @param tip
      * @return
      */
@@ -213,6 +174,67 @@ public class TipController {
         // 获取贴子
         request.setAttribute("tips", this.getUpdateTips());
         mv.setViewName("tipManage.jsp");
+        return mv;
+    }
+
+    /**
+     * 修改贴子状态
+     * @param tipId 贴子id
+     * @param opr 操作
+     *                 <li>【0】将贴子恢复正常（不删除，不结贴）</li>
+     *                 <li>【1】逻辑删贴</li>
+     *                 <li>【2】取消逻辑删贴</li>
+     *                 <li>【3】结贴</li>
+     *                 <li>【4】取消结贴</li>
+     * @author rk 2019-12-05 10:49
+     * @return
+     */
+    @RequestMapping("ChangeTipStatus.do")
+    public ModelAndView changeTipStatus(int tipId, int opr){
+        ModelAndView mv = new ModelAndView();
+        String resultStr = new String();
+        switch (opr){
+            case 0:
+                StringBuffer strBuff = new StringBuffer();
+                if (tipService.enableTip(tipId).equals("success")){
+                    strBuff.append("取消删除成功！");
+                }
+                if (tipService.disNnotTip(tipId).equals("success")){
+                    strBuff.append("取消结贴成功！");
+                }
+                resultStr = strBuff.toString();
+                break;
+            case 1:
+                if (tipService.disableTip(tipId).equals("success")){
+                    resultStr = "删贴成功！";
+                }else {
+                    resultStr = "删贴失败！";
+                }
+                break;
+            case 2:
+                if (tipService.enableTip(tipId).equals("success")){
+                    resultStr = "取消删贴成功！";
+                }else {
+                    resultStr = "取消删贴失败！";
+                }
+                break;
+            case 3:
+                if (tipService.knotTip(tipId).equals("success")){
+                    resultStr = "结贴成功！";
+                }else {
+                    resultStr = "结贴失败！";
+                }
+                break;
+            case 4:
+                if (tipService.disNnotTip(tipId).equals("success")){
+                    resultStr = "取消结贴成功！";
+                }else {
+                    resultStr = "取消结贴失败！";
+                }
+                break;
+        }
+        request.setAttribute("myInfo", resultStr);
+        mv.setViewName("redirect:toTipManagePage.do");
         return mv;
     }
 }

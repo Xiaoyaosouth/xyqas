@@ -97,21 +97,21 @@
                             <c:choose>
                                 <c:when test="${tip.tip_isDeleted == 1}">
                                     <input type="button" class="btn btn-success" value="取消删除"
-                                           onclick="window.location.href='<%=basePath%>enableTip.do?tipId=${tip.tip_id}'"/>
+                                           onclick="window.location.href='<%=basePath%>ChangeTipStatus.do?tipId=${tip.tip_id}&opr=2'"/>
                                 </c:when>
                                 <c:otherwise>
                                     <input type="button" class="btn btn-danger" value="删除"
-                                           onclick="window.location.href='<%=basePath%>disableTip.do?tipId=${tip.tip_id}'"/>
+                                           onclick="window.location.href='<%=basePath%>ChangeTipStatus.do?tipId=${tip.tip_id}&opr=1'"/>
                                 </c:otherwise>
                             </c:choose>
                             <c:choose>
                                 <c:when test="${tip.tip_isKnot == 1}">
                                     <input type="button" class="btn btn-warning" value="取消结贴"
-                                           onclick="window.location.href='<%=basePath%>enableTip.do?tipId=${tip.tip_id}'"/>
+                                           onclick="window.location.href='<%=basePath%>ChangeTipStatus.do?tipId=${tip.tip_id}&opr=4'"/>
                                 </c:when>
                                 <c:otherwise>
                                     <input type="button" class="btn btn-primary" value="结贴"
-                                           onclick="window.location.href='<%=basePath%>knotTip.do?tipId=${tip.tip_id}'"/>
+                                           onclick="window.location.href='<%=basePath%>ChangeTipStatus.do?tipId=${tip.tip_id}&opr=3'"/>
                                 </c:otherwise>
                             </c:choose>
                         </td>

@@ -24,3 +24,6 @@ hs_err_pid*
 
 #idea setting
 .idea
+
+#idea Run Project Created Target Files
+/target

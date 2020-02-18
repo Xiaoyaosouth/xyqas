@@ -39,16 +39,17 @@
                 </div>
                 <!-- 贴子标题 -->
                 <h3>${tip.tip_title}
-                    <!-- 显示结贴按钮-->
                     <div style="float: right">
                         <c:choose>
                             <c:when test="${tip.tip_isKnot == 0}">
                                 <c:choose>
-                                    <%--仅发贴人可以结贴--%>
+                                    <%--仅发贴人可以结贴、修改--%>
                                     <c:when test="${tip.user_id == USER.user_id}">
-                                        <%--<input type="button" class="btn btn-primary" value="结贴"--%>
-                                               <%--onclick="window.location.href='<%=basePath%>userKnotTip.do?tipId=${tip.tip_id}'"/>--%>
-                            <input type="button" class="btn btn-primary" value="结贴" onclick="knotTip_confirm(${tip.tip_id})"/>
+                                        <input type="button" class="btn btn-primary" value="结贴"
+                                               onclick="knotTip_confirm(${tip.tip_id})"/>
+                                        <%--发贴人修改贴子有不同的Controller--%>
+                                        <input type="button" class="btn btn-warning" value="修改"
+                                               onclick="window.location.href='<%=basePath%>toUserModifyTipPage.do?tipId=${tip.tip_id}'"/>
                      </c:when>
                  </c:choose>
              </c:when>

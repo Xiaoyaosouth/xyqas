@@ -20,6 +20,16 @@
             color: #8A8A8A;
             cursor: pointer;
         }
+
+        th {
+            text-align:center; /*设置水平居中*/
+            /* vertical-align:middle; */ /*设置垂直居中*/
+        }
+        td {
+            text-align:center; /*设置水平居中*/
+            /* vertical-align:middle; */ /*设置垂直居中*/
+            border: 1px solid gray;
+        }
     </style>
 </head>
 <body>
@@ -51,10 +61,10 @@
                     <th>所属分类</th>
                     <th>标题</th>
                     <th>内容</th>
-                    <th>楼主</th>
+                    <th>发表人</th>
                     <th>回复数</th>
                     <th>发表时间<br>更新时间</th>
-                    <th>贴子点击量</th>
+                    <th>点击数</th>
                     <th>状态</th>
                     <th>操作</th>
                 </tr>
@@ -65,8 +75,10 @@
                     <tr>
                         <td>${tip.tip_id}</td>
                         <td>${tip.tab.tab_name}</td>
-                        <td>${tip.tip_title}</td>
-                        <td>${tip.tip_content}</td>
+                        <!-- 标题 -->
+                        <td style="overflow: hidden; text-overflow: ellipsis; max-width: 120px; white-space: nowrap">${tip.tip_title}</td>
+                        <!-- 内容 -->
+                        <td style="overflow: hidden; text-overflow: ellipsis; max-width: 120px; white-space: nowrap">${tip.tip_content}</td>
                         <td>
                             <c:choose>
                                 <c:when test="${not empty tip.user.user_nick}">${tip.user.user_nick}</c:when>

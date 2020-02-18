@@ -17,6 +17,16 @@
 </head>
 <body>
 <!-- 这是进入贴子查看内容的页面 -->
+
+<!-- 弹出结果 -->
+<c:if test="${not empty myInfo}">
+    <script type="text/javascript" language="javascript">
+        {
+            alert("<%=request.getAttribute("myInfo")%>");
+        }
+    </script>
+</c:if>
+
 <!-- 引入header文件 -->
 <%@ include file="header.jsp" %>
 
@@ -27,7 +37,27 @@
                 <div class="panel-heading" style="background-color: white">
                     <a href="<%=basePath%>">逍遥论坛</a> › <a href="showTip.do?tipId=${tip.tip_id}">${tip.tip_title}</a>
                 </div>
-                <h3>${tip.tip_title}</h3>
+                <!-- 贴子标题 -->
+                <h3>${tip.tip_title}
+                    <!-- 显示结贴按钮-->
+                    <div style="float: right">
+                        <c:choose>
+                            <c:when test="${tip.tip_isKnot == 0}">
+                                <c:choose>
+                                    <%--仅发贴人可以结贴--%>
+                                    <c:when test="${tip.user_id == USER.user_id}">
+                                        <%--<input type="button" class="btn btn-primary" value="结贴"--%>
+                                               <%--onclick="window.location.href='<%=basePath%>userKnotTip.do?tipId=${tip.tip_id}'"/>--%>
+                            <input type="button" class="btn btn-primary" value="结贴" onclick="knotTip_confirm(${tip.tip_id})"/>
+                     </c:when>
+                 </c:choose>
+             </c:when>
+         </c:choose>
+     </div>
+ </h3>
+
+ <%--是否结贴：${tip.tip_isKnot}...贴子发表人：${tip.user_id}...当前登录用户：${USER.user_id}...--%>
+                <%--贴子发表人 == 当前登录用户：${tip.user_id == USER.user_id}--%>
                 <span class="label label-info" title="回复数">${tip.tip_replies}条回复</span>
                 &nbsp;
                 <span class="label label-warning" title="点击量">${tip.tip_click}次点击</span>
@@ -168,6 +198,16 @@
             } else {
             }
         }
+    }
+
+    function knotTip_confirm(tipId)
+    {
+        var r=confirm("确定结贴？结贴后不能再被回复。")
+        if (r==true)
+        {
+            // alert(tipId);
+            window.location.href='<%=basePath%>userKnotTip.do?tipId=${tip.tip_id}';
+        } else { }
     }
 </script>
 

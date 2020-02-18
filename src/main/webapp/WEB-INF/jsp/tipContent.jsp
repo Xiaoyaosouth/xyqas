@@ -200,12 +200,18 @@
         }
     }
 
+    /**
+     * 点击结贴按钮时触发事件
+     * @author rk 2020-02-18 21:55
+     * @param tipId 贴子ID
+     */
     function knotTip_confirm(tipId)
     {
         var r=confirm("确定结贴？结贴后不能再被回复。")
         if (r==true)
         {
             // alert(tipId);
+            // 用户结贴操作
             window.location.href='<%=basePath%>userKnotTip.do?tipId=${tip.tip_id}';
         } else { }
     }

@@ -37,10 +37,11 @@ public class TipController {
 
     /**
      * 发贴控制
+     *
      * @return
      */
     @RequestMapping(value = "publishNewTip.do", method = RequestMethod.POST)
-    public ModelAndView publishNewTip(){
+    public ModelAndView publishNewTip() {
         ModelAndView mv = new ModelAndView();
         Tip tip = new Tip();
         //处理参数
@@ -70,19 +71,20 @@ public class TipController {
 
     /**
      * 显示贴子内容，同时显示回复，在这里增加点击量
+     *
      * @param tipId 贴子id
      * @return
      */
     @RequestMapping("showTip.do")
-    public ModelAndView showTip(int tipId){
+    public ModelAndView showTip(int tipId) {
         ModelAndView mv = new ModelAndView();
         // 获取贴子
         Tip tip = tipService.getTipByTipId(tipId);
         // 增加点击量
-        if (tip != null){
+        if (tip != null) {
             int oldClick = tip.getTip_click();
             String addClickResult = tipService.addTipClick(tipId);
-            if (addClickResult.equals("success")){
+            if (addClickResult.equals("success")) {
                 // 更新贴子对象的点击量（不用再读取数据库）
                 tip.setTip_click(oldClick + 1);
             }
@@ -92,7 +94,7 @@ public class TipController {
         // 获取回复
         List<Reply> replyList = replyService.getReplyByTipId(tipId);
         // 获取回复对应的用户
-        for (int i = 0; i < replyList.size(); i++){
+        for (int i = 0; i < replyList.size(); i++) {
             User user = userService.getUserById(replyList.get(i).getUser_id());
             replyList.get(i).setUser(user);
         }
@@ -100,16 +102,17 @@ public class TipController {
         request.setAttribute("replies", replyList);
 
         mv.setViewName("tipContent.jsp");
-        return  mv;
+        return mv;
     }
 
     /**
-     * 跳转到修改贴子信息页面
+     * 跳转到管理员修改贴子页面
+     *
      * @param tipId 贴子id
      * @return
      */
     @RequestMapping("toModifyTipPage.do")
-    public ModelAndView toModifyTipPage(int tipId){
+    public ModelAndView toModifyTipPage(int tipId) {
         ModelAndView mv = new ModelAndView();
         // 获取贴子信息
         Tip tip = tipService.getTipByTipId(tipId);
@@ -134,11 +137,12 @@ public class TipController {
 
     /**
      * 修改贴子信息
+     *
      * @param tip
      * @return
      */
     @RequestMapping("modifyTip.do")
-    public ModelAndView modifyTip(Tip tip){
+    public ModelAndView modifyTip(Tip tip) {
         ModelAndView mv = new ModelAndView();
         // 处理参数
         Date date = new Date();
@@ -157,15 +161,17 @@ public class TipController {
 
     /**
      * 重新获取所有贴子数据
+     *
      * @return
      */
-    private List<Tip> getUpdateTips(){
+    private List<Tip> getUpdateTips() {
         List<Tip> tipList = tipService.getAllTip();
         return tipList;
     }
 
     /**
      * 跳转到贴子管理（管理员）页面，会先从数据库读取贴子数据
+     *
      * @return
      */
     @RequestMapping("toTipManagePage.do")
@@ -179,56 +185,57 @@ public class TipController {
 
     /**
      * 修改贴子状态
+     *
      * @param tipId 贴子id
-     * @param opr 操作
-     *                 <li>【0】将贴子恢复正常（不删除，不结贴）</li>
-     *                 <li>【1】逻辑删贴</li>
-     *                 <li>【2】取消逻辑删贴</li>
-     *                 <li>【3】结贴</li>
-     *                 <li>【4】取消结贴</li>
-     * @author rk 2019-12-05 10:49
+     * @param opr   操作
+     *              <li>【0】将贴子恢复正常（不删除，不结贴）</li>
+     *              <li>【1】逻辑删贴</li>
+     *              <li>【2】取消逻辑删贴</li>
+     *              <li>【3】结贴</li>
+     *              <li>【4】取消结贴</li>
      * @return
+     * @author rk 2019-12-05 10:49
      */
     @RequestMapping("ChangeTipStatus.do")
-    public ModelAndView changeTipStatus(int tipId, int opr){
+    public ModelAndView changeTipStatus(int tipId, int opr) {
         ModelAndView mv = new ModelAndView();
         String resultStr = new String();
-        switch (opr){
+        switch (opr) {
             case 0:
                 StringBuffer strBuff = new StringBuffer();
-                if (tipService.enableTip(tipId).equals("success")){
+                if (tipService.enableTip(tipId).equals("success")) {
                     strBuff.append("取消删除成功！");
                 }
-                if (tipService.disNnotTip(tipId).equals("success")){
+                if (tipService.disNnotTip(tipId).equals("success")) {
                     strBuff.append("取消结贴成功！");
                 }
                 resultStr = strBuff.toString();
                 break;
             case 1:
-                if (tipService.disableTip(tipId).equals("success")){
+                if (tipService.disableTip(tipId).equals("success")) {
                     resultStr = "删贴成功！";
-                }else {
+                } else {
                     resultStr = "删贴失败！";
                 }
                 break;
             case 2:
-                if (tipService.enableTip(tipId).equals("success")){
+                if (tipService.enableTip(tipId).equals("success")) {
                     resultStr = "取消删贴成功！";
-                }else {
+                } else {
                     resultStr = "取消删贴失败！";
                 }
                 break;
             case 3:
-                if (tipService.knotTip(tipId).equals("success")){
+                if (tipService.knotTip(tipId).equals("success")) {
                     resultStr = "结贴成功！";
-                }else {
+                } else {
                     resultStr = "结贴失败！";
                 }
                 break;
             case 4:
-                if (tipService.disNnotTip(tipId).equals("success")){
+                if (tipService.disNnotTip(tipId).equals("success")) {
                     resultStr = "取消结贴成功！";
-                }else {
+                } else {
                     resultStr = "取消结贴失败！";
                 }
                 break;
@@ -240,20 +247,79 @@ public class TipController {
 
     /**
      * 用户结贴操作
-     * @author rk 2020-02-18 21:31
+     *
      * @param tipId 贴子ID
      * @return
+     * @author rk 2020-02-18 21:31
      */
     @RequestMapping("userKnotTip.do")
-    public ModelAndView changeTipStatus(int tipId){
+    public ModelAndView userKnotTip(int tipId) {
         String resultStr = new String();
-        if (tipService.knotTip(tipId).equals("success")){
+        if (tipService.knotTip(tipId).equals("success")) {
             resultStr = "结贴成功！";
-        }else {
+        } else {
             resultStr = "结贴失败！";
         }
         request.setAttribute("myInfo", resultStr);
         // 调用查看贴子方法
         return this.showTip(tipId);
+    }
+
+    /**
+     * 发贴用户修改贴子
+     * @author rk 2020-02-18 22:03
+     * @param tip
+     * @return
+     */
+    @RequestMapping("userModifyTip.do")
+    public ModelAndView userModifyTip(Tip tip) {
+        // ModelAndView mv = new ModelAndView();
+        int tipId = tip.getTip_id();
+        // 处理参数
+        Date date = new Date(); // 当前时间
+        tip.setTip_modifyTime(date); // 保存修改时间
+        // int forumId = Integer.valueOf(request.getParameter("selectedForumId")); // 获取版块
+        int tabId = Integer.valueOf(request.getParameter("selectedTabId")); // 获取分类
+        tip.setTab_id(tabId); // 保存分类
+        // 开始修改
+        String resultStr = tipService.modifyTip(tip);
+        request.setAttribute("myInfo", resultStr);
+
+        // 刷新贴子数据
+        //request.setAttribute("tips", this.getUpdateTips());
+
+        // 返回贴子详情 调用查看贴子方法
+        return this.showTip(tipId);
+    }
+
+    /**
+     * 跳转到发贴人修改贴子页面
+     * @author rk 2020-02-18 22:21
+     * @param tipId 贴子id
+     * @return
+     */
+    @RequestMapping("toUserModifyTipPage.do")
+    public ModelAndView toUserModifyTipPage(int tipId) {
+        ModelAndView mv = new ModelAndView();
+        // 获取贴子信息
+        Tip tip = tipService.getTipByTipId(tipId);
+        // 获取user、forum和tab信息
+        User user = userService.getUserById(tip.getUser_id());
+        Tab tab = tabService.getTabByTabId(tip.getTab_id());
+        Forum forum = forumService.getForumByForumId(tab.getForum_id());
+        // 注入到贴子对象
+        tip.setUser(user); // 用户信息
+        tab.setForum(forum); // 版块信息
+        tip.setTab(tab); // 分类信息
+        // 获取所有版块
+        List<Forum> forumList = forumService.getAllForum();
+        request.setAttribute("forums", forumList);
+        // 获取所有分类
+        List<Tab> tabList = tabService.getAllTab();
+        request.setAttribute("tabs", tabList);
+        request.setAttribute("tip", tip);
+        // 跳转页面
+        mv.setViewName("userModifyTip.jsp");
+        return mv;
     }
 }

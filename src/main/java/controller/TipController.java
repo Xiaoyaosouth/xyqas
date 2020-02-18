@@ -237,4 +237,23 @@ public class TipController {
         mv.setViewName("redirect:toTipManagePage.do");
         return mv;
     }
+
+    /**
+     * 用户结贴操作
+     * @author rk 2020-02-18 21:31
+     * @param tipId 贴子ID
+     * @return
+     */
+    @RequestMapping("userKnotTip.do")
+    public ModelAndView changeTipStatus(int tipId){
+        String resultStr = new String();
+        if (tipService.knotTip(tipId).equals("success")){
+            resultStr = "结贴成功！";
+        }else {
+            resultStr = "结贴失败！";
+        }
+        request.setAttribute("myInfo", resultStr);
+        // 调用查看贴子方法
+        return this.showTip(tipId);
+    }
 }

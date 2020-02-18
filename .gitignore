@@ -24,6 +24,8 @@ hs_err_pid*
 
 #idea setting
 .idea
+*.iml
 
 #idea Run Project Created Target Files
 /target
+src/main/test/

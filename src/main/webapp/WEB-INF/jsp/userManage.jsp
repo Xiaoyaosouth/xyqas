@@ -46,6 +46,16 @@
             color: #8A8A8A;
             cursor: pointer;
         }
+
+        th {
+            text-align:center; /*设置水平居中*/
+            /* vertical-align:middle; */ /*设置垂直居中*/
+        }
+        td {
+            text-align:center; /*设置水平居中*/
+            /* vertical-align:middle; */ /*设置垂直居中*/
+            /* border: 1px solid gray; */
+        }
     </style>
 </head>
 <body>

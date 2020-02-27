@@ -118,12 +118,23 @@
                             </c:choose>
                             <c:choose>
                                 <c:when test="${tip.tip_isKnot == 1}">
-                                    <input type="button" class="btn btn-warning" value="取消结贴"
+                                    <input type="button" class="btn btn-success" value="取消结贴"
                                            onclick="window.location.href='<%=basePath%>ChangeTipStatus.do?tipId=${tip.tip_id}&opr=4'"/>
                                 </c:when>
                                 <c:otherwise>
                                     <input type="button" class="btn btn-primary" value="结贴"
                                            onclick="window.location.href='<%=basePath%>ChangeTipStatus.do?tipId=${tip.tip_id}&opr=3'"/>
+                                </c:otherwise>
+                            </c:choose>
+                            <%--置顶 2020-02-27 10:00--%>
+                            <c:choose>
+                                <c:when test="${tip.tip_isTop == 1}">
+                                    <input type="button" class="btn btn-success" value="取消置顶"
+                                           onclick="window.location.href='<%=basePath%>ChangeTipStatus.do?tipId=${tip.tip_id}&opr=6'"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="button" class="btn btn-warning" value="置顶"
+                                           onclick="window.location.href='<%=basePath%>ChangeTipStatus.do?tipId=${tip.tip_id}&opr=5'"/>
                                 </c:otherwise>
                             </c:choose>
                         </td>

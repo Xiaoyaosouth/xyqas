@@ -2,7 +2,6 @@ package service;
 
 import domain.Tip;
 
-import java.util.Date;
 import java.util.List;
 
 public interface TipService {
@@ -108,4 +107,20 @@ public interface TipService {
      * @return
      */
     String modifyTip(Tip tip);
+
+    /**
+     * 贴子置顶
+     * 2020-02-27 09:48
+     * @param tip_id 贴子id
+     * @return
+     */
+    String doTopTip(int tip_id);
+
+    /**
+     * 取消置顶
+     * 2020-02-27 09:49
+     * @param tip_id 贴子id
+     * @return
+     */
+    String disTopTip(int tip_id);
 }

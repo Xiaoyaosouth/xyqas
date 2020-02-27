@@ -184,7 +184,7 @@ public class TipController {
     }
 
     /**
-     * 修改贴子状态
+     * 修改贴子状态（管理员）
      *
      * @param tipId 贴子id
      * @param opr   操作
@@ -193,8 +193,11 @@ public class TipController {
      *              <li>【2】取消逻辑删贴</li>
      *              <li>【3】结贴</li>
      *              <li>【4】取消结贴</li>
+     *              <li>【5】置顶</li>
+     *              <li>【6】取消置顶</li>
      * @return
      * @author rk 2019-12-05 10:49
+     * 2020-02-27 09:54 增加置顶与取消置顶
      */
     @RequestMapping("ChangeTipStatus.do")
     public ModelAndView changeTipStatus(int tipId, int opr) {
@@ -239,6 +242,20 @@ public class TipController {
                     resultStr = "取消结贴失败！";
                 }
                 break;
+            case 5:
+                if (tipService.doTopTip(tipId).equals("success")) {
+                    resultStr = "置顶成功！";
+                } else {
+                    resultStr = "置顶失败！";
+                }
+                break;
+            case 6:
+                if (tipService.disTopTip(tipId).equals("success")) {
+                    resultStr = "取消置顶成功！";
+                } else {
+                    resultStr = "取消置顶失败！";
+                }
+                break;
         }
         request.setAttribute("myInfo", resultStr);
         mv.setViewName("redirect:toTipManagePage.do");
@@ -246,7 +263,7 @@ public class TipController {
     }
 
     /**
-     * 用户结贴操作
+     * 发贴用户的结贴操作
      *
      * @param tipId 贴子ID
      * @return

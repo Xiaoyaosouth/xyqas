@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import java.util.Date;
 import java.util.List;
 
 public interface TipMapper {
@@ -166,4 +165,26 @@ public interface TipMapper {
             "tip_replies = tip_replies + 1 " +
             "WHERE tip_id = ${tip_id}")
     int updReplisAddOne(Tip tip);
+
+    /**
+     * 贴子置顶
+     * 2020-02-27 09:44
+     * @param tip_id 贴子id
+     * @return
+     */
+    @Update("UPDATE tip SET " +
+            "tip_isTop = 1 " +
+            "WHERE tip_id = #{tip_id}")
+    int updTipToTop(int tip_id);
+
+    /**
+     * 取消置顶
+     * 2020-02-27 09:45
+     * @param tip_id 贴子id
+     * @return
+     */
+    @Update("UPDATE tip SET " +
+            "tip_isTop = 0 " +
+            "WHERE tip_id = #{tip_id}")
+    int updTipToUnTop(int tip_id);
 }

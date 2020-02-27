@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import service.TipService;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -217,7 +216,6 @@ public class TipServiceImpl implements TipService {
 
     /**
      * 修改贴子
-     *
      * @param tip 贴子对象
      * @return
      */
@@ -244,6 +242,40 @@ public class TipServiceImpl implements TipService {
             }
         }
         return resultStr;
+    }
+
+    /**
+     * 置顶贴子
+     * @param tip_id 贴子id
+     * @return
+     */
+    @Override
+    public String doTopTip(int tip_id) {
+        Logger logger = Logger.getLogger(TipServiceImpl.class);
+        logger.info("尝试置顶id为" + tip_id + "的贴子");
+        int result = tipMapper.updTipToTop(tip_id);
+        if (result > 0) {
+            return "success";
+        } else {
+            return "error";
+        }
+    }
+
+    /**
+     * 取消置顶
+     * @param tip_id 贴子id
+     * @return
+     */
+    @Override
+    public String disTopTip(int tip_id) {
+        Logger logger = Logger.getLogger(TipServiceImpl.class);
+        logger.info("尝试取消置顶id为" + tip_id + "的贴子");
+        int result = tipMapper.updTipToUnTop(tip_id);
+        if (result > 0) {
+            return "success";
+        } else {
+            return "error";
+        }
     }
 
 }

@@ -24,7 +24,14 @@ JavaWeb容器：Tomcat 8.5
 
 #### 预览
 
-![](/preview/preview.jpg)
+主页<br>
+![](/preview/主页.jpg)
+管理员功能下拉列表<br>
+![](/preview/管理员功能下拉列表.jpg)
+发表贴子<br>
+![](/preview/发表.jpg)
+查看贴子<br>
+![](/preview/查看贴子.jpg)
 
 ### 备注
 

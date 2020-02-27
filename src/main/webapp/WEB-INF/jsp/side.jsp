@@ -10,7 +10,7 @@
         <div class="panel-heading" style="background-color: white;text-align: center">
             <blockquote>
                 逍遥论坛
-                <small>一个小论坛</small>
+                <small>中华万里腾飞，逍遥古今中外</small>
             </blockquote>
         </div>
         <ul class="list-group" style="width: 100%">
@@ -42,7 +42,7 @@
             </span>
         </div>
         <ul class="list-group" style="width: 100%">
-            <!-- 被锁定的用户不能发贴 -->
+            <%--被锁定的用户不能发贴--%>
             <c:if test="${USER.user_status != 2}">
                 <li class="list-group-item">
                     <a href="toPublishTipPage.do">发表新贴</a>
@@ -53,7 +53,7 @@
                     <a href="toSignUpPage.do">注册新的管理员</a>
                 </li>
             </c:if>
-            <li class="list-group-item"><a href="#">待添加</a></li>
+            <li class="list-group-item"><a href="#">...待添加...</a></li>
         </ul>
     </div>
 </c:if>

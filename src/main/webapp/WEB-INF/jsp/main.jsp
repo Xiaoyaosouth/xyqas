@@ -94,10 +94,13 @@
             <li class="list-group-item">
             <div style="height: 50px">
                     <div style="width: 89%;float: left">
-                    <!-- 这里显示贴子标题，点击贴子跳转到贴子详情，需要传参贴子id -->
+                    <%--这里显示贴子标题，点击贴子跳转到贴子详情，需要传参贴子id--%>
                     <a href="showTip.do?tipId=${tip.tip_id}">${tip.tip_title}</a>&nbsp;
                         <c:if test="${tip.tip_isKnot == 1}">
                             <span class="label label-success" >结贴</span>
+                        </c:if>
+                        <c:if test="${tip.tip_isTop == 1}">
+                            <span class="label label-danger" >置顶</span>
                         </c:if>
                         <br>
                     <div>

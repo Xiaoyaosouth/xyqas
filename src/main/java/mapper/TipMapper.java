@@ -90,9 +90,11 @@ public interface TipMapper {
     int updTipToUnKnot(int tip_id);
 
     /**
+     * 【已弃用，改为查询置顶和未置顶 2020-02-27 16:24】
      * 获取所有贴子（按更新时间倒序排列）
      * @return List<Tip>
      */
+    @Deprecated
     @Select("SELECT * FROM tip ORDER BY tip_modifyTime DESC")
     List<Tip> selTipAllForModifyTimeDesc();
 
@@ -198,4 +200,20 @@ public interface TipMapper {
             "tip_topTime = #{tip_topTime} " +
             "WHERE tip_id = ${tip_id}")
     int updTopTime(Tip tip);
+
+    /**
+     * 获取所有置顶贴子（按置顶时间倒序排列）
+     * 2020-02-27 16:19
+     * @return List<Tip>
+     */
+    @Select("SELECT * FROM tip WHERE tip_isDeleted = 0 AND tip_isTop = 1 ORDER BY tip_topTime DESC")
+    List<Tip> selAllTopTipForTopTimeDesc();
+
+    /**
+     * 获取所有未置顶的贴子（按更新时间倒序排列）
+     * 2020-02-27 16:19
+     * @return List<Tip>
+     */
+    @Select("SELECT * FROM tip WHERE tip_isDeleted = 0 AND tip_isTop = 0 ORDER BY tip_modifyTime DESC")
+    List<Tip> selAllUnTopTipForModifyTimeDesc();
 }

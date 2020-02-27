@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import service.TipService;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,6 +31,11 @@ public class TipServiceImpl implements TipService {
     @Resource
     private ForumMapper forumMapper;
 
+    /**
+     * 发贴
+     * @param tip
+     * @return
+     */
     @Override
     public String addTip(Tip tip) {
         Logger logger = Logger.getLogger(TipServiceImpl.class);
@@ -148,6 +154,12 @@ public class TipServiceImpl implements TipService {
         }
     }
 
+    /**
+     * 【已弃用，改为使用getMainPageTips()获取置顶贴和未置顶贴 2020-02-27 16:43】
+     * 获取所有贴子
+     * @return
+     */
+    @Deprecated
     @Override
     public List<Tip> getAllTipForModifyTimeDesc() {
         Logger logger = Logger.getLogger(TipServiceImpl.class);
@@ -307,6 +319,30 @@ public class TipServiceImpl implements TipService {
         logger.info("尝试刷新贴子id为" + tip.getTip_id() + "的置顶时间：" + tip.getTip_modifyTime());
         int result = tipMapper.updTopTime(tip);
         return result;
+    }
+
+    /**
+     * 主页显示贴子用
+     * 2020-02-27 16:33
+     * @return
+     */
+    @Override
+    public List<Tip> getMainPageTips() {
+        Logger logger = Logger.getLogger(TipServiceImpl.class);
+        logger.info("处理主页显示的贴子");
+        List<Tip> finalTipList = new ArrayList<>(); // 保存最终返回的贴子
+        // 先获取置顶贴子
+        List<Tip> topTipList = this.getTipsSolvedElseModel(tipMapper.selAllTopTipForTopTimeDesc());
+        // 然后是未置顶的贴子
+        List<Tip> unTopTipList = this.getTipsSolvedElseModel(tipMapper.selAllUnTopTipForModifyTimeDesc());
+        // 放入最终返回的贴子数组
+        finalTipList.addAll(topTipList);
+        finalTipList.addAll(unTopTipList);
+        // 判空
+        if (finalTipList != null) {
+            return finalTipList;
+        }
+        return null;
     }
 
 }

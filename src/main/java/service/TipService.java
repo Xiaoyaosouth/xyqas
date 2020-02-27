@@ -62,9 +62,11 @@ public interface TipService {
     String disNnotTip(int tip_id);
 
     /**
+     * 【已弃用，改为使用getMainPageTips()获取置顶和未置顶贴 2020-02-27 16:46】
      * 获取所有贴子（按更新时间倒序排列）
      * @return List<Tip>
      */
+    @Deprecated
     List<Tip> getAllTipForModifyTimeDesc();
 
     /**
@@ -131,4 +133,11 @@ public interface TipService {
      * @return
      */
     int updateTopTime(Tip tip);
+
+    /**
+     * 主页显示贴子用
+     * 2020-02-27 16:32
+     * @return List<Tip>
+     */
+    List<Tip> getMainPageTips();
 }

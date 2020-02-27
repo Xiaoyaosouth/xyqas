@@ -39,10 +39,11 @@ public class MainController {
     public ModelAndView toMainPage() {
         ModelAndView mv = new ModelAndView();
         // 获取所有贴子
-        List<Tip> myTipList = tipService.getAllTipForModifyTimeDesc();
-        // 获取贴子的其它信息
-        List<Tip> tipList = this.solveElseTipInfo(myTipList);
-        request.setAttribute("tips", tipList);
+        // List<Tip> myTipList = tipService.getAllTipForModifyTimeDesc();
+        List<Tip> myTipList = tipService.getMainPageTips();
+        // 获取贴子的其它信息（已在service中处理 2020-02-27 16:49）
+        // List<Tip> tipList = this.solveElseTipInfo(myTipList);
+        request.setAttribute("tips", myTipList);
         mv.setViewName("main.jsp");
         return mv;
     }
@@ -108,13 +109,13 @@ public class MainController {
             mv.setViewName("publishTip.jsp");
             return mv;
         }
-        // 先获取所有大板块
+        // 先获取所有版块
         List<Forum> forumList = forumService.getAllForum();
         if (forumList != null){
             request.setAttribute("forums", forumList);
         }
 
-        // 获取所有小板块
+        // 获取所有分类
         List<Tab> tabList = tabService.getAllTab();
         if (tabList != null){
             request.setAttribute("tabs", tabList);
@@ -137,6 +138,10 @@ public class MainController {
         return mv;
     }
 
+    /**
+     * 跳转到版块管理页面
+     * @return
+     */
     @RequestMapping("toForumManagePage.do")
     public ModelAndView toForumManagePage(){
         ModelAndView mv = new ModelAndView();
@@ -147,7 +152,7 @@ public class MainController {
     }
 
     /**
-     * 关键词搜索贴子
+     * 关键词搜索贴子（查询标题和内容）
      * @return
      */
     @RequestMapping("searchTipByKeyword.do")

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import service.TipService;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -216,6 +217,7 @@ public class TipServiceImpl implements TipService {
 
     /**
      * 修改贴子
+     *
      * @param tip 贴子对象
      * @return
      */
@@ -246,6 +248,7 @@ public class TipServiceImpl implements TipService {
 
     /**
      * 置顶贴子
+     *
      * @param tip_id 贴子id
      * @return
      */
@@ -255,6 +258,18 @@ public class TipServiceImpl implements TipService {
         logger.info("尝试置顶id为" + tip_id + "的贴子");
         int result = tipMapper.updTipToTop(tip_id);
         if (result > 0) {
+            // 更新置顶时间
+            Date date = new Date(); // 获取当前时间
+            Tip tmpTip = new Tip(); // 贴子对象
+            tmpTip.setTip_id(tip_id); // 保存贴子id
+            tmpTip.setTip_topTime(date); // 保存置顶时间
+            // 调用方法更新置顶时间
+            int updToptimeResult = this.updateTopTime(tmpTip);
+            if (updToptimeResult > 0) {
+                return "success";
+            } else {
+                System.err.println("更新置顶时间失败！");
+            }
             return "success";
         } else {
             return "error";
@@ -263,6 +278,7 @@ public class TipServiceImpl implements TipService {
 
     /**
      * 取消置顶
+     *
      * @param tip_id 贴子id
      * @return
      */
@@ -276,6 +292,21 @@ public class TipServiceImpl implements TipService {
         } else {
             return "error";
         }
+    }
+
+    /**
+     * 置顶时间刷新
+     * 2020-02-27 10:25
+     *
+     * @param tip 贴子对象
+     * @return
+     */
+    @Override
+    public int updateTopTime(Tip tip) {
+        Logger logger = Logger.getLogger(ReplyServiceImpl.class);
+        logger.info("尝试刷新贴子id为" + tip.getTip_id() + "的置顶时间：" + tip.getTip_modifyTime());
+        int result = tipMapper.updTopTime(tip);
+        return result;
     }
 
 }

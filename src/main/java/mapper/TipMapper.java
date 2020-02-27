@@ -187,4 +187,15 @@ public interface TipMapper {
             "tip_isTop = 0 " +
             "WHERE tip_id = #{tip_id}")
     int updTipToUnTop(int tip_id);
+
+    /**
+     * 更新置顶时间
+     * 2020-02-27 10:27
+     * @param tip 贴子对象（需包含id和时间）
+     * @return
+     */
+    @Update("UPDATE tip SET " +
+            "tip_topTime = #{tip_topTime} " +
+            "WHERE tip_id = ${tip_id}")
+    int updTopTime(Tip tip);
 }

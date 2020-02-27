@@ -123,4 +123,12 @@ public interface TipService {
      * @return
      */
     String disTopTip(int tip_id);
+
+    /**
+     * 置顶时间刷新
+     * 2020-02-27 10:24
+     * @param tip 贴子对象
+     * @return
+     */
+    int updateTopTime(Tip tip);
 }

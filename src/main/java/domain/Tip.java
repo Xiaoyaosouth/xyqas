@@ -8,7 +8,8 @@ import java.util.Date;
  * 贴子实体类
  * v1.1 修改tip_status为tip_isDeleted
  * v1.2 2020-02-27 10:08 增加tip_isTop，修改部分属性注释
- * @version 1.2
+ * v1.3 2020-02-27 10:23 增加tip_topTime
+ * @version 1.3
  */
 @Data
 public class Tip {
@@ -28,5 +29,6 @@ public class Tip {
     private int tip_isKnot; // 是否结贴，0-否，1-是
     private int tip_replies; // 贴子回复数
     private int tip_isTop; // 是否置顶，0-否，1-是
+    private Date tip_topTime; // 置顶时间
 
 }

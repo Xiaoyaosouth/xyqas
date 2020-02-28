@@ -51,4 +51,24 @@ public interface TabMapper {
             "VALUES (#{tab_name}, #{forum_id} " +
             ")")
     int insTab(Tab tab);
+
+    /**
+     * 逻辑删除分类
+     * v1.0 2020-02-28 10:22
+     * @param tab_id 分类id
+     * @return
+     */
+    @Update("UPDATE tab SET tab_isDeleted = 1 " +
+            "WHERE tab_id = #{tab_id}")
+    int updTabIsDeleted(int tab_id);
+
+    /**
+     * 取消逻辑删除分类
+     * v1.0 2020-02-28 10:24
+     * @param tab_id 分类id
+     * @return
+     */
+    @Update("UPDATE tab SET tab_isDeleted = 0 " +
+            "WHERE tab_id = #{tab_id}")
+    int updTabIsNotDeleted(int tab_id);
 }

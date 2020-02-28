@@ -10,23 +10,23 @@ import java.util.List;
 public interface ForumMapper {
 
     /**
-     * 查询大板块
-     * @param forum_id 大板块id
-     * @return 大板块对象
+     * 查询版块（根据版块id）
+     * @param forum_id 版块id
+     * @return 版块对象
      */
     @Select("SELECT * FROM forum WHERE forum_id=#{forum_id}")
     Forum selForumByForumId(int forum_id);
 
     /**
-     * 查询所有大板块
+     * 查询所有版块
      * @return List<Forum>
      */
     @Select("SELECT * FROM forum")
     List<Forum> selForumAll();
 
     /**
-     * 修改大版块
-     * @param forum 大板块对象
+     * 修改版块
+     * @param forum 版块对象
      * @return
      */
     @Update("UPDATE forum SET " +
@@ -52,4 +52,24 @@ public interface ForumMapper {
      */
     @Select("SELECT * FROM forum WHERE forum_name = #{fourm_name}")
     Forum selForumByForumName(String forum_name);
+
+    /**
+     * 逻辑删除版块
+     * v1.0 2020-02-28 10:25
+     * @param forum_id 版块id
+     * @return
+     */
+    @Update("UPDATE forum SET forum_isDeleted = 1 " +
+            "WHERE forum_id = #{forum_id}")
+    int updForumIsDeleted(int forum_id);
+
+    /**
+     * 取消逻辑删除版块
+     * v1.0 2020-02-28 10:27
+     * @param forum_id 版块id
+     * @return
+     */
+    @Update("UPDATE forum SET forum_isDeleted = 0 " +
+            "WHERE forum_id = #{forum_id}")
+    int updForumIsNotDeleted(int forum_id);
 }

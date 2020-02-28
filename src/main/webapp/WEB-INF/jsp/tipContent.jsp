@@ -213,7 +213,7 @@
         {
             // alert(tipId);
             // 用户结贴操作
-            window.location.href='<%=basePath%>userKnotTip.do?tipId=${tip.tip_id}';
+            window.location.href='<%=basePath%>userKnotTip.do?tipId='+tipId;
         } else { }
     }
 </script>

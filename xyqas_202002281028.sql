@@ -21,16 +21,15 @@ CREATE TABLE IF NOT EXISTS `forum` (
   `forum_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '版块id',
   `forum_name` varchar(50) NOT NULL DEFAULT 'default' COMMENT '版块名',
   `forum_isDeleted` int(2) NOT NULL DEFAULT '0' COMMENT '是否删除，0-否，1-逻辑删除',
-  `forum_isEnable` int(2) NOT NULL DEFAULT '1' COMMENT '是否启用，0-否，1-是',
   PRIMARY KEY (`forum_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='版块';
 
 -- Dumping data for table xyqas.forum: ~2 rows (大约)
 DELETE FROM `forum`;
 /*!40000 ALTER TABLE `forum` DISABLE KEYS */;
-INSERT INTO `forum` (`forum_id`, `forum_name`, `forum_isDeleted`, `forum_isEnable`) VALUES
-	(1, '默认', 0, 1),
-	(2, '生活', 0, 1);
+INSERT INTO `forum` (`forum_id`, `forum_name`, `forum_isDeleted`) VALUES
+	(1, '默认', 0),
+	(2, '生活', 0);
 /*!40000 ALTER TABLE `forum` ENABLE KEYS */;
 
 -- Dumping structure for table xyqas.reply
@@ -75,17 +74,16 @@ CREATE TABLE IF NOT EXISTS `tab` (
   `tab_name` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT 'default' COMMENT '分类名',
   `forum_id` int(11) NOT NULL DEFAULT '1' COMMENT '版块id',
   `tab_isDeleted` int(2) NOT NULL DEFAULT '0' COMMENT '是否删除，0-否，1-逻辑删除',
-  `tab_isEnable` int(2) NOT NULL DEFAULT '1' COMMENT '是否启用，0-否，1-是',
   PRIMARY KEY (`tab_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='分类';
 
 -- Dumping data for table xyqas.tab: ~3 rows (大约)
 DELETE FROM `tab`;
 /*!40000 ALTER TABLE `tab` DISABLE KEYS */;
-INSERT INTO `tab` (`tab_id`, `tab_name`, `forum_id`, `tab_isDeleted`, `tab_isEnable`) VALUES
-	(1, 'Technology', 1, 0, 1),
-	(2, '其他', 1, 0, 1),
-	(3, 'Life', 2, 0, 1);
+INSERT INTO `tab` (`tab_id`, `tab_name`, `forum_id`, `tab_isDeleted`) VALUES
+	(1, 'Technology', 1, 0),
+	(2, '其他', 1, 0),
+	(3, 'Life', 2, 0);
 /*!40000 ALTER TABLE `tab` ENABLE KEYS */;
 
 -- Dumping structure for table xyqas.tip
@@ -110,11 +108,11 @@ CREATE TABLE IF NOT EXISTS `tip` (
 DELETE FROM `tip`;
 /*!40000 ALTER TABLE `tip` DISABLE KEYS */;
 INSERT INTO `tip` (`tip_id`, `user_id`, `tab_id`, `tip_title`, `tip_content`, `tip_publishTime`, `tip_modifyTime`, `tip_click`, `tip_isDeleted`, `tip_isKnot`, `tip_replies`, `tip_isTop`, `tip_topTime`) VALUES
-	(1, 1, 2, '逍遥论坛的第一个贴子', '这是第一个贴子，测试发贴功能成功！', '2019-10-23 16:35:17', '2019-11-01 17:49:55', 71, 0, 0, 4, 0, NULL),
-	(2, 2, 2, '官宣：本论坛正式开通', '欢迎发表高质量贴子\r\n#!/bin/bash\r\necho "Hello World !"', '2019-10-24 13:53:49', '2019-11-22 10:35:27', 85, 0, 1, 3, 1, '2020-02-27 11:15:01'),
-	(3, 1, 1, '发贴时的版块与分类选项联动', '用ajax访问有@ResponseBody注解的Controller，然后对返回的tabList进行处理，刷新分类下拉栏的选项。', '2019-10-27 23:29:11', '2019-10-28 09:38:36', 34, 0, 0, 3, 0, NULL),
+	(1, 1, 2, '逍遥论坛的第一个贴子', '这是第一个贴子，测试发贴功能成功！', '2019-10-23 16:35:17', '2019-11-01 17:49:55', 72, 0, 1, 4, 0, NULL),
+	(2, 2, 2, '官宣：本论坛正式开通', '欢迎发表高质量贴子\r\n#!/bin/bash\r\necho "Hello World !"', '2019-10-24 13:53:49', '2019-11-22 10:35:27', 87, 0, 1, 3, 1, '2020-02-27 11:15:01'),
+	(3, 1, 1, '发贴时的版块与分类选项联动', '用ajax访问有@ResponseBody注解的Controller，然后对返回的tabList进行处理，刷新分类下拉栏的选项。', '2019-10-27 23:29:11', '2019-10-28 09:38:36', 35, 0, 0, 3, 1, '2020-02-27 17:44:20'),
 	(4, 1, 1, '防止贴子内容中弹出用户输入的脚本', '需要对用户输入的内容进行处理。', '2019-10-29 17:52:15', '2019-10-29 18:03:31', 15, 0, 0, 2, 0, NULL),
-	(5, 3, 2, '贴子测试_191122', '测试\r\n更新于2020-02-18 22:25', '2019-11-22 11:23:17', '2020-02-18 22:25:53', 72, 0, 0, 6, 0, NULL);
+	(5, 3, 2, '贴子测试_191122', '测试\r\n更新于2020-02-18 22:25', '2019-11-22 11:23:17', '2020-02-18 22:25:53', 73, 0, 0, 6, 0, NULL);
 /*!40000 ALTER TABLE `tip` ENABLE KEYS */;
 
 -- Dumping structure for table xyqas.user

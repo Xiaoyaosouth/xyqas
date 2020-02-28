@@ -39,4 +39,21 @@ public interface TabService {
      * @return
      */
     String addTab(Tab tab);
+
+    /**
+     * 逻辑删除分类
+     * 2020-02-28 10:45
+     * @param tab_id 分类id
+     * @return
+     */
+    int deleteTabLogical(int tab_id);
+
+    /**
+     * 取消逻辑删除分类
+     * 2020-02-28 10:46
+     * @param tab_id 分类id
+     *
+     * @return
+     */
+    int disDeleteTabLogical(int tab_id);
 }

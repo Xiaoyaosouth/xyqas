@@ -84,4 +84,47 @@ public class TabServiceImpl implements TabService{
         }
         return resultStr;
     }
+
+    /**
+     * 逻辑删除分类
+     *
+     * @param tab_id 分类id
+     * @return 0成功，-1分类不存在，-2删除失败
+     */
+    @Override
+    public int deleteTabLogical(int tab_id) {
+        Logger logger = Logger.getLogger(TabServiceImpl.class);
+        // 先检查分类是否存在
+        logger.info("检查分类是否存在，id：" + tab_id);
+        if (tabMapper.selTabByTabId(tab_id) == null){
+            return -1;
+        }
+        logger.info("逻辑删除分类，id：" + tab_id);
+        if (tabMapper.updTabIsDeleted(tab_id) <= 0){
+            return -2;
+        }else {
+            return 0;
+        }
+    }
+
+    /**
+     * 取消逻辑删除分类
+     * @param tab_id 分类id
+     * @return 0成功，-1分类不存在，-2取消删除失败
+     */
+    @Override
+    public int disDeleteTabLogical(int tab_id) {
+        Logger logger = Logger.getLogger(TabServiceImpl.class);
+        // 先检查分类是否存在
+        logger.info("检查分类是否存在，id：" + tab_id);
+        if (tabMapper.selTabByTabId(tab_id) == null){
+            return -1;
+        }
+        logger.info("取消逻辑删除分类，id：" + tab_id);
+        if (tabMapper.updTabIsNotDeleted(tab_id) <= 0){
+            return -2;
+        }else {
+            return 0;
+        }
+    }
 }

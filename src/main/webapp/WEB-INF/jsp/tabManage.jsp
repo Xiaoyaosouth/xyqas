@@ -33,6 +33,22 @@
             /* border: 1px solid gray; */
         }
     </style>
+
+    <script>
+        /**
+         * 删除确认
+         * 2020-02-28 11:52
+         */
+        function deleteTab_confirm(tabId,tabName) {
+
+            var r = confirm("确定删除该分类吗：" + tabName +"\n若如此做，会同时删除关联的贴子（暂未实现）。")
+            if (r == true) {
+                window.location.href = '<%=basePath%>deleteTab.do?tabId=' + tabId;
+            } else {
+            }
+        }
+    </script>
+
 </head>
 <body>
 
@@ -77,11 +93,11 @@
                     <td>
                         <input type="button" class="btn btn-warning" value="修改"
                                onclick="window.location.href='<%=basePath%>toModifyTabPage.do?tabId=${tab.tab_id}'"/>
-                        <%--逻辑删除与取消删除--%>
+                            <%--逻辑删除与取消删除--%>
                         <c:choose>
                             <c:when test="${tab.tab_isDeleted == 0}">
                                 <input type="button" class="btn btn-danger" value="删除"
-                                       onclick="window.location.href='<%=basePath%>deleteTab.do?tabId=${tab.tab_id}'"/>
+                                       onclick="deleteTab_confirm(${tab.tab_id},'${tab.tab_name}')"/>
                             </c:when>
                             <c:otherwise>
                                 <input type="button" class="btn btn-success" value="取消删除"
@@ -101,6 +117,5 @@
 
 <!-- 引入footer文件 -->
 <%@ include file="footer.jsp" %>
-
 </body>
 </html>

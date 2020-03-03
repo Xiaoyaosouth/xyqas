@@ -100,7 +100,7 @@
         <!-- 遍历并显示回复 -->
         <c:forEach items="${replies}" var="reply">
             <li class="list-group-item">
-                <div style="height: 120px; ">
+                <div style="height: auto; ">
                     <div>
                         <a href="getUserInfo.do?userId=${reply.user.user_id}">
                             <strong>
@@ -120,7 +120,7 @@
                             <fmt:formatDate value="${reply.reply_publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                         </small>
                     </div>
-                    <div style="height: 100px; overflow:auto; word-wrap:break-word;">
+                    <div style="height: 80px; overflow:auto; word-wrap:break-word;">
                         <!-- 这里显示回复的正文 -->
                         <c:out value="${reply.reply_content}"></c:out>
                     </div>

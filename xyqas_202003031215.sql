@@ -108,11 +108,11 @@ CREATE TABLE IF NOT EXISTS `tip` (
 DELETE FROM `tip`;
 /*!40000 ALTER TABLE `tip` DISABLE KEYS */;
 INSERT INTO `tip` (`tip_id`, `user_id`, `tab_id`, `tip_title`, `tip_content`, `tip_publishTime`, `tip_modifyTime`, `tip_click`, `tip_isDeleted`, `tip_isKnot`, `tip_replies`, `tip_isTop`, `tip_topTime`) VALUES
-	(1, 1, 2, '逍遥论坛的第一个贴子', '这是第一个贴子，测试发贴功能成功！', '2019-10-23 16:35:17', '2019-11-01 17:49:55', 72, 0, 1, 4, 0, NULL),
-	(2, 2, 2, '官宣：本论坛正式开通', '欢迎发表高质量贴子\r\n#!/bin/bash\r\necho "Hello World !"', '2019-10-24 13:53:49', '2019-11-22 10:35:27', 87, 0, 1, 3, 1, '2020-02-27 11:15:01'),
-	(3, 1, 1, '发贴时的版块与分类选项联动', '用ajax访问有@ResponseBody注解的Controller，然后对返回的tabList进行处理，刷新分类下拉栏的选项。', '2019-10-27 23:29:11', '2019-10-28 09:38:36', 35, 0, 0, 3, 1, '2020-02-27 17:44:20'),
-	(4, 1, 1, '防止贴子内容中弹出用户输入的脚本', '需要对用户输入的内容进行处理。', '2019-10-29 17:52:15', '2019-10-29 18:03:31', 15, 0, 0, 2, 0, NULL),
-	(5, 3, 2, '贴子测试_191122', '测试\r\n更新于2020-02-18 22:25', '2019-11-22 11:23:17', '2020-02-18 22:25:53', 73, 0, 0, 6, 0, NULL);
+	(1, 1, 2, '逍遥论坛的第一个贴子', '这是第一个贴子，测试发贴功能成功！', '2019-10-23 16:35:17', '2019-11-01 17:49:55', 77, 0, 0, 4, 0, NULL),
+	(2, 2, 2, '官宣：本论坛正式开通', '欢迎发表高质量贴子\r\n#!/bin/bash\r\necho "Hello World !"', '2019-10-24 13:53:49', '2019-11-22 10:35:27', 93, 0, 1, 3, 1, '2020-02-27 11:15:01'),
+	(3, 1, 1, '发贴时的版块与分类选项联动', '用ajax访问有@ResponseBody注解的Controller，然后对返回的tabList进行处理，刷新分类下拉栏的选项。', '2019-10-27 23:29:11', '2019-10-28 09:38:36', 37, 0, 0, 3, 1, '2020-02-27 17:44:20'),
+	(4, 1, 1, '防止贴子内容中弹出用户输入的脚本', '需要对用户输入的内容进行处理。', '2019-10-29 17:52:15', '2019-10-29 18:03:31', 18, 0, 0, 2, 0, NULL),
+	(5, 3, 2, '贴子测试_191122', '测试\r\n更新于2020-02-18 22:25', '2019-11-22 11:23:17', '2020-02-18 22:25:53', 77, 0, 0, 6, 0, NULL);
 /*!40000 ALTER TABLE `tip` ENABLE KEYS */;
 
 -- Dumping structure for table xyqas.user
@@ -123,23 +123,20 @@ CREATE TABLE IF NOT EXISTS `user` (
   `user_password` varchar(20) NOT NULL DEFAULT '123456' COMMENT '密码',
   `user_status` int(2) NOT NULL DEFAULT '0' COMMENT '状态，0正常，1禁用，2锁定',
   `user_type` int(2) NOT NULL DEFAULT '2' COMMENT '用户类型，0超级管理员，1，管理员，2普通用户',
+  `user_regTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '注册时间',
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
--- Dumping data for table xyqas.user: ~10 rows (大约)
+-- Dumping data for table xyqas.user: ~5 rows (大约)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`user_id`, `user_name`, `user_nick`, `user_password`, `user_status`, `user_type`) VALUES
-	(1, 'xy', '逍遥', '123456', 0, 0),
-	(2, 'admin', 'admin', '123456', 0, 1),
-	(3, 'user', 'user', '123456', 0, 2),
-	(4, 'jack', '杰克', '123456', 0, 2),
-	(6, 'mark', '马克', '123456', 0, 2),
-	(7, 'mike', '麦克', '123456', 0, 2),
-	(8, 'flyrise', 'FE', 'fe123456', 0, 1),
-	(9, 'Jackson', '杰克逊', '123456', 0, 2),
-	(10, 'Niuke', '纽克', '123456', 0, 2),
-	(11, 'Kier', '凯尔', '123456', 0, 2);
+INSERT INTO `user` (`user_id`, `user_name`, `user_nick`, `user_password`, `user_status`, `user_type`, `user_regTime`) VALUES
+	(1, 'xy', '逍遥', '123456', 0, 0, NULL),
+	(2, 'admin', 'admin', '123456', 0, 1, NULL),
+	(3, 'user', 'user', '123456', 0, 2, NULL),
+	(4, 'flyrise', 'FE', 'fe123456', 0, 1, NULL),
+	(5, 'liyang', '李阳', '123456', 0, 2, '2020-03-03 12:07:11'),
+	(6, 'zhangquan', '张泉', '123456', 0, 2, '2020-03-03 12:13:38');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

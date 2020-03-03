@@ -1,9 +1,9 @@
 package mapper;
 
-import domain.Forum;
-import domain.Tab;
 import domain.User;
-import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -13,11 +13,11 @@ import java.util.List;
 public interface UserMapper {
 
     /**
-     * 用户登录
-     * （已弃用，改用user_name查询返回User对象）
+     * 用户登录【已弃用，改用user_name查询返回User对象】
      * @param user
      * @return
      */
+    @Deprecated
     @Select("select * from user where user_name=#{user_name} and user_password=#{user_password}")
     User selUser(User user);
 
@@ -42,7 +42,7 @@ public interface UserMapper {
     int updUserInfo(User user);
 
     /**
-     * 添加用户
+     * 添加用户数据（注册功能）
      * @param user 用户对象
      * @return
      */

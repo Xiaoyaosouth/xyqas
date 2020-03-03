@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!-- 这个是头部导航栏 -->
+<%--这个是头部导航栏--%>
 <header>
     <nav class="navbar navbar-default" role="navigation" style="background-color: white">
         <div class="container-fluid" style="margin-left: 10%">

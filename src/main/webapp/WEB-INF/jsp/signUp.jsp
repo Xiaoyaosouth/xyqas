@@ -70,7 +70,7 @@
     </script>
 </c:if>
 
-<!-- 引入header文件 -->
+<%--引入header导航栏--%>
 <%@ include file="header.jsp" %>
 
 <div class="panel panel-default" id="login" style="width: 80%;margin-left: 10%;margin-top: 5%;margin-bottom: 5%">
@@ -83,13 +83,13 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">用户名</label>
                 <div class="col-sm-6" style="width: 40%;">
-                    <span style="color:red">*用于登录，注册后不可修改。</span>
+                    <span style="color:red">*必填，用于登录，注册后不可修改。</span>
                     <input type="text" class="form-control" id="user_name" name="user_name"
                            required onkeyup="checkUserName()"/>
                     <span id="userNameErr" style="color:red"></span>
                 </div>
                 <div class="col-sm-4">
-                    <p class="form-control-static">要求：</p>
+                    <p class="form-control-static">用户名：</p>
                     <p class="form-control-static">（1）不超过13位字符（含）</p>
                     <p class="form-control-static">（2）第一位必须为字母，其余可以是字母、数字、下划线</p>
                 </div>
@@ -101,19 +101,19 @@
                     <span id="userNickErr" style="color:red"></span>
                 </div>
                 <div class="col-sm-4">
-                    <p class="form-control-static">可不填，注册后可修改。</p>
+                    <p class="form-control-static">昵称可不填，注册后可修改。</p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">密码</label>
                 <div class="col-sm-6" style="width: 40%;">
-                    <span style="color:red">*必填</span>
+                    <span style="color:red">*必填，用于登录</span>
                     <input type="password" class="form-control" id="user_password" name="user_password"
                            required onkeyup="checkUserPwd()"/>
                     <span id="userPwdErr" style="color:red"></span>
                 </div>
                 <div class="col-sm-4">
-                    <p class="form-control-static">要求：至少6位字符，可以是字母、数字、下划线</p>
+                    <p class="form-control-static">密码至少6位字符，可以是字母、数字、下划线</p>
                 </div>
             </div>
             <div class="form-group">

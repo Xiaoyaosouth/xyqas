@@ -7,6 +7,7 @@ import java.util.Date;
 /**
  * 用户实体类
  * v1.1 2020-03-03 12:01 增加注册时间属性，修改属性注释
+ * v1.2 2020-03-04 11:51 增加最近登录时间、修改时间属性
  */
 @Data
 public class User {
@@ -17,4 +18,6 @@ public class User {
     private int user_status; // 状态，0-正常，1-禁用，2-锁定
     private int user_type; // 权限，0-超级管理员，1-管理员，2-普通用户
     private Date user_regTime; // 注册时间
+    private Date user_lastLoginTime; // 最近登录时间
+    private Date user_modifyTime; // 修改时间
 }

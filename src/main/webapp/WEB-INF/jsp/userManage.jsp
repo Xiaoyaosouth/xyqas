@@ -77,7 +77,8 @@
                     <th>用户ID</th>
                     <th>用户名</th>
                     <th>用户昵称</th>
-                    <th>用户密码</th>
+                    <%--不显示用户密码 2020-03-04 11:02--%>
+                    <%--<th>用户密码</th>--%>
                     <th>用户权限</th>
                     <th>状态</th>
                     <th>操作</th>
@@ -90,7 +91,8 @@
                         <td>${user.user_id}</td>
                         <td>${user.user_name}</td>
                         <td>${user.user_nick}</td>
-                        <td>${user.user_password}</td>
+                        <%--不显示用户密码 2020-03-04 11:02--%>
+                        <%--<td>${user.user_password}</td>--%>
                         <td>
                             <c:choose>
                                 <c:when test="${user.user_type == 0}">超级管理员</c:when>

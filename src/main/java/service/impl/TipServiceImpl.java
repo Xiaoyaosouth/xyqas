@@ -33,14 +33,15 @@ public class TipServiceImpl implements TipService {
 
     /**
      * 发贴
-     * @param tip
+     * v1.1 2020-03-04 10:16 DAO改为使用insTipV2
+     * @param tip 贴子对象
      * @return
      */
     @Override
     public String addTip(Tip tip) {
         Logger logger = Logger.getLogger(TipServiceImpl.class);
         logger.info("id为" + tip.getUser_id() + "的用户尝试发表贴子...");
-        int result = tipMapper.insTip(tip);
+        int result = tipMapper.insTipV2(tip);
         if (result > 0) {
             return "success";
         } else {

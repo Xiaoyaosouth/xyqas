@@ -9,16 +9,31 @@ import java.util.List;
 
 public interface TipMapper {
     /**
-     * 添加贴子
+     * 添加贴子【已弃用】
      * @param tip 贴子对象
      * @return
      */
+    @Deprecated
     @Insert("INSERT INTO tip " +
             "(tip_title, tip_content, user_id, tab_id, tip_publishTime, tip_modifyTime ) " +
             "VALUES " +
             "(#{tip_title}, #{tip_content}, #{user_id}, #{tab_id}, #{tip_publishTime}, #{tip_modifyTime} " +
             ")")
     int insTip(Tip tip);
+
+    /**
+     * 添加贴子V2
+     * 发贴时间和修改时间由数据库自动取当前时间
+     * 2020-03-04 10:14
+     * @param tip 贴子对象
+     * @return
+     */
+    @Insert("INSERT INTO tip " +
+            "(tip_title, tip_content, user_id, tab_id ) " +
+            "VALUES (" +
+            "#{tip_title}, #{tip_content}, #{user_id}, #{tab_id} " +
+            ")")
+    int insTipV2(Tip tip);
 
     /**
      * 获取所有贴子

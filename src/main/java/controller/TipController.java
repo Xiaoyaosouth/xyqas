@@ -44,26 +44,49 @@ public class TipController {
     public ModelAndView publishNewTip() {
         ModelAndView mv = new ModelAndView();
         Tip tip = new Tip();
-        //处理参数
+
+        // 发贴用户id
         User user = (User) session.getAttribute("USER");
         System.out.println("从session获得的用户id是" + user.getUser_id());
-        tip.setUser_id(user.getUser_id()); // 添加楼主id
+        tip.setUser_id(user.getUser_id());
+        // 标题
         String title = request.getParameter("tip_title");
         System.out.println("从前台获取的标题是：" + title);
-        tip.setTip_title(title); // 添加标题
+        tip.setTip_title(title);
+
+        /**
+         * 【DEBUG】处理内容为空时报错java.lang.NumberFormatException: For input string: ""
+         * 2020-03-04 10:04
+         */
         String content = request.getParameter("tip_content");
         System.out.println("从前台获取的正文是：" + content);
-        tip.setTip_content(content); // 添加内容
-        // 初始化发贴时间
-        Date date = new Date();
-        tip.setTip_publishTime(date);
-        tip.setTip_modifyTime(date);
-        // 设定板块
-        int tabId = Integer.valueOf(request.getParameter("tab_id"));
-        System.out.println("从前台获得的tab是" + tabId);
-        tip.setTab_id(tabId);
-        // 数据提交
+        if(!content.equals("")){
+            tip.setTip_content(content); // 内容
+        }else {
+            // System.out.println("正文内容为空");
+        }
+
+        // 初始化发贴时间（由数据库自动取当前时间 2020-03-04 10:10）
+        // Date date = new Date();
+        // tip.setTip_publishTime(date);
+        // tip.setTip_modifyTime(date);
+
+        // 分类
+        String tmpTabIdStr = request.getParameter("tab_id");
+        System.out.println("从前台获得的tab是" + tmpTabIdStr);
+        /**
+         * 【DEBUG】处理分类id为空时报错java.lang.NumberFormatException: For input string: ""
+         * 2020-03-04 10:25
+         */
+        if (!tmpTabIdStr.equals("")){
+            int tabId = Integer.valueOf(tmpTabIdStr);
+            tip.setTab_id(tabId); // 放入贴子对象
+        }
+        // int tabId = Integer.valueOf(request.getParameter("tab_id"));
+
+        // 数据持久化
         String resultStr = tipService.addTip(tip);
+
         request.setAttribute("myInfo", resultStr);
         mv.setViewName("publishTip.jsp");
         return mv;

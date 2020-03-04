@@ -93,8 +93,8 @@ CREATE TABLE IF NOT EXISTS `tip` (
   `tab_id` int(11) NOT NULL COMMENT '分类id',
   `tip_title` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '标题',
   `tip_content` text COLLATE utf8_bin COMMENT '内容',
-  `tip_publishTime` datetime DEFAULT NULL COMMENT '发表时间',
-  `tip_modifyTime` datetime DEFAULT NULL COMMENT '更新时间',
+  `tip_publishTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '发表时间',
+  `tip_modifyTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `tip_click` int(11) NOT NULL DEFAULT '0' COMMENT '贴子点击量',
   `tip_isDeleted` int(2) NOT NULL DEFAULT '0' COMMENT '是否逻辑删除，0否，1是',
   `tip_isKnot` int(2) NOT NULL DEFAULT '0' COMMENT '是否结贴，0否，1结贴',
@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `tip` (
   `tip_isTop` int(2) NOT NULL DEFAULT '0' COMMENT '是否置顶，0-否，1-是',
   `tip_topTime` datetime DEFAULT NULL COMMENT '置顶时间',
   PRIMARY KEY (`tip_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='贴子';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='贴子';
 
 -- Dumping data for table xyqas.tip: ~5 rows (大约)
 DELETE FROM `tip`;
@@ -112,7 +112,9 @@ INSERT INTO `tip` (`tip_id`, `user_id`, `tab_id`, `tip_title`, `tip_content`, `t
 	(2, 2, 2, '官宣：本论坛正式开通', '欢迎发表高质量贴子\r\n#!/bin/bash\r\necho "Hello World !"', '2019-10-24 13:53:49', '2019-11-22 10:35:27', 93, 0, 1, 3, 1, '2020-02-27 11:15:01'),
 	(3, 1, 1, '发贴时的版块与分类选项联动', '用ajax访问有@ResponseBody注解的Controller，然后对返回的tabList进行处理，刷新分类下拉栏的选项。', '2019-10-27 23:29:11', '2019-10-28 09:38:36', 37, 0, 0, 3, 1, '2020-02-27 17:44:20'),
 	(4, 1, 1, '防止贴子内容中弹出用户输入的脚本', '需要对用户输入的内容进行处理。', '2019-10-29 17:52:15', '2019-10-29 18:03:31', 18, 0, 0, 2, 0, NULL),
-	(5, 3, 2, '贴子测试_191122', '测试\r\n更新于2020-02-18 22:25', '2019-11-22 11:23:17', '2020-02-18 22:25:53', 77, 0, 0, 6, 0, NULL);
+	(5, 3, 2, '贴子测试_191122', '测试\r\n更新于2020-02-18 22:25', '2019-11-22 11:23:17', '2020-02-18 22:25:53', 77, 0, 0, 6, 0, NULL),
+	(6, 5, 2, '新人报到', '在下李阳，新年快乐！', '2020-03-04 09:53:46', '2020-03-04 09:53:46', 0, 0, 0, 0, 0, NULL),
+	(7, 5, 2, '测试正文为空', NULL, '2020-03-04 10:41:34', '2020-03-04 10:41:34', 1, 0, 0, 0, 0, NULL);
 /*!40000 ALTER TABLE `tip` ENABLE KEYS */;
 
 -- Dumping structure for table xyqas.user
@@ -127,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
--- Dumping data for table xyqas.user: ~5 rows (大约)
+-- Dumping data for table xyqas.user: ~6 rows (大约)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`user_id`, `user_name`, `user_nick`, `user_password`, `user_status`, `user_type`, `user_regTime`) VALUES

@@ -1,7 +1,6 @@
 package service;
 
 import domain.Forum;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -40,4 +39,21 @@ public interface ForumService {
      * @return 版块对象
      */
     Forum getForumByForumName(String forum_name);
+
+    /**
+     * 逻辑删除版块
+     * 2020-03-05 09:38
+     * @param forum_id 版块id
+     * @return
+     */
+    int deleteForumLogical(int forum_id);
+
+    /**
+     * 取消逻辑删除版块
+     * 2020-03-05 09:38
+     * @param forum_id 版块id
+     *
+     * @return
+     */
+    int disDeleteForumLogical(int forum_id);
 }

@@ -80,4 +80,46 @@ public class ForumServiceImpl implements ForumService{
         }
         return null;
     }
+
+    /**
+     * 逻辑删除版块
+     * @param forum_id 版块id
+     * @return 0成功，-1分类不存在，-2删除失败
+     */
+    @Override
+    public int deleteForumLogical(int forum_id) {
+        Logger logger = Logger.getLogger(ForumServiceImpl.class);
+        // 先检查版块是否存在
+        logger.info("检查版块是否存在，id：" + forum_id);
+        if (forumMapper.selForumByForumId(forum_id) == null){
+            return -1;
+        }
+        logger.info("逻辑删除版块，id：" + forum_id);
+        if (forumMapper.updForumIsDeleted(forum_id) <= 0){
+            return -2;
+        }else {
+            return 0;
+        }
+    }
+
+    /**
+     * 取消逻辑删除版块
+     * @param forum_id 版块id
+     * @return 0成功，-1分类不存在，-2删除失败
+     */
+    @Override
+    public int disDeleteForumLogical(int forum_id) {
+        Logger logger = Logger.getLogger(ForumServiceImpl.class);
+        // 先检查版块是否存在
+        logger.info("检查版块是否存在，id：" + forum_id);
+        if (forumMapper.selForumByForumId(forum_id) == null){
+            return -1;
+        }
+        logger.info("取消逻辑删除版块，id：" + forum_id);
+        if (forumMapper.updForumIsNotDeleted(forum_id) <= 0){
+            return -2;
+        }else {
+            return 0;
+        }
+    }
 }

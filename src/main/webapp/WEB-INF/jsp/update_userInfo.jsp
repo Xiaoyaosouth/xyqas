@@ -35,8 +35,9 @@
                     <div class="col-sm-5">
                         <p class="form-control-static">${userObject.user_id}</p>
                     </div>
+                    <%--隐藏用户ID的修改--%>
                     <div class="col-sm-5">
-                        <input type="text"  name="user_id" value="${userObject.user_id}" readonly />
+                        <input type="text"  name="user_id" value="${userObject.user_id}" readonly hidden/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -77,6 +78,10 @@
                             </c:choose>
                         </p>
                     </div>
+                    <%--隐藏用户状态的修改--%>
+                    <div>
+                        <input type="text"  name="user_status" value="${userObject.user_status}" required hidden/>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">用户权限</label>
@@ -89,6 +94,11 @@
                                 <c:otherwise></c:otherwise>
                             </c:choose>
                         </p>
+                    </div>
+                    <%--隐藏用户权限的修改--%>
+                    <%--【DEBUG】2020-03-05 19:57 如果DAO中对user_type也赋值修改，这里也要设置隐藏输入框，否则默认设置为0--%>
+                    <div>
+                        <input type="text"  name="user_type" value="${userObject.user_type}" required hidden/>
                     </div>
                 </div>
 

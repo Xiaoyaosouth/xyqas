@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
         Logger logger = Logger.getLogger(UserServiceImpl.class);
         logger.info("尝试获取所有的用户信息...");
         List<User> userList = userMapper.selUserAll();
-        if (userList != null){
+        if (userList != null) {
             return userList;
         }
         return null;
@@ -84,7 +84,8 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 修改用户状态
-     * @param user_id 用户id
+     *
+     * @param user_id     用户id
      * @param user_status 用户新状态：0正常，1禁用，2锁定
      * @return
      */
@@ -93,32 +94,32 @@ public class UserServiceImpl implements UserService {
         Logger logger = Logger.getLogger(UserServiceImpl.class);
         // 先检查用户是否存在
         logger.info("尝试检查id为" + user_id + "的用户是否存在...");
-        if (userMapper.selUserByUserId(user_id) == null){
+        if (userMapper.selUserByUserId(user_id) == null) {
             return "错误：用户不存在";
         }
         String resultStr = null; // 保存结果
-        switch (user_status){
+        switch (user_status) {
             case 0: // 正常
                 logger.info("尝试启用id为" + user_id + "的用户...");
-                if (userMapper.updUserStatus(user_id, user_status) > 0){
+                if (userMapper.updUserStatus(user_id, user_status) > 0) {
                     resultStr = new String("启用成功！");
-                }else{
+                } else {
                     resultStr = new String("启用失败！");
                 }
-               break;
+                break;
             case 1: // 禁用
                 logger.info("尝试禁用id为" + user_id + "的用户...");
-                if (userMapper.updUserStatus(user_id, user_status) > 0){
+                if (userMapper.updUserStatus(user_id, user_status) > 0) {
                     resultStr = new String("禁用成功！");
-                }else{
+                } else {
                     resultStr = new String("禁用失败！");
                 }
                 break;
             case 2:
                 logger.info("尝试锁定id为" + user_id + "的用户...");
-                if (userMapper.updUserStatus(user_id, user_status) > 0){
+                if (userMapper.updUserStatus(user_id, user_status) > 0) {
                     resultStr = new String("锁定成功！");
-                }else{
+                } else {
                     resultStr = new String("锁定失败！");
                 }
                 break;
@@ -131,5 +132,27 @@ public class UserServiceImpl implements UserService {
         Logger logger = Logger.getLogger(UserServiceImpl.class);
         logger.info("尝试查询用户名为" + user_name + "的用户信息...");
         return userMapper.selUserByUserName(user_name);
+    }
+
+    /**
+     * 更新用户最近登录时间
+     * 2020-03-05 11:59
+     * @param user 用户对象
+     * @return 0成功，-1用户不存在，-2更新失败
+     */
+    @Override
+    public int modifyUserLastLoginTime(User user) {
+        Logger logger = Logger.getLogger(UserServiceImpl.class);
+        // 先检查用户是否存在
+        logger.info("检查用户是否存在，id：" + user.getUser_id());
+        if (userMapper.selUserByUserId(user.getUser_id()) == null) {
+            return -1;
+        }
+        logger.info("更新用户最近登录时间，用户id【" + user.getUser_id() + "】最近登录时间：" + user.getUser_lastLoginTime());
+        if (userMapper.updUserLastLoginTime(user) <= 0) {
+            return -2;
+        } else {
+            return 0;
+        }
     }
 }

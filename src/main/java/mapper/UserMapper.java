@@ -76,4 +76,12 @@ public interface UserMapper {
     @Select("SELECT * FROM user WHERE user_name = #{userName}")
     User selUserByUserName(String userName);
 
+    /**
+     * 更新用户最近登录时间
+     * 2020-03-05 11:49
+     * @param user 用户对象（需有用户id和最近登录时间）
+     * @return
+     */
+    @Update("UPDATE user SET user_lastLoginTime = #{user_lastLoginTime} WHERE user_id = #{user_id}")
+    int updUserLastLoginTime(User user);
 }

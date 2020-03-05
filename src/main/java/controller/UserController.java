@@ -1,6 +1,5 @@
 package controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +10,7 @@ import service.UserService;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -26,6 +26,7 @@ public class UserController {
 
     /**
      * 用户登录控制
+     * v1.1 增加登录后更新最近登录时间的逻辑 2020-03-05 12:03
      * @Param user 用户对象（需要用户名和密码）
      * @return
      */
@@ -40,10 +41,22 @@ public class UserController {
         }else { // 用户存在时继续判断密码
             Boolean pwdCheck = user.getUser_password().equals(tmpUser.getUser_password());
             if (pwdCheck){ // 密码正确
-                if (tmpUser.getUser_status() != 1) { // 非锁定状态
+                /**
+                 * 更新最近登录时间
+                 * 2020-03-05 11:54
+                 */
+                Date tmpDate = new Date(); // 获取当前时间
+                tmpUser.setUser_lastLoginTime(tmpDate); // 将登录时间放入对象
+                // 执行更新
+                userService.modifyUserLastLoginTime(tmpUser);
+
+                // 判断是否能正常登录
+                if (tmpUser.getUser_status() != 1) { // 非禁用状态
                     // 登录成功，将用户对象添加到session
                     HttpSession session = request.getSession();
                     session.setAttribute("USER", tmpUser);
+
+                    // 处理是否从查看贴子页面登录的
                     String tipIdStr = null;
                     if (request.getParameter("tipId") != null){
                         // 记录传过来的贴子id
@@ -55,7 +68,7 @@ public class UserController {
                         // 如果用户是在贴子详情中登录的，返回对应的贴子
                         mv.setViewName("redirect:showTip.do?tipId=" + tipIdStr);
                     }
-                }else {
+                }else { // user_status == 1 表示被禁用，不能登录
                     resultStr = new String("登录失败：用户已被禁用！请联系管理员。");
                     mv.setViewName("login.jsp");
                 }

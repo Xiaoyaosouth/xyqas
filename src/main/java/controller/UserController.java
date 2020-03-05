@@ -69,7 +69,7 @@ public class UserController {
                         mv.setViewName("redirect:showTip.do?tipId=" + tipIdStr);
                     }
                 }else { // user_status == 1 表示被禁用，不能登录
-                    resultStr = new String("登录失败：用户已被禁用！请联系管理员。");
+                    resultStr = new String("登录失败：用户已被禁用！请联系管理员（626753724@qq.com）。");
                     mv.setViewName("login.jsp");
                 }
             }else { // 密码不正确

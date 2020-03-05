@@ -10,23 +10,26 @@ import java.util.List;
 public interface TabMapper {
 
     /**
-     * 由大板块ID查询小板块
-     * @param forum_id 大板块id
+     * 由版块ID查询所有分类
+     *
+     * @param forum_id 版块id
      * @return List<Tab>
      */
-    @Select("SELECT * FROM tab WHERE forum_id=#{forum_id}")
+    @Select("SELECT * FROM tab WHERE forum_id = #{forum_id}")
     List<Tab> selTabByForumId(int forum_id);
 
     /**
-     * 查询小板块
-     * @param tab_id 小板块id
-     * @return 小板块对象
+     * 查询分类（根据分类id）
+     *
+     * @param tab_id 分类id
+     * @return 分类对象
      */
-    @Select("SELECT * FROM tab WHERE tab_id=#{tab_id}")
+    @Select("SELECT * FROM tab WHERE tab_id = #{tab_id}")
     Tab selTabByTabId(int tab_id);
 
     /**
-     * 查询所有小板块
+     * 查询所有分类
+     *
      * @return
      */
     @Select("SELECT * FROM tab")
@@ -34,6 +37,7 @@ public interface TabMapper {
 
     /**
      * 修改分类信息
+     *
      * @param tab 分类对象
      * @return
      */
@@ -44,6 +48,7 @@ public interface TabMapper {
 
     /**
      * 插入一项分类记录
+     *
      * @return
      */
     @Insert("INSERT INTO tab " +
@@ -55,6 +60,7 @@ public interface TabMapper {
     /**
      * 逻辑删除分类
      * v1.0 2020-02-28 10:22
+     *
      * @param tab_id 分类id
      * @return
      */
@@ -65,10 +71,48 @@ public interface TabMapper {
     /**
      * 取消逻辑删除分类
      * v1.0 2020-02-28 10:24
+     *
      * @param tab_id 分类id
      * @return
      */
     @Update("UPDATE tab SET tab_isDeleted = 0 " +
             "WHERE tab_id = #{tab_id}")
     int updTabIsNotDeleted(int tab_id);
+
+    /**
+     * 根据版块id查询所有未删除的分类
+     * 2020-03-05 18:58
+     *
+     * @param forum_id 版块id
+     * @return List<Tab>
+     */
+    @Select("SELECT * FROM tab WHERE tab_isDeleted = 0 AND forum_id = #{forum_id}")
+    List<Tab> selAllTabUnDeletedByForumId(int forum_id);
+
+    /**
+     * 根据版块id查询所有未删除的分类id
+     * 2020-03-05 19:00
+     * @param forum_id 版块id
+     * @return List<Integer>
+     */
+    @Select("SELECT tab_id FROM tab WHERE tab_isDeleted = 0 AND forum_id = #{forum_id}")
+    List<Integer> selAllTabIdUnDeletedByForumId(int forum_id);
+
+    /**
+     * 根据版块id逻辑删除所有分类
+     * 2020-03-05 19:03
+     * @param forum_id 版块id
+     * @return
+     */
+    @Update("UPDATE tab SET tab_isDeleted = 1 WHERE forum_id = #{forum_id}")
+    int updAllTabIsDeletedByForumId(int forum_id);
+
+    /**
+     * 根据版块id取消逻辑删除所有分类
+     * 2020-03-05 19:03
+     * @param forum_id 版块id
+     * @return
+     */
+    @Update("UPDATE tab SET tab_isDeleted = 0 WHERE forum_id = #{forum_id}")
+    int updAllTabIsNotDeletedByForumId(int forum_id);
 }

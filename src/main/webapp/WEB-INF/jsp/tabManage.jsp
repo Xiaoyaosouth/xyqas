@@ -41,7 +41,7 @@
          */
         function deleteTab_confirm(tabId, tabName) {
 
-            var r = confirm("确定删除该分类吗：" + tabName + "\n若如此做，会同时删除关联的贴子（暂未实现）。")
+            var r = confirm("确定删除该分类吗：" + tabName + "\n若如此做，会同时删除关联的贴子。")
             if (r == true) {
                 window.location.href = '<%=basePath%>deleteTab.do?tabId=' + tabId;
             } else {
@@ -76,7 +76,7 @@
     <div class="panel-body">
         <input type="button" class="btn btn-success" value="添加分类"
                style="margin-left: 0%" onclick="window.location.href='<%=basePath%>toAddTabPage.do'"/>
-        <!-- 这里显示所有版块信息 -->
+        <%--这里显示所有版块信息--%>
         <table class="table">
             <thead>
             <tr>
@@ -88,7 +88,7 @@
             </tr>
             </thead>
             <tbody>
-            <!-- 这里是表格内容，需要遍历数组 -->
+            <%--这里是表格内容，需要遍历数组--%>
             <c:forEach items="${tabs}" var="tab">
                 <tr>
                     <td>${tab.tab_id}</td>

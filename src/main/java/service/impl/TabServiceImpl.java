@@ -4,6 +4,7 @@ import domain.Forum;
 import domain.Tab;
 import mapper.ForumMapper;
 import mapper.TabMapper;
+import mapper.TipMapper;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import service.TabService;
@@ -18,6 +19,9 @@ public class TabServiceImpl implements TabService{
 
     @Resource
     private ForumMapper forumMapper;
+
+    @Resource
+    private TipMapper tipMapper;
 
     @Override
     public List<Tab> getAllTab() {
@@ -89,7 +93,7 @@ public class TabServiceImpl implements TabService{
      * 逻辑删除分类
      *
      * @param tab_id 分类id
-     * @return 0成功，-1分类不存在，-2删除失败
+     * @return 0成功，-1分类不存在，-2删除失败，-3删除关联的贴子失败
      */
     @Override
     public int deleteTabLogical(int tab_id) {
@@ -103,14 +107,19 @@ public class TabServiceImpl implements TabService{
         if (tabMapper.updTabIsDeleted(tab_id) <= 0){
             return -2;
         }else {
-            return 0;
+            // 删除分类成功，同时删除关联的贴子
+            if (this.deleteAllTipByTabId(tab_id) == 0){
+                return 0;
+            }else {
+                return -3;
+            }
         }
     }
 
     /**
      * 取消逻辑删除分类
      * @param tab_id 分类id
-     * @return 0成功，-1分类不存在，-2取消删除失败
+     * @return 0成功，-1分类不存在，-2取消删除失败，-3取消删除关联的贴子失败
      */
     @Override
     public int disDeleteTabLogical(int tab_id) {
@@ -124,7 +133,62 @@ public class TabServiceImpl implements TabService{
         if (tabMapper.updTabIsNotDeleted(tab_id) <= 0){
             return -2;
         }else {
-            return 0;
+            // 取消删除分类成功，同时取消删除关联的贴子
+            if (this.disDeleteAllTipByTabId(tab_id) == 0){
+                return 0;
+            }else {
+                return -3;
+            }
+        }
+    }
+
+    /**
+     * 删除分类时同时删除关联的贴子
+     * 2020-03-05 19:27
+     * @param tabId 分类id
+     * @return
+     */
+    private int deleteAllTipByTabId(int tabId){
+        Logger logger = Logger.getLogger(TabServiceImpl.class);
+        // 查询关联的贴子id
+        logger.info("查询分类关联的贴子，分类id：" + tabId);
+        List<Integer> tipIdList = tipMapper.selAllTipIdByTabId(tabId);
+        int tipCount = tipIdList.size();
+        // 删除关联的贴子
+        int result = tipMapper.updAllTipIsDeletedByTabId(tabId);
+
+        if (result == tipCount){
+            return 0; // 成功删除所有关联的贴子
+        }else if (result < tipCount && result > 0){
+            return -1; // 有部分贴子未能成功删除
+        }else if (result <= 0){
+            return -2; // 删除失败
+        }else {
+            return -99; // 删除失败，未知原因
+        }
+    }
+
+    /**
+     * 取消删除分类时同时取消删除关联的贴子
+     * 2020-03-05 19:27
+     * @param tabId 分类id
+     * @return
+     */
+    private int disDeleteAllTipByTabId(int tabId){
+        // 查询关联的贴子id
+        List<Integer> tipIdList = tipMapper.selAllTipIdByTabId(tabId);
+        int tipCount = tipIdList.size();
+        // 取消删除关联的贴子
+        int result = tipMapper.updAllTipIsNotDeletedByTabId(tabId);
+
+        if (result == tipCount){
+            return 0; // 成功取消删除所有关联的贴子
+        }else if (result < tipCount && result > 0){
+            return -1; // 有部分贴子未能取消删除
+        }else if (result <= 0){
+            return -2; // 取消删除失败
+        }else {
+            return -99; // 取消删除失败，未知原因
         }
     }
 }

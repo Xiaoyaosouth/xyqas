@@ -190,6 +190,9 @@ public class TabController {
         int result = tabService.deleteTabLogical(tabId);
         String resultStr = null;
         switch (result) {
+            default:
+                resultStr = "Done";
+                break;
             case 0:
                 resultStr = new String("删除成功！");
                 break;
@@ -221,6 +224,9 @@ public class TabController {
         int result = tabService.disDeleteTabLogical(tabId);
         String resultStr = null;
         switch (result) {
+            default:
+                resultStr = "Done";
+                break;
             case 0:
                 resultStr = new String("操作成功！");
                 break;

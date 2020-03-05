@@ -39,9 +39,9 @@
          * 删除确认
          * 2020-02-28 11:52
          */
-        function deleteTab_confirm(tabId,tabName) {
+        function deleteTab_confirm(tabId, tabName) {
 
-            var r = confirm("确定删除该分类吗：" + tabName +"\n若如此做，会同时删除关联的贴子（暂未实现）。")
+            var r = confirm("确定删除该分类吗：" + tabName + "\n若如此做，会同时删除关联的贴子（暂未实现）。")
             if (r == true) {
                 window.location.href = '<%=basePath%>deleteTab.do?tabId=' + tabId;
             } else {
@@ -52,16 +52,20 @@
 </head>
 <body>
 
-<!-- 弹出结果 -->
+<%--弹出结果--%>
 <c:if test="${not empty myInfo}">
     <script type="text/javascript" language="javascript">
         {
-            alert("<%=request.getAttribute("myInfo")%>");
+            var msg = "";
+            msg = <%=request.getAttribute("myInfo")%>;
+            if (msg != "success") {
+                alert(msg);
+            }
         }
     </script>
 </c:if>
 
-<!-- 引入header文件 -->
+<%--引入header文件--%>
 <%@ include file="header.jsp" %>
 
 <div class="panel panel-default"
@@ -79,6 +83,7 @@
                 <th style="width: 10%">分类ID</th>
                 <th style="width: 20%">分类名</th>
                 <th>所属版块名</th>
+                <th>状态</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -89,6 +94,15 @@
                     <td>${tab.tab_id}</td>
                     <td>${tab.tab_name}</td>
                     <td>${tab.forum.forum_name}</td>
+                        <%--状态--%>
+                    <td>
+                        <c:choose>
+                            <c:when test="${tab.tab_isDeleted == 1}">
+                                <span class="label label-danger">已删除</span>
+                            </c:when>
+                            <c:otherwise>正常</c:otherwise>
+                        </c:choose>
+                    </td>
                         <%--这里放操作按钮--%>
                     <td>
                         <input type="button" class="btn btn-warning" value="修改"
@@ -115,7 +129,7 @@
     </div>
 </div>
 
-<!-- 引入footer文件 -->
+<%--引入footer文件--%>
 <%@ include file="footer.jsp" %>
 </body>
 </html>

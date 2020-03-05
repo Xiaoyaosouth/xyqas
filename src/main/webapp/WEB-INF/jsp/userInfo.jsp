@@ -63,8 +63,8 @@
                     <div class="col-sm-10">
                         <p class="form-control-static">
                             <c:choose>
-                                <c:when test="${userObject.user_status == 1}">禁用</c:when>
-                                <c:when test="${userObject.user_status == 2}">锁定</c:when>
+                                <c:when test="${userObject.user_status == 1}"> <span class="label label-danger">禁用</span></c:when>
+                                <c:when test="${userObject.user_status == 2}"> <span class="label label-warning">锁定</span></c:when>
                                 <c:otherwise>正常</c:otherwise>
                             </c:choose>
                         </p>

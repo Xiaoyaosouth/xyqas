@@ -95,14 +95,14 @@
                         <%--<td>${user.user_password}</td>--%>
                         <td>
                             <c:choose>
-                                <c:when test="${user.user_type == 0}">超级管理员</c:when>
-                                <c:when test="${user.user_type == 1}">管理员</c:when>
-                                <c:otherwise>普通用户</c:otherwise>
+                            <c:when test="${user.user_type == 0}"> <span class="label label-success">超级管理员</span></c:when>
+                                <c:when test="${user.user_type == 1}"> <span class="label label-warning">管理员</span></c:when>
+                                <c:otherwise> <span class="label label-primary">普通用户</span></c:otherwise>
                             </c:choose>
                         <td>
                             <c:choose>
-                                <c:when test="${user.user_status == 1}">禁用</c:when>
-                                <c:when test="${user.user_status == 2}">锁定</c:when>
+                                <c:when test="${user.user_status == 1}"> <span class="label label-danger">禁用</span></c:when>
+                                <c:when test="${user.user_status == 2}"> <span class="label label-warning">锁定</span></c:when>
                                 <c:otherwise>正常</c:otherwise>
                             </c:choose>
                         </td>
@@ -121,12 +121,12 @@
                                            onclick="window.location.href='<%=basePath%>disableUser.do?userId=${user.user_id}'" />
                                 </c:when>
                                 <c:otherwise>
-                                    <!-- 处理其它正常的用户：管理员不能处理自己的状态 -->
+                                    <%--处理其它正常的用户：管理员不能处理自己的状态--%>
                                     <c:if test="${user.user_id != USER.user_id}">
-                                        <!-- 管理员不能处理其它管理员 -->
+                                        <%--管理员不能处理其它管理员--%>
                                         <c:choose>
                                             <c:when test="${USER.user_type == 1}">
-                                                <!-- 管理员可处理普通用户 -->
+                                                <%--管理员可处理普通用户--%>
                                                 <c:if test="${user.user_type == 2}">
                                                     <input type="button" class="btn btn-warning" value="修改"
                                                            onclick="window.location.href='<%=basePath%>toUpdateUserInfoPage.do?userId=${user.user_id}'" />

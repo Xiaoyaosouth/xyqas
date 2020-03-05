@@ -63,8 +63,8 @@
                     <div class="col-sm-10">
                         <p class="form-control-static">
                             <c:choose>
-                                <c:when test="${userObject.user_status == 1}"> <span class="label label-danger">禁用</span></c:when>
-                                <c:when test="${userObject.user_status == 2}"> <span class="label label-warning">锁定</span></c:when>
+                                <c:when test="${userObject.user_status == 1}"> <span class="label label-danger">已禁用</span></c:when>
+                                <c:when test="${userObject.user_status == 2}"> <span class="label label-warning">已锁定</span></c:when>
                                 <c:otherwise>正常</c:otherwise>
                             </c:choose>
                         </p>
@@ -75,9 +75,9 @@
                     <div class="col-sm-10">
                         <p class="form-control-static">
                             <c:choose>
-                                <c:when test="${userObject.user_type == 0}">超级管理员</c:when>
-                                <c:when test="${userObject.user_type == 1}">管理员</c:when>
-                                <c:when test="${userObject.user_type == 2}">普通用户</c:when>
+                                <c:when test="${userObject.user_type == 0}"> <span class="label label-success">超级管理员</span></c:when>
+                                <c:when test="${userObject.user_type == 1}"> <span class="label label-warning">管理员</span></c:when>
+                                <c:when test="${userObject.user_type == 2}"> <span class="label label-default">普通用户</span></c:when>
                                 <c:otherwise></c:otherwise>
                             </c:choose>
                         </p>

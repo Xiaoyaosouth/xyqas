@@ -43,7 +43,7 @@
     </script>
 </c:if>
 
-<!-- 引入header文件 -->
+<%--引入header文件--%>
 <%@ include file="header.jsp"%>
 
 <div class="panel panel-default"
@@ -63,45 +63,49 @@
                     <th>内容</th>
                     <th>发表人</th>
                     <th>回复数</th>
-                    <th>发表时间<br>更新时间</th>
+                    <th>发表时间、更新时间</th>
                     <th>点击数</th>
                     <th>状态</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <!-- 这里是表格内容，需要遍历数组 -->
+                <%--这里是表格内容，需要遍历数组--%>
                 <c:forEach items="${tips}" var="tip">
                     <tr>
                         <td>${tip.tip_id}</td>
                         <td>${tip.tab.tab_name}</td>
-                        <!-- 标题 -->
+                        <%--标题--%>
                         <td style="overflow: hidden; text-overflow: ellipsis; max-width: 120px; white-space: nowrap">${tip.tip_title}</td>
-                        <!-- 内容 -->
+                        <%--内容--%>
                         <td style="overflow: hidden; text-overflow: ellipsis; max-width: 120px; white-space: nowrap">${tip.tip_content}</td>
+                        <%--发贴用户昵称或用户名--%>
                         <td>
                             <c:choose>
                                 <c:when test="${not empty tip.user.user_nick}">${tip.user.user_nick}</c:when>
                                 <c:otherwise>${tip.user.user_name}</c:otherwise>
                             </c:choose>
                         </td>
+                        <%--回复数--%>
                         <td>${tip.tip_replies}</td>
+                        <%--发贴时间 修改时间--%>
                         <td>
                             <fmt:formatDate value="${tip.tip_publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                             <br>
                             <fmt:formatDate value="${tip.tip_modifyTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                         </td>
+                        <%--点击数--%>
                         <td>${tip.tip_click}</td>
+                        <%--状态--%>
                         <td>
-                            <c:choose>
-                                <c:when test="${tip.tip_isDeleted == 1}">删除</c:when>
-                                <c:otherwise>正常</c:otherwise>
-                            </c:choose>
-                            <br>
-                            <c:choose>
-                                <c:when test="${tip.tip_isKnot == 1}">结贴</c:when>
-                                <c:otherwise>未结贴</c:otherwise>
-                            </c:choose>
+                            <%--2020-03-05 10:44--%>
+                            <c:if test="${tip.tip_isDeleted == 1}"><span class="label label-danger">已删除</span></c:if>
+                            <c:if test="${tip.tip_isKnot == 1}"><span class="label label-success">已结贴</span></c:if>
+                            <c:if test="${tip.tip_isTop == 1}"><span class="label label-warning">已置顶</span></c:if>
+                            <%--<c:choose>--%>
+                                <%--<c:when test="${tip.tip_isKnot == 1}">结贴</c:when>--%>
+                                <%--<c:otherwise>未结贴</c:otherwise>--%>
+                            <%--</c:choose>--%>
                         </td>
                         <td><!-- 这里显示操作按钮 -->
                             <input type="button" class="btn btn-warning" value="修改"

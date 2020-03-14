@@ -164,14 +164,14 @@ public interface TipMapper {
     int updRepliesByTipId(int tip_id);
 
     /**
-     * 查询标题、内容包含某关键词的贴子
-     *
+     * 根据关键词查询标题和内容的贴子
+     * v1.1 2020-03-14 21:35 仅查询未置顶的
      * @param keyword 关键词
      * @return List<Tip>
      */
     @Select("SELECT * FROM tip " +
-            "WHERE tip_title LIKE '%${_parameter}%' " +
-            "OR tip_content LIKE '%${_parameter}%'")
+            "WHERE (tip_title LIKE '%${_parameter}%'OR tip_content LIKE '%${_parameter}%') " +
+            "AND tip_isTop = 0")
     List<Tip> selTipByKeyword(String keyword);
 
     /**

@@ -220,12 +220,39 @@ public class TipServiceImpl implements TipService {
         return result;
     }
 
+    /**
+     * 【首页搜索】根据关键词搜索贴子标题和内容
+     * 2020-03-14 21:23
+     * @param keyword 关键词
+     * @return
+     */
     @Override
     public List<Tip> searchTipByKeyword(String keyword) {
         Logger logger = Logger.getLogger(ReplyServiceImpl.class);
         logger.info("尝试搜索标题、内容包含关键词的贴子：" + keyword);
-        List<Tip> tipList = tipMapper.selTipByKeyword(keyword);
-        return tipList;
+
+        List<Tip> finalTipList = new ArrayList<>(); // 保存最终返回的贴子数组
+        // 保存搜索得到的贴子数组
+        List<Tip> keywordTipList = new ArrayList<>();
+        // 先获取置顶贴子
+        List<Tip> topTipList = this.getTipsSolvedElseModel(tipMapper.selAllTopTipForTopTimeDesc());
+        // 关键词判空
+        if (keyword == null || keyword.equals("")){
+            // 所有未置顶贴子
+            keywordTipList = this.getTipsSolvedElseModel(tipMapper.selAllUnTopTipForModifyTimeDesc());
+        }else {
+            // 关键词不为空时搜索到的贴子
+            keywordTipList = this.getTipsSolvedElseModel(tipMapper.selTipByKeyword(keyword));
+        }
+
+        // 放入最终返回的贴子数组
+        finalTipList.addAll(topTipList);
+        finalTipList.addAll(keywordTipList);
+        // 判空
+        if (finalTipList != null){
+            return finalTipList;
+        }
+        return null;
     }
 
     /**

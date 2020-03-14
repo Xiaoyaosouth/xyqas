@@ -151,21 +151,4 @@ public class MainController {
         return mv;
     }
 
-    /**
-     * 关键词搜索贴子（查询标题和内容）
-     * @return
-     */
-    @RequestMapping("searchTipByKeyword.do")
-    public ModelAndView searchTipByKeyword(){
-        ModelAndView mv = new ModelAndView();
-        // 处理参数
-        String keyword = request.getParameter("keyword");
-        List<Tip> myTipList = tipService.searchTipByKeyword(keyword);
-        // 获取贴子的其它信息
-        List<Tip> tipList = this.solveElseTipInfo(myTipList);
-        request.setAttribute("tips", tipList);
-        mv.setViewName("main.jsp");
-        return mv;
-    }
-
 }

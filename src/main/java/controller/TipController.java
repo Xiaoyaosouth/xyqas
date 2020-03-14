@@ -362,4 +362,23 @@ public class TipController {
         mv.setViewName("userModifyTip.jsp");
         return mv;
     }
+
+    /**
+     * 【首页搜索】根据关键词搜索贴子（标题和内容）
+     * v1.1 2020-03-14 21:15 修改控制层逻辑，不在controller中处理版块和分类，改为在service获取
+     * @return
+     */
+    @RequestMapping("searchTipByKeyword.do")
+    public ModelAndView searchTipByKeyword(){
+        ModelAndView mv = new ModelAndView();
+        // 处理参数
+        String keyword = request.getParameter("keyword"); // 获取用户输入的关键词
+        // 执行搜索
+        List<Tip> myTipList = tipService.searchTipByKeyword(keyword);
+//        // 获取贴子的其它信息（改为在service中获取）
+//        List<Tip> tipList = this.solveElseTipInfo(myTipList);
+        request.setAttribute("tips", myTipList);
+        mv.setViewName("main.jsp");
+        return mv;
+    }
 }

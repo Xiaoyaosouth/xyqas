@@ -72,8 +72,9 @@
     <form role="form" method="post" action="searchTipByKeyword.do">
         <div class="input-group col-md-3"
              style="margin-top:2px; float: left; text-align: center;">
+            <%--首页的贴子搜索框--%>
             <input type="text" class="form-control" id="keyword" name="keyword"
-                   placeholder="请输入要搜索的内容" />
+                   placeholder="请输入要搜索的关键词" />
             <span class="input-group-btn">
             <button type="submit" class="btn btn-info btn-search">搜索</button>
         </span>
@@ -89,13 +90,14 @@
 
 <ul class="list-group" style="width: 100%">
     <c:forEach items="${tips}" var="tip">
-        <!-- 如果没有逻辑删除则显示 -->
+        <%--如果没有逻辑删除则显示--%>
         <c:if test="${tip.tip_isDeleted != 1}">
             <li class="list-group-item">
             <div style="height: 50px">
                     <div style="width: 89%;float: left">
                     <%--这里显示贴子标题，点击贴子跳转到贴子详情，需要传参贴子id--%>
                     <a href="showTip.do?tipId=${tip.tip_id}">${tip.tip_title}</a>&nbsp;
+                        <%--显示贴子的状态--%>
                         <c:if test="${tip.tip_isKnot == 1}">
                             <span class="label label-success" >结贴</span>
                         </c:if>
@@ -104,12 +106,12 @@
                         </c:if>
                         <br>
                     <div>
-                        <!-- 显示贴子对应的版块 -->
+                        <%--显示贴子对应的版块--%>
                         <a><span class="label label-primary">${tip.tab.forum.forum_name}</span></a>
-                        <!-- 显示贴子对应的分类 -->
+                        <%--显示贴子对应的分类--%>
                         <a><span class="label label-warning" >${tip.tab.tab_name}</span></a>
                         &nbsp;&nbsp;&nbsp;
-                        <!-- 点击用户跳转到用户信息页面，需要传参用户id -->
+                        <%--点击用户跳转到用户信息页面，需要传参用户id--%>
                         <a href="getUserInfo.do?userId=${tip.user.user_id}">
                             <span>
                                 <strong>
@@ -121,7 +123,7 @@
                             </span>
                         </a>
                         &nbsp;&nbsp;&nbsp;
-                        <!-- 显示贴子发表时间 -->
+                        <%--显示贴子发表时间--%>
                         <small class="text-muted">
                             发表时间：<fmt:formatDate value="${tip.tip_publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                             &nbsp;&nbsp;
@@ -133,7 +135,7 @@
                     </div>
                 <div style="width: 5%;float: right;text-align: center">
                     <span class="label label-info" title="回复数">
-                        <!-- 这里显示贴子回复量 -->
+                        <%--这里显示贴子回复量--%>
                         ${tip.tip_replies}条回复
                     </span>
                 </div>

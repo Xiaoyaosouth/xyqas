@@ -9,7 +9,7 @@
             </div>
             <div>
 
-                <!--向左对齐-->
+                <%--向左对齐--%>
                 <ul class="nav navbar-nav navbar-left">
                     <li <c:if test="${tab.tab_name == '技术'}">class="active" </c:if>>
                         <a href="#">技术</a>
@@ -17,7 +17,7 @@
                 </ul>
 
                 <c:if test="${empty USER}">
-                <!--未登录-->
+                <%--未登录--%>
                  <ul class="nav navbar-nav navbar-right">
                        <li>
                            <p class="navbar-text"><a href="toLoginPage.do">登录</a></p>
@@ -28,12 +28,12 @@
                  </ul>
                 </c:if>
             <c:if test="${!empty USER}">
-                   <!--已登录-->
+                   <%--已登录--%>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                         <p class="navbar-text"><a href="<%=basePath%>">首页</a></p>
                     </li>
-                    <!-- 被锁定的用户不能发贴 -->
+                    <%--被锁定的用户不能发贴--%>
                     <c:if test="${USER.user_status != 2}">
                         <li><p class="navbar-text"><a href="toPublishTipPage.do">发表新贴</a></p></li>
                     </c:if>
@@ -52,7 +52,7 @@
                         </p>
                     </li>
 
-                    <!-- 显示管理员功能下拉栏 -->
+                    <%--显示管理员功能下拉栏--%>
                     <c:if test="${USER.user_type == 0 || USER.user_type == 1}">
                         <li class="dropdown" open>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -61,12 +61,13 @@
                             </a>
                         <ul class="dropdown-menu">
                             <c:if test="${USER.user_type == 0}">
-                                <!-- 超级管理员可以注册新管理员 -->
+                                <%--超级管理员可以注册新管理员--%>
                                 <li><a href="toSignUpPage.do">注册新的管理员</a></li>
                                 <li role="separator" class="divider"></li>
                             </c:if>
                             <li><a href="toUserManagePage.do">用户管理</a></li>
-                            <!-- 分割线 --><li role="separator" class="divider"></li>
+                            <%--分割线separator--%>
+                            <li role="separator" class="divider"></li>
                             <li><a href="toTipManagePage.do">贴子管理</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a href="toForumManagePage.do">版块管理</a></li>

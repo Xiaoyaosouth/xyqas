@@ -134,6 +134,8 @@
                                 <c:otherwise><span class="label label-default">普通用户</span></c:otherwise>
                             </c:choose>
                         </a>
+                        <%--发表回复的用户如果是楼主则显示楼主标签 2020-03-14 23:36--%>
+                        <c:if test="${reply.user.user_id == tip.user_id}"><span class="label label-info">楼主</span></c:if>
                         &nbsp;
                         <small class="text-muted">发表于：
                                 <%--显示回复发表的时间--%>

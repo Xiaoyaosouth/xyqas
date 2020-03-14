@@ -16,9 +16,9 @@
     <title>${tip.tip_title} - 逍遥论坛 </title>
 </head>
 <body>
-<!-- 这是进入贴子查看内容的页面 -->
+<%--这是进入贴子查看内容的页面--%>
 
-<!-- 弹出结果 -->
+<%--弹出结果--%>
 <c:if test="${not empty myInfo}">
     <script type="text/javascript" language="javascript">
         {
@@ -37,7 +37,7 @@
                 <div class="panel-heading" style="background-color: white">
                     <a href="<%=basePath%>">逍遥论坛</a> › <a href="showTip.do?tipId=${tip.tip_id}">${tip.tip_title}</a>
                 </div>
-                <!-- 贴子标题 -->
+                <%--贴子标题--%>
                 <h3>${tip.tip_title}
                     <div style="float: right">
                         <c:choose>
@@ -50,21 +50,22 @@
                                         <%--发贴人修改贴子有不同的Controller--%>
                                         <input type="button" class="btn btn-warning" value="修改"
                                                onclick="window.location.href='<%=basePath%>toUserModifyTipPage.do?tipId=${tip.tip_id}'"/>
-                     </c:when>
-                 </c:choose>
-             </c:when>
-         </c:choose>
-     </div>
- </h3>
+                                    </c:when>
+                                </c:choose>
+                            </c:when>
+                        </c:choose>
+                    </div>
+                </h3>
 
- <%--是否结贴：${tip.tip_isKnot}...贴子发表人：${tip.user_id}...当前登录用户：${USER.user_id}...--%>
+                <%--是否结贴：${tip.tip_isKnot}...贴子发表人：${tip.user_id}...当前登录用户：${USER.user_id}...--%>
                 <%--贴子发表人 == 当前登录用户：${tip.user_id == USER.user_id}--%>
                 <span class="label label-info" title="回复数">${tip.tip_replies}条回复</span>
                 &nbsp;
                 <span class="label label-warning" title="点击量">${tip.tip_click}次点击</span>
                 <div>
+                    <%--显示发贴人昵称--%>
                     <a href="getUserInfo.do?userId=${tip.user.user_id}">
-                    <span>
+                        <span>
                         <strong>
                             <c:choose>
                                 <c:when test="${empty tip.user.user_nick}">
@@ -75,8 +76,18 @@
                                 </c:otherwise>
                             </c:choose>
                         </strong>
-                    </span>
+                                                    <%--展示用户权限--%>
+                        <c:choose>
+                            <c:when test="${tip.user.user_type == 0}"> <span
+                                    class="label label-success">超级管理员</span></c:when>
+                            <c:when test="${tip.user.user_type == 1}"> <span
+                                    class="label label-warning">管理员</span></c:when>
+                            <c:otherwise><span class="label label-default">普通用户</span></c:otherwise>
+                        </c:choose>
+                        </span>
                     </a>
+                </div>
+                <div>
                     <span>
                     <small class="text-muted">发表于：<fmt:formatDate value="${tip.tip_publishTime}"
                                                                   pattern="yyyy-MM-dd HH:mm:ss"/></small>
@@ -87,7 +98,7 @@
                 </div>
             </div>
         </div>
-        <!-- 这里显示贴子正文 -->
+        <%--这里显示贴子正文--%>
         <ul class="list-group" style="width: 100%">
             <li class="list-group-item">
                 <c:out value="${tip.tip_content}"></c:out>
@@ -95,16 +106,16 @@
         </ul>
     </div>
 
-    <!-- 这里显示贴子的回复 -->
+    <%--这里显示贴子的回复--%>
     <ul class="list-group" style="width: 100%">
-        <!-- 遍历并显示回复 -->
+        <%--遍历并显示回复--%>
         <c:forEach items="${replies}" var="reply">
             <li class="list-group-item">
                 <div style="height: auto; ">
                     <div>
                         <a href="getUserInfo.do?userId=${reply.user.user_id}">
                             <strong>
-                                <!-- 显示发表回复的用户昵称 -->
+                                    <%--显示发表回复的用户昵称--%>
                                 <c:choose>
                                     <c:when test="${empty reply.user.user_nick}">
                                         ${reply.user.user_name}
@@ -114,14 +125,23 @@
                                     </c:otherwise>
                                 </c:choose>
                             </strong>
+                                <%--展示用户权限--%>
+                            <c:choose>
+                                <c:when test="${reply.user.user_type == 0}"> <span
+                                        class="label label-success">超级管理员</span></c:when>
+                                <c:when test="${reply.user.user_type == 1}"> <span
+                                        class="label label-warning">管理员</span></c:when>
+                                <c:otherwise><span class="label label-default">普通用户</span></c:otherwise>
+                            </c:choose>
                         </a>
-                        <small class="text-muted">
-                            <!-- 显示回复发表的时间 -->
+                        &nbsp;
+                        <small class="text-muted">发表于：
+                                <%--显示回复发表的时间--%>
                             <fmt:formatDate value="${reply.reply_publishTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
                         </small>
                     </div>
                     <div style="height: 80px; overflow:auto; word-wrap:break-word;">
-                        <!-- 这里显示回复的正文 -->
+                            <%--这里显示回复的正文--%>
                         <c:out value="${reply.reply_content}"></c:out>
                     </div>
                 </div>
@@ -133,24 +153,24 @@
         <div class="panel-heading" style="background-color: white">回复本贴</div>
         <div class="panel-body">
             <div class="form-group">
-                <!-- 非删除或结贴的贴子才能回复 -->
+                <%--非删除或结贴的贴子才能回复--%>
                 <c:choose>
                     <c:when test="${tip.tip_isKnot == 1}">
-                        已结贴！不允许回复。
+                        <p style="color: red">已结贴！不允许回复。</p>
                     </c:when>
                     <c:otherwise>
                         <c:choose>
                             <c:when test="${not empty USER}">
                                 <c:choose>
                                     <c:when test="${USER.user_status == 2}">
-                                        <!-- 被锁定的用户不能回贴 -->
-                                        您的账号已被锁定！不能回贴，请联系管理员解锁。
+                                        <%--被锁定的用户不能回贴--%>
+                                        <p style="color: red">您的账号已被锁定，不能回贴，请联系管理员解锁。</p>
                                     </c:when>
                                     <c:otherwise>
-                                        <!-- 这里是发表回复的表单 -->
+                                        <%--这里是发表回复的表单--%>
                                         <form action="publishReply.do" method="post" id="myReplyForm">
                                             <input type="hidden" name="tip_id" value="${tip.tip_id}">
-                                            <!-- 这里显示输入回复内容的文本框 -->
+                                                <%--这里显示输入回复内容的文本框--%>
                                             <textarea class="form-control" rows="3" name="reply_content"
                                                       id="reply_content" required></textarea>
                                             <br/>
@@ -161,7 +181,7 @@
                                 </c:choose>
                             </c:when>
                             <c:otherwise>
-                                <!-- 如果用户没有登录则取消文本框 -->
+                                <%--如果用户没有登录则取消文本框--%>
                                 <input type="button" class="btn btn-warning btn-sm"
                                        value="请先登录"
                                        onclick="window.location.href='<%=basePath%>toLoginPage.do?tipId=${tip.tip_id}'"/>
@@ -206,15 +226,14 @@
      * @author rk 2020-02-18 21:55
      * @param tipId 贴子ID
      */
-    function knotTip_confirm(tipId)
-    {
-        var r=confirm("确定结贴？结贴后不能再被回复。")
-        if (r==true)
-        {
+    function knotTip_confirm(tipId) {
+        var r = confirm("确定结贴？结贴后不能再被回复。")
+        if (r == true) {
             // alert(tipId);
             // 用户结贴操作
-            window.location.href='<%=basePath%>userKnotTip.do?tipId='+tipId;
-        } else { }
+            window.location.href = '<%=basePath%>userKnotTip.do?tipId=' + tipId;
+        } else {
+        }
     }
 </script>
 

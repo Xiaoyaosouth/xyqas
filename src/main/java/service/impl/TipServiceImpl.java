@@ -84,11 +84,27 @@ public class TipServiceImpl implements TipService {
         return null;
     }
 
+    /**
+     * 根据贴子id获取贴子信息
+     * v1.1 2020-03-14 23:10 增加获取发贴人信息
+     * @param tip_id 贴子id
+     * @return
+     */
     @Override
     public Tip getTipByTipId(int tip_id) {
         Logger logger = Logger.getLogger(TipServiceImpl.class);
         logger.info("尝试获取ID为" + tip_id + "的贴子信息...");
         Tip tip = tipMapper.selTipByTipId(tip_id);
+
+        if (tip != null){
+            // 获取发贴人信息
+            User tipOwner = userMapper.selUserByUserId(tip.getUser_id());
+            if (tipOwner != null){
+                tip.setUser(tipOwner);
+            }
+        }
+
+        // 判空
         if (tip != null) {
             return tip;
         }

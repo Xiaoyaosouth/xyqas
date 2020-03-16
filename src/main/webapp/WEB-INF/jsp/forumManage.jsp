@@ -41,7 +41,7 @@
          */
         function deleteForum_confirm(forumId, forumName) {
 
-            var r = confirm("确定删除该版块吗：" + forumName + "\n若如此做，会同时删除关联的分类和贴子（暂未实现）。")
+            var r = confirm("确定删除该版块吗：" + forumName + "\n若如此做，会同时删除关联的分类和贴子。")
             if (r == true) {
                 window.location.href = '<%=basePath%>deleteForum.do?forumId=' + forumId;
             } else {
@@ -75,7 +75,9 @@
     <div class="panel-body">
         <input type="button" class="btn btn-success" value="添加版块"
                style="margin-left: 0%" onclick="window.location.href='<%=basePath%>toAddForumPage.do'"/>
-        <!-- 这里显示所有版块信息 -->
+        <input type="button" class="btn btn-default" value="返回首页"
+               style="margin-left: 5px" onclick="window.location.href='<%=basePath%>toMainPage.do'"/>
+        <%--这里显示所有版块信息--%>
         <table class="table">
             <thead>
             <tr>
@@ -120,7 +122,7 @@
             </c:forEach>
             </tbody>
         </table>
-        <input type="button" class="btn btn-default" value="返回"
+        <input type="button" class="btn btn-default" value="返回首页"
                style="margin-left: 20%" onclick="window.location.href='<%=basePath%>toMainPage.do'"/>
     </div>
 </div>

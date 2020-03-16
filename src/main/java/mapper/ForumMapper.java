@@ -26,11 +26,12 @@ public interface ForumMapper {
 
     /**
      * 修改版块
+     * v1.1 2020-03-16 21:58 更新修改时间
      * @param forum 版块对象
      * @return
      */
     @Update("UPDATE forum SET " +
-            "forum_name = #{forum_name} " +
+            "forum_name = #{forum_name},forum_modifyTime = #{forum_modifyTime} " +
             "WHERE forum_id = #{forum_id}")
     int updForum(Forum forum);
 

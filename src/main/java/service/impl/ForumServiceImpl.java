@@ -7,8 +7,10 @@ import mapper.TipMapper;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import service.ForumService;
+import util.TimeUtil;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -41,19 +43,29 @@ public class ForumServiceImpl implements ForumService{
         return null;
     }
 
+    /**
+     * 修改版块
+     * v1.1 2020-03-16 21:58 修改版块时更新修改时间
+     * @param forum 版块对象
+     * @return
+     */
     @Override
     public String modifyForum(Forum forum) {
         Logger logger = Logger.getLogger(ForumServiceImpl.class);
         String resultStr = null;
         // 先检查Forum是否存在
-        logger.info("尝试获得id为" + forum.getForum_id() + "的大板块...");
+        logger.info("尝试获得id为" + forum.getForum_id() + "的版块...");
         Forum tmpForum = this.getForumByForumId(forum.getForum_id());
         if (tmpForum != null){
             if (forum.getForum_name().equals(tmpForum.getForum_name())){
-                // 如果新大版块名与原来的相同
+                // 如果新版块名与原来的相同
                 resultStr = new String("修改失败：新版块名与旧版块名相同。");
             }else{
-                logger.info("尝试修改id为" + forum.getForum_id() + "的大板块...");
+                logger.info("尝试修改id为" + forum.getForum_id() + "的版块...");
+                // 更新修改时间 2020-03-16 22:00
+                LocalDateTime localDateTime = LocalDateTime.now();
+                forum.setForum_modifyTime(TimeUtil.convertLocalDateTimeToDate(localDateTime));
+                // 执行修改
                 int result = forumMapper.updForum(forum);
                 if (result > 0){
                     resultStr = new String("修改成功！");

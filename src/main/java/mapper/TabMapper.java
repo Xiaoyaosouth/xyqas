@@ -99,6 +99,15 @@ public interface TabMapper {
     List<Integer> selAllTabIdUnDeletedByForumId(int forum_id);
 
     /**
+     * 根据版块id查询所有【已删除】的分类id
+     * 2020-03-16 21:24
+     * @param forum_id 版块id
+     * @return List<Integer>
+     */
+    @Select("SELECT tab_id FROM tab WHERE tab_isDeleted = 1 AND forum_id = #{forum_id}")
+    List<Integer> selAllTabIdIsDeletedByForumId(int forum_id);
+
+    /**
      * 根据版块id逻辑删除所有分类
      * 2020-03-05 19:03
      * @param forum_id 版块id

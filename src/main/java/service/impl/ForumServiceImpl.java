@@ -2,6 +2,8 @@ package service.impl;
 
 import domain.Forum;
 import mapper.ForumMapper;
+import mapper.TabMapper;
+import mapper.TipMapper;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import service.ForumService;
@@ -13,6 +15,12 @@ import java.util.List;
 public class ForumServiceImpl implements ForumService{
     @Resource
     private ForumMapper forumMapper;
+
+    @Resource
+    private TabMapper tabMapper;
+
+    @Resource
+    private TipMapper tipMapper;
 
     @Override
     public List<Forum> getAllForum() {
@@ -83,8 +91,9 @@ public class ForumServiceImpl implements ForumService{
 
     /**
      * 逻辑删除版块
+     * v1.1 2020-03-16 21:35 删除版块时处理关联的分类和贴子
      * @param forum_id 版块id
-     * @return 0成功，-1分类不存在，-2删除失败
+     * @return 0成功，-1分类不存在，-2删除版块失败，-3删除分类或贴子失败
      */
     @Override
     public int deleteForumLogical(int forum_id) {
@@ -98,14 +107,21 @@ public class ForumServiceImpl implements ForumService{
         if (forumMapper.updForumIsDeleted(forum_id) <= 0){
             return -2;
         }else {
-            return 0;
+            // 删除版块成功，处理分类和贴子
+            if (this.deleteAllTabAndTipByForumId(forum_id) == 0){
+                // 删除分类和贴子成功
+                return 0;
+            }else {
+                return -3;
+            }
         }
     }
 
     /**
      * 取消逻辑删除版块
+     * v1.1 2020-03-16 21:37 取消删除版块同时处理关联的分类和贴子
      * @param forum_id 版块id
-     * @return 0成功，-1分类不存在，-2删除失败
+     * @return 0成功，-1分类不存在，-2删除版块失败，-3取消删除分类或贴子失败
      */
     @Override
     public int disDeleteForumLogical(int forum_id) {
@@ -119,7 +135,74 @@ public class ForumServiceImpl implements ForumService{
         if (forumMapper.updForumIsNotDeleted(forum_id) <= 0){
             return -2;
         }else {
-            return 0;
+            // 取消删除版块成功，处理分类和贴子
+            if (this.disDeleteAllTabAndTipByForumId(forum_id) == 0){
+                // 取消删除分类和贴子成功
+                return 0;
+            }else {
+                // 取消删除分类或贴子失败
+                return -3;
+            }
+        }
+    }
+
+    /**
+     * 删除版块时，同时删除关联的分类和贴子
+     * v1.0 2020-03-16 21:22
+     * @param forum_id 版块id
+     * @return 0删除分类和贴子成功，-1删除关联分类失败，-2删除分类成功但删除贴子失败
+     */
+    private int deleteAllTabAndTipByForumId(int forum_id){
+        // 该版块下的分类数
+        int tabCount = tabMapper.selAllTabIdUnDeletedByForumId(forum_id).size();
+        // 根据版块id删除分类
+        int delTabResult = tabMapper.updAllTabIsDeletedByForumId(forum_id);
+        if (delTabResult == tabCount){
+            // 删除所有关联分类成功，继续删除贴子
+            // 该版块下的贴子数
+            int tipCount = tipMapper.selAllTipIdByForumId(forum_id).size();
+            // 根据版块id删除贴子
+            int delTipResult = tipMapper.updAllTipIsDeletedByForumId(forum_id);
+            if (delTipResult == tipCount){
+                // 删除所有关联贴子成功
+                return 0;
+            }else {
+                // 删除关联贴子失败
+                return -2;
+            }
+        }else {
+            // 删除关联分类失败
+            return -1;
+        }
+    }
+
+    /**
+     * 取消删除版块时，同时取消删除关联的分类和贴子
+     * v1.0 2020-03-16 21:29
+     * @param forum_id 版块id
+     * @return 0取消删除分类和贴子成功，-1取消删除关联分类失败，-2取消删除分类成功但删除贴子失败
+     */
+    private int disDeleteAllTabAndTipByForumId(int forum_id){
+        // 该版块下的分类数
+        int tabCount = tabMapper.selAllTabIdIsDeletedByForumId(forum_id).size();
+        // 根据版块id取消删除分类
+        int disDelTabResult = tabMapper.updAllTabIsNotDeletedByForumId(forum_id);
+        if (disDelTabResult == tabCount){
+            // 取消删除所有关联分类成功，继续取消删除贴子
+            // 该版块下的贴子数
+            int tipCount = tipMapper.selAllTipIdByForumId(forum_id).size();
+            // 根据版块id取消删除贴子
+            int disDelTipResult = tipMapper.updAllTipIsNotDeletedByForumId(forum_id);
+            if (disDelTipResult == tipCount){
+                // 取消删除所有关联贴子成功
+                return 0;
+            }else {
+                // 取消删除关联贴子失败
+                return -2;
+            }
+        }else {
+            // 取消删除关联分类失败
+            return -1;
         }
     }
 }

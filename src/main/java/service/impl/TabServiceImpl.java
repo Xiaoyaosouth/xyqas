@@ -8,8 +8,10 @@ import mapper.TipMapper;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import service.TabService;
+import util.TimeUtil;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -53,6 +55,12 @@ public class TabServiceImpl implements TabService{
         return null;
     }
 
+    /**
+     * 修改分类
+     * v1.1 2020-03-16 22:21 修改分类时更新修改时间
+     * @param tab 分类对象
+     * @return
+     */
     @Override
     public String modifyTab(Tab tab) {
         Logger logger = Logger.getLogger(TabServiceImpl.class);
@@ -64,6 +72,10 @@ public class TabServiceImpl implements TabService{
             Forum tmpForum = forumMapper.selForumByForumId(tab.getForum_id());
             if (tmpForum != null){
                 logger.info("尝试修改id为" + tab.getTab_id() + "的分类信息...");
+                // 更新修改时间 2020-03-16 22:22
+                LocalDateTime localDateTime = LocalDateTime.now();
+                tab.setTab_modifyTime(TimeUtil.convertLocalDateTimeToDate(localDateTime));
+                // 执行修改
                 int result = tabMapper.updTab(tab);
                 if (result > 0){
                     resultStr = new String("修改成功！");

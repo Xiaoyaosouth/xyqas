@@ -37,12 +37,12 @@ public interface TabMapper {
 
     /**
      * 修改分类信息
-     *
+     * v1.1 2020-03-16 22:20 更新修改时间
      * @param tab 分类对象
      * @return
      */
     @Update("UPDATE tab SET " +
-            "tab_name = #{tab_name}, forum_id = #{forum_id} " +
+            "tab_name = #{tab_name}, forum_id = #{forum_id}, tab_modifyTime = #{tab_modifyTime} " +
             "WHERE tab_id = #{tab_id}")
     int updTab(Tab tab);
 

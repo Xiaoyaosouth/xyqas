@@ -2,6 +2,7 @@ package mapper;
 
 import domain.User;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -84,4 +85,20 @@ public interface UserMapper {
      */
     @Update("UPDATE user SET user_lastLoginTime = #{user_lastLoginTime} WHERE user_id = #{user_id}")
     int updUserLastLoginTime(User user);
+
+    /**
+     * 模糊查询用户（ID/用户名/昵称）
+     * @param keyword 关键词
+     * @return
+     *
+     * 2020-07-25 19:38 新增
+     * 2020-09-20 16:00
+     *  修复#{keyword}自带引号无法识别变量报错的问题，
+     *  修复There is no getter for property named 'keyword' in class java.lang.String的问题（变量用@Param）
+     */
+    @Select("SELECT * FROM user WHERE " +
+            "user_id LIKE '%${keyword}%' OR " +
+            "user_name LIKE '%${keyword}%' OR " +
+            "user_nick LIKE '%${keyword}%'")
+    List<User> selUserFuzzy(@Param(value="keyword") String keyword);
 }

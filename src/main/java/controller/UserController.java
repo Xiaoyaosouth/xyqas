@@ -4,11 +4,13 @@ import domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import service.UserService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
@@ -234,4 +236,36 @@ public class UserController {
         return mv;
     }
 
+    /** 模糊查询用户 ajax */
+    @ResponseBody
+    @RequestMapping("searchUserFuzzyByKeywordForAjax.do")
+    public Object searchUserFuzzyByKeyword(HttpServletResponse response){
+        response.setContentType("application/json; charset=UTF-8");
+        String keyword = request.getParameter("userKeyword");
+        List<User> userList = userService.searchUserFuzzy(keyword);
+        return userList;
+    }
+
+    /**
+     * 【用户管理界面】模糊查询用户
+     * 2020-09-20 新增
+     */
+    @RequestMapping("searchUsersFuzzy.do")
+    public ModelAndView searchUsersFuzzy() {
+        ModelAndView mv = new ModelAndView();
+        List<User> userList = null;
+        // 处理参数
+        String userKeyword = request.getParameter("userKeyword"); // 获取输入的关键词
+        // 判断关键词是否为空
+        if (userKeyword.equals("") || userKeyword.isEmpty()){
+            // 为空时返回所有用户
+            userList = userService.getAllUser();
+        }else {
+            // 不为空时模糊查询
+            userList = userService.searchUserFuzzy(userKeyword); // 调用服务层 执行查询
+        }
+        request.setAttribute("users", userList);
+        mv.setViewName("userManage.jsp");
+        return mv;
+    }
 }

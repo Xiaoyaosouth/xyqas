@@ -62,4 +62,12 @@ public interface UserService {
      * @return 0成功，-1用户不存在，-2更新失败
      */
     int modifyUserLastLoginTime(User user);
+
+    /**
+     * 模糊查询用户（ID/用户名/昵称）
+     * 2020-07-25 19:40
+     * @param keyword 关键词
+     * @return
+     */
+    List<User> searchUserFuzzy(String keyword);
 }

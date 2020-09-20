@@ -155,4 +155,16 @@ public class UserServiceImpl implements UserService {
             return 0;
         }
     }
+
+    /** 模糊查询用户 */
+    @Override
+    public List<User> searchUserFuzzy(String keyword) {
+        Logger logger = Logger.getLogger(UserServiceImpl.class);
+        logger.info("尝试根据关键词搜索用户");
+        List<User> userList = userMapper.selUserFuzzy(keyword);
+        if (userList != null) {
+            return userList;
+        }
+        return null;
+    }
 }

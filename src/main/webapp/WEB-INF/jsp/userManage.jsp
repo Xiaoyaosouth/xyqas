@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String path = request.getContextPath();
-    String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,14 +13,18 @@
     <script src="<%=path%>/static/js/jquery-3.2.1.js"></script>
     <script src="<%=path%>/static/js/bootstrap.min.js"></script>
     <style>
-        li {list-style-type:none;}
+        li {
+            list-style-type: none;
+        }
+
         html, body {
             height: 100%;
             font-size: 14px;
             color: #525252;
-            font-family: NotoSansHans-Regular,AvenirNext-Regular,arial,Hiragino Sans GB,"Microsoft Yahei","Hiragino Sans GB","WenQuanYi Micro Hei",sans-serif;
+            font-family: NotoSansHans-Regular, AvenirNext-Regular, arial, Hiragino Sans GB, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
             background: #f0f2f5;
         }
+
         .footer {
             background-color: #fff;
             margin-top: 22px;
@@ -30,8 +34,8 @@
             color: #8A8A8A;
             display: block;
             height: 200px;
-            border: 1px ;
-            clear:both
+            border: 1px;
+            clear: both
         }
 
         .container {
@@ -42,17 +46,19 @@
             width: 40%;
             float: left;
         }
-        a{
+
+        a {
             color: #8A8A8A;
             cursor: pointer;
         }
 
         th {
-            text-align:center; /*设置水平居中*/
+            text-align: center; /*设置水平居中*/
             /* vertical-align:middle; */ /*设置垂直居中*/
         }
+
         td {
-            text-align:center; /*设置水平居中*/
+            text-align: center; /*设置水平居中*/
             /* vertical-align:middle; */ /*设置垂直居中*/
             /* border: 1px solid gray; */
         }
@@ -60,8 +66,38 @@
 </head>
 <body>
 
-<!-- 引入header文件 -->
-<%@ include file="header.jsp"%>
+<%-- 引入header文件 --%>
+<%@ include file="header.jsp" %>
+
+<script>
+    /** 模糊查询用户 2020-09-20 */
+    function searchUserFuzzy() {
+        // 获取输入框的值
+        var keyword = document.getElementsByName("user_keyword")[0].value;
+        // alert(keyword);
+        // if(keyword){alert(keyword);} // 输入框为空时不弹
+        // if(keyword == null){alert(keyword);} // 输入框为空时不是null
+        if (keyword) {
+            $.ajax(
+                {
+                    url: "<%=basePath%>searchUserFuzzyByKeywordForAjax.do",
+                    type: "post",
+                    data: {
+                        userKeyword: keyword
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        var myList = data;
+                        // alert(JSON.stringify(myList));
+                        // 【无法实现 2020-09-20】修改request的users值
+                        if (myList) {}
+                        // 刷新表格
+                        $('#dataTable').bootstrapTable('refresh');
+                    }
+                })
+        }
+    }
+</script>
 
 <div class="panel panel-default"
      style="width: 90%;margin-left: 5%; margin-right: 5%; margin-bottom: 5%">
@@ -70,120 +106,142 @@
     </div>
     <div class="panel-body">
 
-            <!-- 这里显示所有用户信息 -->
-            <table class="table">
-                <thead>
+        <%-- 用户管理界面添加搜索功能 2020.07.25 --%>
+        <div>
+            <%--搜索：--%>
+            <%--<input type="text" class="" name="user_keyword" placeholder="ID/用户名/昵称"/>--%>
+            <%--&lt;%&ndash; 模糊搜索功能按钮 &ndash;%&gt;--%>
+            <%--<input type="button" class="btn btn-success" value="查询"--%>
+            <%--onclick="searchUserFuzzy()" />--%>
+
+            <%--&lt;%&ndash; 显示全部用户按钮 2020-09-20 &ndash;%&gt;--%>
+            <%--<input type="button" class="btn btn-default" value="显示全部"--%>
+            <%--onclick="window.location.href='<%=basePath%>toUserManagePage.do'" />--%>
+
+            <form role="form" method="post" action="searchUsersFuzzy.do">
+                <div class="input-group col-md-3">
+                    <input type="text" class="form-control" name="userKeyword" placeholder="ID/用户名/昵称"/>
+                    <span class="input-group-btn"><button type="submit" class="btn btn-info btn-search">查询</button></span>
+                </div>
+            </form>
+        </div>
+
+        <%-- 这里显示所有用户信息 --%>
+        <%-- table标签加入id方便在js中刷新 2020-09-20 --%>
+        <table class="table" id="dataTable">
+            <thead>
+            <tr>
+                <th>用户ID</th>
+                <th>用户名</th>
+                <th>用户昵称</th>
+                <%--不显示用户密码 2020-03-04 11:02--%>
+                <%--<th>用户密码</th>--%>
+                <th>用户权限</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <%-- 这里是表格内容，需要遍历数组 --%>
+            <c:forEach items="${users}" var="user">
                 <tr>
-                    <th>用户ID</th>
-                    <th>用户名</th>
-                    <th>用户昵称</th>
-                    <%--不显示用户密码 2020-03-04 11:02--%>
-                    <%--<th>用户密码</th>--%>
-                    <th>用户权限</th>
-                    <th>状态</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- 这里是表格内容，需要遍历数组 -->
-                <c:forEach items="${users}" var="user">
-                    <tr>
-                        <td>${user.user_id}</td>
-                        <td>${user.user_name}</td>
-                        <td>${user.user_nick}</td>
+                    <td>${user.user_id}</td>
+                    <td>${user.user_name}</td>
+                    <td>${user.user_nick}</td>
                         <%--不显示用户密码 2020-03-04 11:02--%>
                         <%--<td>${user.user_password}</td>--%>
-                        <td>
-                            <c:choose>
-                            <c:when test="${user.user_type == 0}"> <span class="label label-success">超级管理员</span></c:when>
-                                <c:when test="${user.user_type == 1}"> <span class="label label-warning">管理员</span></c:when>
-                                <c:otherwise> <span class="label label-primary">普通用户</span></c:otherwise>
-                            </c:choose>
-                        <td>
-                            <c:choose>
-                                <c:when test="${user.user_status == 1}"> <span class="label label-danger">禁用</span></c:when>
-                                <c:when test="${user.user_status == 2}"> <span class="label label-warning">锁定</span></c:when>
-                                <c:otherwise>正常</c:otherwise>
-                            </c:choose>
-                        </td>
-                        <td><!-- 这里放操作按钮 -->
-                            <c:choose>
-                                <c:when test="${user.user_status == 1}">
+                    <td>
+                        <c:choose>
+                        <c:when test="${user.user_type == 0}"> <span class="label label-success">超级管理员</span></c:when>
+                        <c:when test="${user.user_type == 1}"> <span class="label label-warning">管理员</span></c:when>
+                        <c:otherwise> <span class="label label-primary">普通用户</span></c:otherwise>
+                        </c:choose>
+                    <td>
+                        <c:choose>
+                            <c:when test="${user.user_status == 1}"> <span class="label label-danger">禁用</span></c:when>
+                            <c:when test="${user.user_status == 2}"> <span
+                                    class="label label-warning">锁定</span></c:when>
+                            <c:otherwise>正常</c:otherwise>
+                        </c:choose>
+                    </td>
+                    <td><!-- 这里放操作按钮 -->
+                        <c:choose>
+                            <c:when test="${user.user_status == 1}">
                                 <input type="button" class="btn btn-success" value="启用"
-                                       onclick="window.location.href='<%=basePath%>enableUser.do?userId=${user.user_id}'" />
+                                       onclick="window.location.href='<%=basePath%>enableUser.do?userId=${user.user_id}'"/>
                                 <input type="button" class="btn btn-warning" value="锁定"
-                                       onclick="window.location.href='<%=basePath%>lockUser.do?userId=${user.user_id}'" />
-                                </c:when>
-                                <c:when test="${user.user_status == 2}">
-                                    <input type="button" class="btn btn-success" value="解锁"
-                                           onclick="window.location.href='<%=basePath%>enableUser.do?userId=${user.user_id}'" />
-                                    <input type="button" class="btn btn-danger" value="禁用"
-                                           onclick="window.location.href='<%=basePath%>disableUser.do?userId=${user.user_id}'" />
-                                </c:when>
-                                <c:otherwise>
-                                    <%--处理其它正常的用户：管理员不能处理自己的状态--%>
-                                    <c:if test="${user.user_id != USER.user_id}">
-                                        <%--管理员不能处理其它管理员--%>
-                                        <c:choose>
-                                            <c:when test="${USER.user_type == 1}">
-                                                <%--管理员可处理普通用户--%>
-                                                <c:if test="${user.user_type == 2}">
-                                                    <input type="button" class="btn btn-warning" value="修改"
-                                                           onclick="window.location.href='<%=basePath%>toUpdateUserInfoPage.do?userId=${user.user_id}'" />
-                                                    <input type="button" class="btn btn-danger" value="禁用"
-                                                           onclick="window.location.href='<%=basePath%>disableUser.do?userId=${user.user_id}'" />
-                                                    <input type="button" class="btn btn-warning" value="锁定"
-                                                           onclick="window.location.href='<%=basePath%>lockUser.do?userId=${user.user_id}'" />
-                                                </c:if>
-                                            </c:when>
-                                            <c:when test="${USER.user_type == 0}">
-                                                <!-- 超级管理员权限：超级管理员不能处理其它超级管理员 -->
-                                                <c:choose>
-                                                    <c:when test="${user.user_type != 0}">
-                                                        <input type="button" class="btn btn-primary" value="修改"
-                                                               onclick="window.location.href='<%=basePath%>toUpdateUserInfoPage.do?userId=${user.user_id}'" />
-                                                        <c:choose>
-                                                            <c:when test="${user.user_status == 1}">
-                                                                <input type="button" class="btn btn-success" value="启用"
-                                                                       onclick="window.location.href='<%=basePath%>enableUser.do?userId=${user.user_id}'" />
-                                                                <input type="button" class="btn btn-warning" value="锁定"
-                                                                       onclick="window.location.href='<%=basePath%>lockUser.do?userId=${user.user_id}'" />
-                                                            </c:when>
-                                                            <c:when test="${user.user_status == 2}">
-                                                                <input type="button" class="btn btn-success" value="解锁"
-                                                                       onclick="window.location.href='<%=basePath%>enableUser.do?userId=${user.user_id}'" />
-                                                                <input type="button" class="btn btn-danger" value="禁用"
-                                                                       onclick="window.location.href='<%=basePath%>disableUser.do?userId=${user.user_id}'" />
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <input type="button" class="btn btn-warning" value="锁定"
-                                                                       onclick="window.location.href='<%=basePath%>lockUser.do?userId=${user.user_id}'" />
-                                                                <input type="button" class="btn btn-danger" value="禁用"
-                                                                       onclick="window.location.href='<%=basePath%>disableUser.do?userId=${user.user_id}'" />
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <!-- 如果对方是超级管理员 无操作 -->
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:when>
-                                        </c:choose>
-                                    </c:if>
-                                </c:otherwise>
-                            </c:choose>
-                        </td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-            <input type="button" class="btn btn-default" value="返回"
-                   style="margin-left: 20%" onclick="window.location.href='<%=basePath%>toMainPage.do'" />
+                                       onclick="window.location.href='<%=basePath%>lockUser.do?userId=${user.user_id}'"/>
+                            </c:when>
+                            <c:when test="${user.user_status == 2}">
+                                <input type="button" class="btn btn-success" value="解锁"
+                                       onclick="window.location.href='<%=basePath%>enableUser.do?userId=${user.user_id}'"/>
+                                <input type="button" class="btn btn-danger" value="禁用"
+                                       onclick="window.location.href='<%=basePath%>disableUser.do?userId=${user.user_id}'"/>
+                            </c:when>
+                            <c:otherwise>
+                                <%--处理其它正常的用户：管理员不能处理自己的状态--%>
+                                <c:if test="${user.user_id != USER.user_id}">
+                                    <%--管理员不能处理其它管理员--%>
+                                    <c:choose>
+                                        <c:when test="${USER.user_type == 1}">
+                                            <%--管理员可处理普通用户--%>
+                                            <c:if test="${user.user_type == 2}">
+                                                <input type="button" class="btn btn-warning" value="修改"
+                                                       onclick="window.location.href='<%=basePath%>toUpdateUserInfoPage.do?userId=${user.user_id}'"/>
+                                                <input type="button" class="btn btn-danger" value="禁用"
+                                                       onclick="window.location.href='<%=basePath%>disableUser.do?userId=${user.user_id}'"/>
+                                                <input type="button" class="btn btn-warning" value="锁定"
+                                                       onclick="window.location.href='<%=basePath%>lockUser.do?userId=${user.user_id}'"/>
+                                            </c:if>
+                                        </c:when>
+                                        <c:when test="${USER.user_type == 0}">
+                                            <!-- 超级管理员权限：超级管理员不能处理其它超级管理员 -->
+                                            <c:choose>
+                                                <c:when test="${user.user_type != 0}">
+                                                    <input type="button" class="btn btn-primary" value="修改"
+                                                           onclick="window.location.href='<%=basePath%>toUpdateUserInfoPage.do?userId=${user.user_id}'"/>
+                                                    <c:choose>
+                                                        <c:when test="${user.user_status == 1}">
+                                                            <input type="button" class="btn btn-success" value="启用"
+                                                                   onclick="window.location.href='<%=basePath%>enableUser.do?userId=${user.user_id}'"/>
+                                                            <input type="button" class="btn btn-warning" value="锁定"
+                                                                   onclick="window.location.href='<%=basePath%>lockUser.do?userId=${user.user_id}'"/>
+                                                        </c:when>
+                                                        <c:when test="${user.user_status == 2}">
+                                                            <input type="button" class="btn btn-success" value="解锁"
+                                                                   onclick="window.location.href='<%=basePath%>enableUser.do?userId=${user.user_id}'"/>
+                                                            <input type="button" class="btn btn-danger" value="禁用"
+                                                                   onclick="window.location.href='<%=basePath%>disableUser.do?userId=${user.user_id}'"/>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <input type="button" class="btn btn-warning" value="锁定"
+                                                                   onclick="window.location.href='<%=basePath%>lockUser.do?userId=${user.user_id}'"/>
+                                                            <input type="button" class="btn btn-danger" value="禁用"
+                                                                   onclick="window.location.href='<%=basePath%>disableUser.do?userId=${user.user_id}'"/>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <!-- 如果对方是超级管理员 无操作 -->
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:when>
+                                    </c:choose>
+                                </c:if>
+                            </c:otherwise>
+                        </c:choose>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <input type="button" class="btn btn-default" value="返回"
+               style="margin-left: 20%" onclick="window.location.href='<%=basePath%>toMainPage.do'"/>
     </div>
 </div>
 
 <!-- 引入footer文件 -->
-<%@ include file="footer.jsp"%>
+<%@ include file="footer.jsp" %>
 
 </body>
 </html>

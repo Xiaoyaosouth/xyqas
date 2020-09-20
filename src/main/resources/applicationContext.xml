@@ -10,12 +10,14 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+    <!--自动简化的完成相应bean的声明，
+    注册@Autowired、@Resource、@ PostConstruct、@PreDestroy、@PersistenceContext、@Required-->
+    <context:annotation-config/>
 
+    <!-- 加载属性文件 -->
+    <context:property-placeholder location="classpath:*.properties" ignore-unresolvable="true"/>
 
-       <!-- 加载属性文件 -->
-       <context:property-placeholder location="classpath:*.properties" ignore-unresolvable="true"/>
-
-    <!-- 数据库连接池 -->
+    <!-- 配置数据源，使用数据库连接池 -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="${jdbc.driver}"/>
         <property name="jdbcUrl" value="${jdbc.url}"/>
@@ -53,9 +55,11 @@
     <!-- 配置基于注解的声明式事务 -->
     <tx:advice	id="txAdvice" transaction-manager="transactionManager">
         <tx:attributes>
-            <tx:method name="ins*"/>
-            <tx:method name="del*"/>
-            <tx:method name="upd*"/>
+            <!-- 对ins,upd,del开头的方法进行事务管理,只要有异常就回滚 -->
+            <tx:method name="ins*" propagation="REQUIRED" rollback-for="java.lang.Throwable"/>
+            <tx:method name="del*" propagation="REQUIRED" rollback-for="java.lang.Throwable"/>
+            <tx:method name="upd*" propagation="REQUIRED" rollback-for="java.lang.Throwable"/>
+            <!--对于其它方法，开启只读-->
             <tx:method name="*" read-only="true"/>
         </tx:attributes>
     </tx:advice>

@@ -29,7 +29,7 @@ JavaWeb容器：Tomcat 8.5
 管理员功能下拉列表<br>
 ![](/preview/管理员功能下拉列表.jpg)
 发表贴子<br>
-![](/preview/发表贴子.jpg)
+![](/preview/old/发表贴子_200227.jpg)
 查看贴子<br>
 ![](/preview/查看贴子.jpg)
 

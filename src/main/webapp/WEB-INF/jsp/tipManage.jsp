@@ -53,7 +53,15 @@
     </div>
     <div class="panel-body">
 
-            <!-- 这里显示所有贴子信息 -->
+        <%-- 贴子管理界面添加搜索功能 2020.09.24 --%>
+        <form role="form" method="post" action="searchTipsFuzzy.do">
+            <div class="input-group col-md-3">
+                <input type="text" class="form-control" name="tipKeyword" placeholder="贴子ID/标题/正文内容"/>
+                <span class="input-group-btn"><button type="submit" class="btn btn-info btn-search">查询</button></span>
+            </div>
+        </form>
+
+            <%-- 这里显示所有贴子信息 --%>
             <table class="table">
                 <thead>
                 <tr>

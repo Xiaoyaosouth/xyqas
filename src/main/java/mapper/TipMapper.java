@@ -2,6 +2,7 @@ package mapper;
 
 import domain.Tip;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -325,4 +326,18 @@ public interface TipMapper {
     @Update("UPDATE tip SET tip_isDeleted = 0 WHERE tab_id IN " +
             "(SELECT tab_id FROM tab WHERE forum_id = #{forum_id})")
     int updAllTipIsNotDeletedByForumId(int forum_id);
+
+    /**
+     * 模糊查询贴子（ID/标题/正文内容）
+     * @param keyword 关键词
+     * @return
+     *
+     * 2020-09-24 11:21 新增
+     * 2020-09-24 11:46 修复当关键词为字符串时搜索id报错的问题
+     */
+    @Select("SELECT * FROM tip WHERE " +
+            "tip_id = #{keyword} OR " +
+            "tip_title LIKE '%${keyword}%' OR " +
+            "tip_content LIKE '%${keyword}%'")
+    List<Tip> selTipFuzzy(@Param(value="keyword") String keyword);
 }

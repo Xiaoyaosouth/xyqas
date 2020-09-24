@@ -31,9 +31,13 @@ public class TipServiceImpl implements TipService {
     @Resource
     private ForumMapper forumMapper;
 
+    // 日志 2020-09-24 优化 不用每个方法都声明Logger
+    private Logger logger = Logger.getLogger(TipServiceImpl.class);
+
     /**
      * 发贴
      * v1.1 2020-03-04 10:16 DAO改为使用insTipV2
+     *
      * @param tip 贴子对象
      * @return
      */
@@ -87,6 +91,7 @@ public class TipServiceImpl implements TipService {
     /**
      * 根据贴子id获取贴子信息
      * v1.1 2020-03-14 23:10 增加获取发贴人信息
+     *
      * @param tip_id 贴子id
      * @return
      */
@@ -96,10 +101,10 @@ public class TipServiceImpl implements TipService {
         logger.info("尝试获取ID为" + tip_id + "的贴子信息...");
         Tip tip = tipMapper.selTipByTipId(tip_id);
 
-        if (tip != null){
+        if (tip != null) {
             // 获取发贴人信息
             User tipOwner = userMapper.selUserByUserId(tip.getUser_id());
-            if (tipOwner != null){
+            if (tipOwner != null) {
                 tip.setUser(tipOwner);
             }
         }
@@ -174,6 +179,7 @@ public class TipServiceImpl implements TipService {
     /**
      * 【已弃用，改为使用getMainPageTips()获取置顶贴和未置顶贴 2020-02-27 16:43】
      * 获取所有贴子
+     *
      * @return
      */
     @Deprecated
@@ -239,6 +245,7 @@ public class TipServiceImpl implements TipService {
     /**
      * 【首页搜索】根据关键词搜索贴子标题和内容
      * 2020-03-14 21:23
+     *
      * @param keyword 关键词
      * @return
      */
@@ -253,10 +260,10 @@ public class TipServiceImpl implements TipService {
         // 先获取置顶贴子
         List<Tip> topTipList = this.getTipsSolvedElseModel(tipMapper.selAllTopTipForTopTimeDesc());
         // 关键词判空
-        if (keyword == null || keyword.equals("")){
+        if (keyword == null || keyword.equals("")) {
             // 所有未置顶贴子
             keywordTipList = this.getTipsSolvedElseModel(tipMapper.selAllUnTopTipForModifyTimeDesc());
-        }else {
+        } else {
             // 关键词不为空时搜索到的贴子
             keywordTipList = this.getTipsSolvedElseModel(tipMapper.selTipByKeyword(keyword));
         }
@@ -265,7 +272,7 @@ public class TipServiceImpl implements TipService {
         finalTipList.addAll(topTipList);
         finalTipList.addAll(keywordTipList);
         // 判空
-        if (finalTipList != null){
+        if (finalTipList != null) {
             return finalTipList;
         }
         return null;
@@ -368,6 +375,7 @@ public class TipServiceImpl implements TipService {
     /**
      * 主页显示贴子用
      * 2020-02-27 16:33
+     *
      * @return
      */
     @Override
@@ -385,6 +393,21 @@ public class TipServiceImpl implements TipService {
         // 判空
         if (finalTipList != null) {
             return finalTipList;
+        }
+        return null;
+    }
+
+    /**
+     * 模糊查询贴子 2020-09-24
+     * 2020-09-24 修复查询到的贴子没有其它模型数据
+     */
+    @Override
+    public List<Tip> searchTipFuzzy(String keyword) {
+        logger.info("尝试根据关键词搜索贴子");
+        // 调用数据库
+        List<Tip> tipList = this.getTipsSolvedElseModel(tipMapper.selTipFuzzy(keyword));
+        if (tipList != null) {
+            return tipList;
         }
         return null;
     }

@@ -381,4 +381,29 @@ public class TipController {
         mv.setViewName("main.jsp");
         return mv;
     }
+
+    /**
+     * 【贴子管理界面】模糊查询贴子
+     * 2020-09-24 11:38 新增
+     */
+    @RequestMapping("searchTipsFuzzy.do")
+    public ModelAndView searchTipsFuzzy() {
+        ModelAndView mv = new ModelAndView();
+        // 初始化贴子列表
+        List<Tip> tipList = null;
+        // 处理参数
+        String tipKeyword = request.getParameter("tipKeyword"); // 获取输入的关键词
+        // 判断关键词是否为空
+        if (tipKeyword.equals("") || tipKeyword.isEmpty()){
+            // 为空时返回所有数据
+            tipList = tipService.getAllTip();
+        }else {
+            // 不为空时模糊查询
+            tipList = tipService.searchTipFuzzy(tipKeyword); // 调用服务层 执行查询
+        }
+        request.setAttribute("tips", tipList);
+        // 刷新贴子管理页面
+        mv.setViewName("tipManage.jsp");
+        return mv;
+    }
 }

@@ -140,4 +140,11 @@ public interface TipService {
      * @return List<Tip>
      */
     List<Tip> getMainPageTips();
+
+    /**
+     * 模糊查询贴子（ID/标题/正文内容）
+     * @param keyword 关键词
+     * @return
+     */
+    List<Tip> searchTipFuzzy(String keyword);
 }

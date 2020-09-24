@@ -95,9 +95,10 @@ public interface UserMapper {
      * 2020-09-20 16:00
      *  修复#{keyword}自带引号无法识别变量报错的问题，
      *  修复There is no getter for property named 'keyword' in class java.lang.String的问题（变量用@Param）
+     * 2020-09-24 11:27 修复模糊搜索id显示id带同数字的所有用户（例如搜id=1显示了1和10）
      */
     @Select("SELECT * FROM user WHERE " +
-            "user_id LIKE '%${keyword}%' OR " +
+            "user_id = ${keyword} OR " +
             "user_name LIKE '%${keyword}%' OR " +
             "user_nick LIKE '%${keyword}%'")
     List<User> selUserFuzzy(@Param(value="keyword") String keyword);

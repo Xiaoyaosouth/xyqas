@@ -29,20 +29,21 @@ public class UserController {
     /**
      * 用户登录控制
      * v1.1 增加登录后更新最近登录时间的逻辑 2020-03-05 12:03
-     * @Param user 用户对象（需要用户名和密码）
+     *
      * @return
+     * @Param user 用户对象（需要用户名和密码）
      */
     @RequestMapping("userLogin.do")
     public ModelAndView userLogin(User user) {
         ModelAndView mv = new ModelAndView();
         String resultStr = null;
         User tmpUser = userService.getUserByUserName(user.getUser_name());
-        if (tmpUser == null){ // 先检查用户是否存在
+        if (tmpUser == null) { // 先检查用户是否存在
             resultStr = new String("登录失败：用户不存在！");
             mv.setViewName("login.jsp");
-        }else { // 用户存在时继续判断密码
+        } else { // 用户存在时继续判断密码
             Boolean pwdCheck = user.getUser_password().equals(tmpUser.getUser_password());
-            if (pwdCheck){ // 密码正确
+            if (pwdCheck) { // 密码正确
                 /**
                  * 更新最近登录时间
                  * 2020-03-05 11:54
@@ -60,21 +61,21 @@ public class UserController {
 
                     // 处理是否从查看贴子页面登录的
                     String tipIdStr = null;
-                    if (request.getParameter("tipId") != null){
+                    if (request.getParameter("tipId") != null) {
                         // 记录传过来的贴子id
                         tipIdStr = request.getParameter("tipId");
                     }
-                    if (tipIdStr == null || tipIdStr.equals("null")){
+                    if (tipIdStr == null || tipIdStr.equals("null")) {
                         mv.setViewName("redirect:toMainPage.do");
-                    }else {
+                    } else {
                         // 如果用户是在贴子详情中登录的，返回对应的贴子
                         mv.setViewName("redirect:showTip.do?tipId=" + tipIdStr);
                     }
-                }else { // user_status == 1 表示被禁用，不能登录
+                } else { // user_status == 1 表示被禁用，不能登录
                     resultStr = new String("登录失败：用户已被禁用！请联系管理员（626753724@qq.com）。");
                     mv.setViewName("login.jsp");
                 }
-            }else { // 密码不正确
+            } else { // 密码不正确
                 resultStr = new String("登录失败！密码不正确！");
                 mv.setViewName("login.jsp");
             }
@@ -85,11 +86,12 @@ public class UserController {
 
     /**
      * 用户登出控制
+     *
      * @param session
      * @return
      */
     @RequestMapping("userSignOut.do")
-    public ModelAndView userSignOut(HttpSession session){
+    public ModelAndView userSignOut(HttpSession session) {
         ModelAndView mv = new ModelAndView();
         // 移除session中的用户对象
         session.removeAttribute("USER");
@@ -101,14 +103,14 @@ public class UserController {
      * 用户信息页面
      */
     @RequestMapping("getUserInfo.do")
-    public ModelAndView getUserInfo(int userId){
-        ModelAndView mv=new ModelAndView();
+    public ModelAndView getUserInfo(int userId) {
+        ModelAndView mv = new ModelAndView();
         User user = userService.getUserById(userId);
-        if (user != null){
-            request.setAttribute("userObject",user);
+        if (user != null) {
+            request.setAttribute("userObject", user);
             mv.setViewName("userInfo.jsp");
-        }else{
-            request.setAttribute("myInfo","查询用户信息失败！");
+        } else {
+            request.setAttribute("myInfo", "查询用户信息失败！");
             mv.setViewName("main.jsp");
         }
         return mv;
@@ -116,25 +118,26 @@ public class UserController {
 
     /**
      * 修改用户信息控制
+     *
      * @param user
      * @return
      */
     @RequestMapping("updateUserInfo.do")
-    public ModelAndView updateUserInfo(User user){
-        ModelAndView mv=new ModelAndView();
+    public ModelAndView updateUserInfo(User user) {
+        ModelAndView mv = new ModelAndView();
         // 获取原session
         User oldUserInfo = (User) session.getAttribute("USER");
         if (user != null) {
             if (userService.updateUserInfo(user) > 0) {
                 User newUserInfo = userService.getUserById(user.getUser_id());
-                if (!oldUserInfo.getUser_password().equals(newUserInfo.getUser_password())){
+                if (!oldUserInfo.getUser_password().equals(newUserInfo.getUser_password())) {
                     // 如果新旧密码不同，退出登录
-                    request.setAttribute("myInfo","修改用户信息成功。由于您修改了密码，请重新登录！");
+                    request.setAttribute("myInfo", "修改用户信息成功。由于您修改了密码，请重新登录！");
                     session.removeAttribute("USER");
                     mv.setViewName("redirect:toMainPage.do");
-                }else{
+                } else {
                     // 修改信息后更新session和request
-                    request.setAttribute("myInfo","修改用户信息成功！");
+                    request.setAttribute("myInfo", "修改用户信息成功！");
                     // session.removeAttribute("USER");
                     session.setAttribute("USER", newUserInfo);
                     request.setAttribute("userObject", newUserInfo);
@@ -150,13 +153,14 @@ public class UserController {
 
     /**
      * 用户注册控制
+     *
      * @param user
      * @return
      */
     @RequestMapping("userSignUp.do")
-    public ModelAndView userSignUp(User user){
+    public ModelAndView userSignUp(User user) {
         ModelAndView mv = new ModelAndView();
-        if (user != null){
+        if (user != null) {
             String resultStr = userService.addUser(user);
             request.setAttribute("myInfo", resultStr);
             mv.setViewName("signUp.jsp");
@@ -166,11 +170,12 @@ public class UserController {
 
     /**
      * 禁用用户控制
+     *
      * @param userId
      * @return
      */
     @RequestMapping("disableUser.do")
-    public ModelAndView disableUser(int userId){
+    public ModelAndView disableUser(int userId) {
         ModelAndView mv = new ModelAndView();
         String resultStr = userService.modifyUserStatus(userId, 1);
         request.setAttribute("myInfo", resultStr);
@@ -181,11 +186,12 @@ public class UserController {
 
     /**
      * 启用用户控制
+     *
      * @param userId
      * @return
      */
     @RequestMapping("enableUser.do")
-    public ModelAndView enableUser(int userId){
+    public ModelAndView enableUser(int userId) {
         ModelAndView mv = new ModelAndView();
         String resultStr = userService.modifyUserStatus(userId, 0);
         request.setAttribute("myInfo", resultStr);
@@ -196,11 +202,12 @@ public class UserController {
 
     /**
      * 锁定用户控制
+     *
      * @param userId
      * @return
      */
     @RequestMapping("lockUser.do")
-    public ModelAndView lockUser(int userId){
+    public ModelAndView lockUser(int userId) {
         ModelAndView mv = new ModelAndView();
         String resultStr = userService.modifyUserStatus(userId, 2);
         request.setAttribute("myInfo", resultStr);
@@ -211,35 +218,39 @@ public class UserController {
 
     /**
      * 获取更新后的用户数据
+     *
      * @return List<User>
      */
-    private List<User> getUpdateUserData(){
+    private List<User> getUpdateUserData() {
         List<User> userList = userService.getAllUser();
         return userList;
     }
 
     /**
      * 跳转到修改用户信息页面
+     *
      * @return
      */
     @RequestMapping("toUpdateUserInfoPage.do")
-    public ModelAndView toUpdateUserInfoPage(int userId){
-        ModelAndView mv=new ModelAndView();
+    public ModelAndView toUpdateUserInfoPage(int userId) {
+        ModelAndView mv = new ModelAndView();
         User user = userService.getUserById(userId);
-        if (user != null){
+        if (user != null) {
             request.setAttribute("userObject", user);
             mv.setViewName("update_userInfo.jsp");
-        }else{
-            request.setAttribute("myInfo","修改前获取用户信息失败！");
+        } else {
+            request.setAttribute("myInfo", "修改前获取用户信息失败！");
             mv.setViewName("getUserInfo.do?userId=" + userId);
         }
         return mv;
     }
 
-    /** 模糊查询用户 ajax */
+    /**
+     * 模糊查询用户 ajax
+     */
     @ResponseBody
     @RequestMapping("searchUserFuzzyByKeywordForAjax.do")
-    public Object searchUserFuzzyByKeyword(HttpServletResponse response){
+    public Object searchUserFuzzyByKeyword(HttpServletResponse response) {
         response.setContentType("application/json; charset=UTF-8");
         String keyword = request.getParameter("userKeyword");
         List<User> userList = userService.searchUserFuzzy(keyword);
@@ -257,15 +268,72 @@ public class UserController {
         // 处理参数
         String userKeyword = request.getParameter("userKeyword"); // 获取输入的关键词
         // 判断关键词是否为空
-        if (userKeyword.equals("") || userKeyword.isEmpty()){
+        if (userKeyword.equals("") || userKeyword.isEmpty()) {
             // 为空时返回所有用户
             userList = userService.getAllUser();
-        }else {
+        } else {
             // 不为空时模糊查询
             userList = userService.searchUserFuzzy(userKeyword); // 调用服务层 执行查询
         }
         request.setAttribute("users", userList);
         mv.setViewName("userManage.jsp");
+        return mv;
+    }
+
+    /**
+     * 跳转到修改昵称页面
+     * 2020-09-25 15:38 新增
+     *
+     * @return
+     */
+    @RequestMapping("toModifyNickNamePage.do")
+    public ModelAndView toModifyNickNamePage(int userId) {
+        ModelAndView mv = new ModelAndView();
+        User user = userService.getUserById(userId);
+        if (user != null) {
+            request.setAttribute("userObject", user);
+            // 跳转页面
+            mv.setViewName("user_modify_nickName.jsp");
+        } else {
+            request.setAttribute("myInfo", "获取用户信息失败！");
+            mv.setViewName("getUserInfo.do?userId=" + userId);
+        }
+        return mv;
+    }
+
+    /**
+     * 修改用户昵称
+     * 2020-09-25 16:18 新增
+     *
+     * @param user 用户对象
+     * @return
+     */
+    @RequestMapping("modifyUserNickName.do")
+    public ModelAndView modifyUserNickName(User user) {
+        ModelAndView mv = new ModelAndView();
+        // 传入对象判空
+        if (user != null) {
+            String tempUserIdStr = user.getUser_id() + "";
+            // 基础数据判空
+            if (!"".equals(tempUserIdStr) && user.getUser_nick() != null) {
+                // 执行更新
+                int result = userService.modifyUserNickName(user);
+                if (result < 1) { // 失败
+                    request.setAttribute("myInfo", "修改用户信息失败！请联系管理员");
+                    mv.setViewName("userInfo.jsp");
+                } else { // 成功
+                    // 获取新user信息
+                    User newUserInfo = userService.getUserById(user.getUser_id());
+                    // 刷新session
+                    session.setAttribute("USER", newUserInfo);
+                    // 刷新request
+                    request.setAttribute("userObject", newUserInfo);
+                    request.setAttribute("myInfo", "修改昵称成功！");
+                    // 跳转用户信息页面
+                    mv.setViewName("userInfo.jsp");
+                }
+            }
+        }
         return mv;
     }
 }

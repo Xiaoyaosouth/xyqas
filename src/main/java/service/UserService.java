@@ -70,4 +70,12 @@ public interface UserService {
      * @return
      */
     List<User> searchUserFuzzy(String keyword);
+
+    /**
+     * 修改用户昵称
+     * 2020-09-25 16:34
+     * @param user 用户对象
+     * @return
+     */
+    int modifyUserNickName(User user);
 }

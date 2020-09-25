@@ -102,4 +102,13 @@ public interface UserMapper {
             "user_name LIKE '%${keyword}%' OR " +
             "user_nick LIKE '%${keyword}%'")
     List<User> selUserFuzzy(@Param(value="keyword") String keyword);
+
+    /**
+     * 更新用户昵称
+     * @param user 用户对象，需包含id和nick
+     * @return
+     * 2020-09-25 16:44 新增
+     */
+    @Update("UPDATE user SET user_nick = #{user_nick} WHERE user_id = #{user_id}")
+    int updUserNickName(User user);
 }

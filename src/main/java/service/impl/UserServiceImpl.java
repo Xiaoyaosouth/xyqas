@@ -14,6 +14,9 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserMapper userMapper;
 
+    // 日志 2020-09-25 优化 不用每个方法都声明Logger
+    private Logger logger = Logger.getLogger(UserServiceImpl.class);
+
     @Override
     public User login(User user) {
         Logger logger = Logger.getLogger(UserServiceImpl.class);
@@ -137,6 +140,7 @@ public class UserServiceImpl implements UserService {
     /**
      * 更新用户最近登录时间
      * 2020-03-05 11:59
+     *
      * @param user 用户对象
      * @return 0成功，-1用户不存在，-2更新失败
      */
@@ -156,7 +160,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    /** 模糊查询用户 */
+    /**
+     * 模糊查询用户
+     */
     @Override
     public List<User> searchUserFuzzy(String keyword) {
         Logger logger = Logger.getLogger(UserServiceImpl.class);
@@ -166,5 +172,15 @@ public class UserServiceImpl implements UserService {
             return userList;
         }
         return null;
+    }
+
+    /**
+     * 修改用户昵称
+     */
+    @Override
+    public int modifyUserNickName(User user) {
+        logger.info("尝试修改用户昵称");
+        int result = userMapper.updUserNickName(user);
+        return result;
     }
 }

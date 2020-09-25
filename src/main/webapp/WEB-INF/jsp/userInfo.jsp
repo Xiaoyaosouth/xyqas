@@ -107,14 +107,15 @@
                             </p>
                         </div>
                     </div>
-                    <!-- 只有自己才能修改个人信息，查看别人时不能修改他人的信息 -->
+                    <%-- 只有自己才能修改个人信息，查看别人时不能修改他人的信息 --%>
                     <c:if test="${userObject.user_id == USER.user_id}">&nbsp;&nbsp;
                         <a class="btn btn-warning" role="button"
                            href="toUpdateUserInfoPage.do?userId=${userObject.user_id}">修改密码</a>
                     </c:if>
                     <c:if test="${userObject.user_id == USER.user_id}">&nbsp;&nbsp;
+                        <%-- 修改昵称单独一个网页 2020-09-25 15:40 --%>
                         <a class="btn btn-primary" role="button"
-                           href="toUpdateUserInfoPage.do?userId=${userObject.user_id}">修改昵称</a>
+                           href="toModifyNickNamePage.do?userId=${userObject.user_id}">修改昵称</a>
                     </c:if>
                     <input type="button" class="btn btn-default" value="返回"
                            style="margin-left: 20%" onclick="window.location.href='<%=basePath%>toMainPage.do'"/>
